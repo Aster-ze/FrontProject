@@ -1,0 +1,129 @@
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>绿色金融交易平台 - 首页</title>
+    <link rel="stylesheet" href="./css/home.css" />
+  </head>
+  <body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+      <div class="logo">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/891/891469.png"
+          alt="绿色金融交易平台Logo"
+        />
+        <span>绿色金融交易平台</span>
+      </div>
+
+      <nav class="nav">
+        <a href="#" class="active">首页</a>
+        <a href="#">行情</a>
+        <a href="#">交易</a>
+        <a href="./positions.html">持仓</a>
+        <a href="#">我的</a>
+      </nav>
+
+      <div class="right-section">
+        <div class="search-box">
+          <input type="text" placeholder="搜索股票..." id="stockSearch" />
+          <i>🔍</i>
+        </div>
+        <div class="user-avatar">U</div>
+      </div>
+    </header>
+
+    <!-- 主体容器：行情页面 -->
+    <div class="container">
+      <!-- 左侧：股票搜索 + 行情表格（已收窄） -->
+      <div class="market-left">
+        <h2>行情中心</h2>
+        <div class="search-sort">
+          <input type="text" placeholder="搜索股票" id="tableSearch" />
+          <select class="sort-select" id="sortSelect">
+            <option value="change">按涨幅排序</option>
+            <option value="market-cap">按市值排序</option>
+            <option value="name">按名称排序</option>
+          </select>
+        </div>
+
+        <!-- 行情表格：三列数据ID、名字和涨幅 -->
+        <table class="stock-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>名字</th>
+              <th>涨幅</th>
+            </tr>
+          </thead>
+          <tbody id="stockTableBody">
+            <!-- 表格内容将通过JS动态生成 -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 右侧：个股详情 + 单个图表区域 -->
+      <div class="market-right">
+        <div class="stock-detail">
+          <h3 id="stockDetailTitle">贵州茅台（600519）</h3>
+          <div class="detail-top">
+            <div class="price-info">
+              <span class="price" id="stockPrice">¥ 1800.00</span>
+              <span class="change up" id="stockChange">+1.23%</span>
+              <span class="volume" id="stockVolume">成交量：123.45万</span>
+            </div>
+            <div class="action-buttons">
+              <button id="addFavorite">加入自选</button>
+              <button id="buyStock">买入</button>
+              <button id="sellStock">卖出</button>
+            </div>
+          </div>
+
+          <!-- 单个图表容器 -->
+          <div class="chart-container">
+            <canvas id="stockChart"></canvas>
+          </div>
+
+          <div class="stock-data">
+            <div class="data-item">
+              <span class="label">市盈率</span>
+              <span class="value" id="stockPe">28.5</span>
+            </div>
+            <div class="data-item">
+              <span class="label">换手率</span>
+              <span class="value" id="stockTurnover">0.8%</span>
+            </div>
+            <div class="data-item">
+              <span class="label">资金流入</span>
+              <span class="value" id="stockInflow">¥ 5.67亿</span>
+            </div>
+            <div class="data-item">
+              <span class="label">52周最高</span>
+              <span class="value" id="stockHigh52">¥ 2100.00</span>
+            </div>
+            <div class="data-item">
+              <span class="label">市净率</span>
+              <span class="value" id="stockPb">12.3</span>
+            </div>
+            <div class="data-item">
+              <span class="label">成交量</span>
+              <span class="value" id="stockVolumeHand">2.3万手</span>
+            </div>
+            <div class="data-item">
+              <span class="label">资金流出</span>
+              <span class="value" id="stockOutflow">¥ 3.21亿</span>
+            </div>
+            <div class="data-item">
+              <span class="label">52周最低</span>
+              <span class="value" id="stockLow52">¥ 1500.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 引入Chart.js和自定义脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./js/home.js"></script>
+  </body>
+</html>

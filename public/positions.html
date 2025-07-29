@@ -1,0 +1,210 @@
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>绿色金融交易平台 - 持仓管理</title>
+    <link rel="stylesheet" href="./css/positions.css" />
+  </head>
+  <body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+      <div class="logo">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/891/891469.png"
+          alt="绿色金融交易平台Logo"
+        />
+        <span>绿色金融交易平台</span>
+      </div>
+
+      <nav class="nav">
+        <a href="./index.html">首页</a>
+        <a href="#">行情</a>
+        <a href="#">交易</a>
+        <a href="#" class="active">持仓</a>
+        <a href="#">我的</a>
+      </nav>
+
+      <div class="right-section">
+        <div class="search-box">
+          <input type="text" placeholder="搜索股票..." />
+          <i>🔍</i>
+        </div>
+        <div class="user-avatar">U</div>
+      </div>
+    </header>
+
+    <!-- 主体容器：持仓管理 -->
+    <div class="container">
+      <section class="dashboard-cards">
+        <div class="card">
+          <div class="title">总资产</div>
+          <div class="value">¥ 123,456.78</div>
+
+          <!-- 历史交易记录链接 -->
+          <div class="history-link" id="historyTrigger">查看历史交易记录</div>
+        </div>
+
+        <div class="card">
+          <div class="title">当日盈亏</div>
+          <div class="value">¥ +1,234.56</div>
+          <div class="change" style="color: #4caf50">+1.23%</div>
+        </div>
+        <div class="card">
+          <div class="title">持仓股票数</div>
+          <div class="value">5 只</div>
+        </div>
+        <div class="card">
+          <div class="title">上证指数</div>
+          <div class="value">3286.54</div>
+          <div class="change" style="color: #f44336">-0.45%</div>
+        </div>
+      </section>
+
+      <div class="portfolio-table">
+        <table id="portfolioTable">
+          <thead>
+            <tr class="table-header-group">
+              <th class="col-code">
+                <div class="header-cell">
+                  <div class="header-title">股票代码</div>
+                  <div class="filter-container">
+                    <input
+                      type="text"
+                      class="filter-input"
+                      placeholder="搜索代码..."
+                      id="codeFilter"
+                    />
+                  </div>
+                </div>
+              </th>
+              <th class="col-name">
+                <div class="header-cell">
+                  <div class="header-title">名称</div>
+                  <div class="filter-container">
+                    <input
+                      type="text"
+                      class="filter-input"
+                      placeholder="搜索名称..."
+                      id="nameFilter"
+                    />
+                  </div>
+                </div>
+              </th>
+              <th class="col-amount">
+                <div class="header-cell">
+                  <div class="header-title">持仓数量</div>
+                  <div class="filter-container">
+                    <select class="filter-select" id="amountSort">
+                      <option value="default">默认</option>
+                      <option value="asc">升序</option>
+                      <option value="desc">降序</option>
+                    </select>
+                  </div>
+                </div>
+              </th>
+              <th class="col-cost">
+                <div class="header-title">成本价</div>
+              </th>
+              <th class="col-price">
+                <div class="header-title">当前价</div>
+              </th>
+              <th class="col-profit">
+                <div class="header-cell">
+                  <div class="header-title">盈亏</div>
+                  <div class="filter-container profit-filters">
+                    <select class="filter-select" id="profitFilter">
+                      <option value="all">全部</option>
+                      <option value="profit">盈利</option>
+                      <option value="loss">亏损</option>
+                    </select>
+                    <select class="filter-select" id="profitSort">
+                      <option value="default">默认</option>
+                      <option value="asc">升序</option>
+                      <option value="desc">降序</option>
+                    </select>
+                  </div>
+                </div>
+              </th>
+              <th class="col-action">
+                <div class="header-title">操作</div>
+                <div class="filter-container filter-actions">
+                  <button class="filter-button" id="applyFilter">
+                    应用筛选
+                  </button>
+                  <button class="reset-button" id="resetFilter">重置</button>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="portfolioTableBody">
+            <!-- 表格内容将通过JS动态生成 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 历史交易记录弹窗 -->
+    <div class="modal-overlay" id="historyModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title">历史交易记录</h3>
+          <button class="close-modal" id="closeHistoryModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="history-list" id="historyList">
+            <!-- 历史记录将通过JS动态生成 -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 交易确认弹窗 -->
+    <div class="modal-overlay" id="transactionModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title" id="transactionTitle">确认交易</h3>
+          <button class="close-modal" id="closeTransactionModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="transaction-details">
+            <div class="detail-item">
+              <span class="detail-label">股票名称：</span>
+              <span class="detail-value" id="transactionStock"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">股票代码：</span>
+              <span class="detail-value" id="transactionCode"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">当前价格：</span>
+              <span class="detail-value" id="transactionPrice"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">交易数量：</span>
+              <span class="detail-value">
+                <input
+                  type="number"
+                  id="transactionQuantity"
+                  min="100"
+                  step="100"
+                  value="100"
+                />
+                股
+              </span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">交易金额：</span>
+              <span class="detail-value" id="transactionAmount"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-button" id="cancelTransaction">取消</button>
+          <button class="confirm-button" id="confirmTransaction">确认</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/positions.js"></script>
+  </body>
+</html>
