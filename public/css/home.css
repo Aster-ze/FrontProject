@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Microsoft YaHei', sans-serif;
+  font-family: "Microsoft YaHei", sans-serif;
 }
 body {
   background-color: #f8faf7;
@@ -33,11 +33,29 @@ body {
   background-color: #4caf50;
   padding: 8px;
 }
+.header .logo-icon {
+  font-size: 2rem;
+  margin-right: 0.8rem;
+  color: #4caf50;
+}
+
+.header .logo-icon {
+  font-size: 2rem;
+  margin-right: 0.8rem;
+  color: #4caf50;
+}
+
 .header .logo span {
   font-size: 1.4rem;
   color: #4caf50;
   font-weight: bold;
+  font-family: "Microsoft YaHei", sans-serif;
 }
+/* .header .logo span {
+  font-size: 1.4rem;
+  color: #4caf50;
+  font-weight: bold;
+} */
 .header .nav {
   display: flex;
   gap: 2rem;
@@ -54,7 +72,7 @@ body {
   color: #4caf50;
 }
 .header .nav a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
