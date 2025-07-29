@@ -3,7 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Microsoft YaHei', sans-serif;
+  font-family: "Microsoft YaHei", sans-serif;
 }
 body {
   background-color: #f8faf7;
@@ -33,10 +33,21 @@ body {
   background-color: #4caf50;
   padding: 8px;
 }
+/* .header .logo span {
+  font-size: 1.4rem;
+  color: #4caf50;
+  font-weight: bold;
+} */
+.header .logo-icon {
+  font-size: 2rem;
+  margin-right: 0.8rem;
+  color: #4caf50;
+}
 .header .logo span {
   font-size: 1.4rem;
   color: #4caf50;
   font-weight: bold;
+  font-family: "Microsoft YaHei", sans-serif;
 }
 .header .nav {
   display: flex;
@@ -55,7 +66,7 @@ body {
   color: #4caf50;
 }
 .header .nav a::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -133,7 +144,7 @@ body {
   overflow: hidden;
 }
 .dashboard-cards .card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -154,7 +165,7 @@ body {
   align-items: center;
 }
 .dashboard-cards .card .title::before {
-  content: '';
+  content: "";
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -176,12 +187,12 @@ body {
   align-items: center;
 }
 .dashboard-cards .card .change::before {
-  content: '↑';
+  content: "↑";
   margin-right: 4px;
   font-size: 0.8rem;
 }
-.dashboard-cards .card .change[style*='#f44336']::before {
-  content: '↓';
+.dashboard-cards .card .change[style*="#f44336"]::before {
+  content: "↓";
 }
 
 /* 历史交易记录链接样式 */
