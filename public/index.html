@@ -3,47 +3,150 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>绿色金融交易平台 - 首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./css/home.css" />
-  </head>
-  <body>
-    <!-- 顶部导航栏 -->
-    <header class="header">
-      <div class="logo">
-        <div class="logo-icon">📈</div>
-        <span>FiveForces</span>
-      </div>
-      <!-- 
-      <nav class="nav">
-        <a href="#" class="active">首页</a>
-        <a href="#">行情</a>
-        <a href="#">交易</a>
-        <a href="./positions.html">持仓</a>
-        <a href="#">我的</a>
-      </nav> -->
-      <nav class="nav">
-        <a href="#" class="active">首页</a>
-        <a href="#">详情</a>
-        <a href="./positions.html">持仓</a>
-        <a href="#">新闻</a>
-      </nav>
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
 
-      <div class="right-section">
-        <div class="search-box">
-          <input type="text" placeholder="搜索股票..." id="stockSearch" />
-          <i>🔍</i>
+    <!-- Tailwind配置 - 与firstindex.html一致 -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f8faf7",
+              secondary: "#FFFFFF",
+              accent: "#4caf50",
+              success: "#4caf50",
+              danger: "#f44336",
+              neutral: "#666666",
+              "neutral-light": "#999999",
+              "neutral-dark": "#333333",
+              "border-color": "#e0e0e0",
+            },
+            fontFamily: {
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-primary text-neutral-dark font-inter min-h-screen flex flex-col"
+  >
+    <!-- 顶部导航栏 - 与positions.html保持一致 -->
+    <!-- 顶部导航栏 - 与positions.html保持一致 -->
+    <header
+      class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo和网站名称 -->
+          <div class="flex items-center space-x-4">
+            <div class="text-accent text-2xl font-bold">
+              <i class="fa fa-line-chart mr-2"></i>FiveForces
+            </div>
+
+            <!-- 主导航 -->
+            <!-- ... 其他代码 ... -->
+            <nav class="hidden md:flex space-x-1">
+              <a
+                href="./firstindex.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >首页</a
+              >
+              <a
+                href="./index.html"
+                class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium active"
+                >详情</a
+              >
+              <a
+                href="./positions.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >持仓</a
+              >
+              <a
+                href="#"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >新闻</a
+              >
+            </nav>
+            <!-- ... 其他代码 ... -->
+          </div>
+
+          <!-- 右侧功能区 -->
+          <div class="flex items-center space-x-4">
+            <!-- 搜索框 -->
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                placeholder="搜索股票..."
+                id="stockSearch"
+                class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+              />
+              <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+            </div>
+
+            <!-- 快捷功能按钮 -->
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-bell"></i>
+            </button>
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-cog"></i>
+            </button>
+
+            <!-- 用户头像 -->
+            <div class="relative">
+              <button class="flex items-center space-x-1 focus:outline-none">
+                <img
+                  src="https://picsum.photos/id/1005/32/32"
+                  alt="用户头像"
+                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+                />
+                <span class="hidden md:inline text-sm font-medium">Guest</span>
+                <i class="fa fa-angle-down text-xs text-neutral"></i>
+              </button>
+            </div>
+
+            <!-- 移动端菜单按钮 -->
+            <button
+              class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
         </div>
-        <div class="user-avatar">U</div>
       </div>
     </header>
-
     <!-- 主体容器：行情页面 -->
-    <div class="container">
-      <!-- 左侧：股票搜索 + 行情表格（已收窄） -->
-      <div class="market-left">
-        <h2>行情中心</h2>
-        <div class="search-sort">
-          <input type="text" placeholder="搜索股票" id="tableSearch" />
-          <select class="sort-select" id="sortSelect">
+    <div
+      class="container mx-auto px-4 py-4 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6"
+    >
+      <!-- 左侧：股票搜索 + 行情表格 -->
+      <div
+        class="lg:col-span-1 market-left bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+      >
+        <h2 class="text-xl font-semibold text-neutral-dark mb-4">行情中心</h2>
+        <div
+          class="search-sort flex flex-col sm:flex-row items-center justify-between gap-2 mb-4"
+        >
+          <input
+            type="text"
+            placeholder="搜索股票"
+            id="tableSearch"
+            class="flex-grow px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full"
+          />
+          <select
+            class="sort-select px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full sm:w-auto mt-2 sm:mt-0"
+            id="sortSelect"
+          >
             <option value="change">按涨幅排序</option>
             <option value="market-cap">按市值排序</option>
             <option value="name">按名称排序</option>
@@ -51,74 +154,148 @@
         </div>
 
         <!-- 行情表格：三列数据ID、名字和涨幅 -->
-        <table class="stock-table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>名字</th>
-              <th>涨幅</th>
-            </tr>
-          </thead>
-          <tbody id="stockTableBody">
-            <!-- 表格内容将通过JS动态生成 -->
-          </tbody>
-        </table>
+        <div class="overflow-auto max-h-[500px]">
+          <table class="stock-table w-full border-collapse">
+            <thead class="sticky top-0 bg-gray-100">
+              <tr>
+                <th class="py-2 px-4 text-left text-accent font-medium">ID</th>
+                <th class="py-2 px-4 text-left text-accent font-medium">
+                  名字
+                </th>
+                <th class="py-2 px-4 text-left text-accent font-medium">
+                  涨幅
+                </th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody">
+              <!-- 表格内容将通过JS动态生成 -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- 右侧：个股详情 + 单个图表区域 -->
-      <div class="market-right">
+      <div
+        class="lg:col-span-2 market-right bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+      >
         <div class="stock-detail">
-          <h3 id="stockDetailTitle">贵州茅台（600519）</h3>
-          <div class="detail-top">
+          <h3
+            id="stockDetailTitle"
+            class="text-xl font-semibold text-neutral-dark mb-4"
+          >
+            贵州茅台（600519）
+          </h3>
+          <div
+            class="detail-top flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6"
+          >
             <div class="price-info">
-              <span class="price" id="stockPrice">¥ 1800.00</span>
-              <span class="change up" id="stockChange">+1.23%</span>
-              <span class="volume" id="stockVolume">成交量：123.45万</span>
+              <span
+                class="price text-3xl font-bold text-neutral-dark block"
+                id="stockPrice"
+                >¥ 1800.00</span
+              >
+              <span
+                class="change up text-success font-medium block mt-1"
+                id="stockChange"
+                >+1.23%</span
+              >
+              <span
+                class="volume text-neutral text-sm block mt-1"
+                id="stockVolume"
+                >成交量：123.45万</span
+              >
             </div>
-            <div class="action-buttons">
-              <button id="addFavorite">加入自选</button>
-              <button id="buyStock">买入</button>
-              <button id="sellStock">卖出</button>
+            <div class="action-buttons flex flex-wrap gap-2">
+              <button
+                id="addFavorite"
+                class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
+              >
+                加入自选
+              </button>
+              <button
+                id="buyStock"
+                class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
+              >
+                买入
+              </button>
+              <button
+                id="sellStock"
+                class="bg-danger hover:bg-danger/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
+              >
+                卖出
+              </button>
             </div>
           </div>
 
           <!-- 单个图表容器 -->
-          <div class="chart-container">
+          <div class="chart-container bg-primary rounded-md p-2 mb-6 h-80">
             <canvas id="stockChart"></canvas>
           </div>
 
-          <div class="stock-data">
+          <div class="stock-data grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="data-item">
-              <span class="label">市盈率</span>
-              <span class="value" id="stockPe">28.5</span>
+              <span class="label text-neutral text-sm">市盈率</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockPe"
+                >28.5</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">换手率</span>
-              <span class="value" id="stockTurnover">0.8%</span>
+              <span class="label text-neutral text-sm">换手率</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockTurnover"
+                >0.8%</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">资金流入</span>
-              <span class="value" id="stockInflow">¥ 5.67亿</span>
+              <span class="label text-neutral text-sm">资金流入</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockInflow"
+                >¥ 5.67亿</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">52周最高</span>
-              <span class="value" id="stockHigh52">¥ 2100.00</span>
+              <span class="label text-neutral text-sm">52周最高</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockHigh52"
+                >¥ 2100.00</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">市净率</span>
-              <span class="value" id="stockPb">12.3</span>
+              <span class="label text-neutral text-sm">市净率</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockPb"
+                >12.3</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">成交量</span>
-              <span class="value" id="stockVolumeHand">2.3万手</span>
+              <span class="label text-neutral text-sm">成交量</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockVolumeHand"
+                >2.3万手</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">资金流出</span>
-              <span class="value" id="stockOutflow">¥ 3.21亿</span>
+              <span class="label text-neutral text-sm">资金流出</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockOutflow"
+                >¥ 3.21亿</span
+              >
             </div>
             <div class="data-item">
-              <span class="label">52周最低</span>
-              <span class="value" id="stockLow52">¥ 1500.00</span>
+              <span class="label text-neutral text-sm">52周最低</span>
+              <span
+                class="value text-neutral-dark font-medium block"
+                id="stockLow52"
+                >¥ 1500.00</span
+              >
             </div>
           </div>
         </div>

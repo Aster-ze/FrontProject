@@ -3,102 +3,215 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>绿色金融交易平台 - 持仓管理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./css/positions.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind配置 - 与firstindex.html一致 -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f8faf7",
+              secondary: "#FFFFFF",
+              accent: "#4caf50",
+              success: "#4caf50",
+              danger: "#f44336",
+              neutral: "#666666",
+              "neutral-light": "#999999",
+              "neutral-dark": "#333333",
+              "border-color": "#e0e0e0",
+            },
+            fontFamily: {
+              inter: ["Inter", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
   </head>
-  <body>
-    <!-- 顶部导航栏 -->
-    <header class="header">
-      <div class="logo">
-        <div class="logo-icon">📈</div>
-        <span>FiveForces</span>
-      </div>
+  <body
+    class="bg-primary text-neutral-dark font-inter min-h-screen flex flex-col"
+  >
+    <!-- 顶部导航栏 - 与firstindex.html一致 -->
+    <header
+      class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo和网站名称 -->
+          <div class="flex items-center space-x-4">
+            <div class="text-accent text-2xl font-bold">
+              <i class="fa fa-line-chart mr-2"></i>FiveForces
+            </div>
 
-      <!-- <nav class="nav">
-        <a href="./index.html">首页</a>
-        <a href="#">行情</a>
-        <a href="#">交易</a>
-        <a href="#" class="active">持仓</a>
-        <a href="#">我的</a>
-      </nav> -->
+            <!-- 主导航 -->
+            <nav class="hidden md:flex space-x-1">
+              <a
+                href="./firstindex.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >首页</a
+              >
+              <a
+                href="./index.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >详情</a
+              >
+              <a
+                href="./positions.html"
+                class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium"
+                >持仓</a
+              >
+              <a
+                href="#"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >新闻</a
+              >
+            </nav>
+          </div>
 
-      <nav class="nav">
-        <a href="./index.html">首页</a>
-        <a href="#">详情</a>
-        <a href="#" class="active">持仓</a>
-        <a href="#">新闻</a>
-      </nav>
+          <!-- 右侧功能区 -->
+          <div class="flex items-center space-x-4">
+            <!-- 搜索框 -->
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                placeholder="搜索股票..."
+                class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+              />
+              <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+            </div>
 
-      <div class="right-section">
-        <div class="search-box">
-          <input type="text" placeholder="搜索股票..." />
-          <i>🔍</i>
+            <!-- 快捷功能按钮 -->
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-bell"></i>
+            </button>
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-cog"></i>
+            </button>
+
+            <!-- 用户头像 -->
+            <div class="relative">
+              <button class="flex items-center space-x-1 focus:outline-none">
+                <img
+                  src="https://picsum.photos/id/1005/32/32"
+                  alt="用户头像"
+                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+                />
+                <span class="hidden md:inline text-sm font-medium">Guest</span>
+                <i class="fa fa-angle-down text-xs text-neutral"></i>
+              </button>
+            </div>
+
+            <!-- 移动端菜单按钮 -->
+            <button
+              class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
         </div>
-        <div class="user-avatar">U</div>
       </div>
     </header>
 
     <!-- 主体容器：持仓管理 -->
-    <div class="container">
-      <section class="dashboard-cards">
-        <div class="card">
-          <div class="title">总资产</div>
-          <div class="value">¥ 123,456.78</div>
-
-          <!-- 历史交易记录链接 -->
-          <div class="history-link" id="historyTrigger">查看历史交易记录</div>
+    <div class="container mx-auto px-4 py-4 flex-grow">
+      <section
+        class="dashboard-cards grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6"
+      >
+        <div
+          class="card bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+        >
+          <div class="title text-neutral mb-2">总资产</div>
+          <div class="value text-2xl font-bold text-neutral-dark">
+            ¥ 123,456.78
+          </div>
+          <div
+            class="history-link text-accent hover:text-accent/80 text-sm mt-2 cursor-pointer"
+            id="historyTrigger"
+          >
+            查看历史交易记录
+          </div>
         </div>
 
-        <div class="card">
-          <div class="title">当日盈亏</div>
-          <div class="value">¥ +1,234.56</div>
-          <div class="change" style="color: #4caf50">+1.23%</div>
+        <div
+          class="card bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+        >
+          <div class="title text-neutral mb-2">当日盈亏</div>
+          <div class="value text-2xl font-bold text-neutral-dark">
+            ¥ +1,234.56
+          </div>
+          <div class="change text-success font-medium">+1.23%</div>
         </div>
-        <div class="card">
-          <div class="title">持仓股票数</div>
-          <div class="value">5 只</div>
+        <div
+          class="card bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+        >
+          <div class="title text-neutral mb-2">持仓股票数</div>
+          <div class="value text-2xl font-bold text-neutral-dark">5 只</div>
         </div>
-        <div class="card">
-          <div class="title">上证指数</div>
-          <div class="value">3286.54</div>
-          <div class="change" style="color: #f44336">-0.45%</div>
+        <div
+          class="card bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+        >
+          <div class="title text-neutral mb-2">上证指数</div>
+          <div class="value text-2xl font-bold text-neutral-dark">3286.54</div>
+          <div class="change text-danger font-medium">-0.45%</div>
         </div>
       </section>
 
-      <div class="portfolio-table">
-        <table id="portfolioTable">
+      <div
+        class="portfolio-table bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
+      >
+        <table id="portfolioTable" class="w-full border-collapse">
           <thead>
-            <tr class="table-header-group">
-              <th class="col-code">
+            <tr class="table-header-group bg-gray-100">
+              <th class="col-code py-2 px-4 text-left">
                 <div class="header-cell">
-                  <div class="header-title">股票代码</div>
-                  <div class="filter-container">
+                  <div class="header-title text-neutral-dark font-medium">
+                    股票代码
+                  </div>
+                  <div class="filter-container mt-2">
                     <input
                       type="text"
-                      class="filter-input"
+                      class="filter-input w-full px-3 py-1 border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-accent"
                       placeholder="搜索代码..."
                       id="codeFilter"
                     />
                   </div>
                 </div>
               </th>
-              <th class="col-name">
+              <th class="col-name py-2 px-4 text-left">
                 <div class="header-cell">
-                  <div class="header-title">名称</div>
-                  <div class="filter-container">
+                  <div class="header-title text-neutral-dark font-medium">
+                    名称
+                  </div>
+                  <div class="filter-container mt-2">
                     <input
                       type="text"
-                      class="filter-input"
+                      class="filter-input w-full px-3 py-1 border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-accent"
                       placeholder="搜索名称..."
                       id="nameFilter"
                     />
                   </div>
                 </div>
               </th>
-              <th class="col-amount">
+              <th class="col-amount py-2 px-4 text-left">
                 <div class="header-cell">
-                  <div class="header-title">持仓数量</div>
-                  <div class="filter-container">
-                    <select class="filter-select" id="amountSort">
+                  <div class="header-title text-neutral-dark font-medium">
+                    持仓数量
+                  </div>
+                  <div class="filter-container mt-2">
+                    <select
+                      class="filter-select w-full px-3 py-1 border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-accent"
+                      id="amountSort"
+                    >
                       <option value="default">默认</option>
                       <option value="asc">升序</option>
                       <option value="desc">降序</option>
@@ -106,22 +219,34 @@
                   </div>
                 </div>
               </th>
-              <th class="col-cost">
-                <div class="header-title">成本价</div>
+              <th class="col-cost py-2 px-4 text-left">
+                <div class="header-title text-neutral-dark font-medium">
+                  成本价
+                </div>
               </th>
-              <th class="col-price">
-                <div class="header-title">当前价</div>
+              <th class="col-price py-2 px-4 text-left">
+                <div class="header-title text-neutral-dark font-medium">
+                  当前价
+                </div>
               </th>
-              <th class="col-profit">
+              <th class="col-profit py-2 px-4 text-left">
                 <div class="header-cell">
-                  <div class="header-title">盈亏</div>
-                  <div class="filter-container profit-filters">
-                    <select class="filter-select" id="profitFilter">
+                  <div class="header-title text-neutral-dark font-medium">
+                    盈亏
+                  </div>
+                  <div class="filter-container profit-filters flex gap-1 mt-2">
+                    <select
+                      class="filter-select px-3 py-1 border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-accent"
+                      id="profitFilter"
+                    >
                       <option value="all">全部</option>
                       <option value="profit">盈利</option>
                       <option value="loss">亏损</option>
                     </select>
-                    <select class="filter-select" id="profitSort">
+                    <select
+                      class="filter-select px-3 py-1 border border-border-color rounded focus:outline-none focus:ring-1 focus:ring-accent"
+                      id="profitSort"
+                    >
                       <option value="default">默认</option>
                       <option value="asc">升序</option>
                       <option value="desc">降序</option>
@@ -129,13 +254,23 @@
                   </div>
                 </div>
               </th>
-              <th class="col-action">
-                <div class="header-title">操作</div>
-                <div class="filter-container filter-actions">
-                  <button class="filter-button" id="applyFilter">
+              <th class="col-action py-2 px-4 text-left">
+                <div class="header-title text-neutral-dark font-medium">
+                  操作
+                </div>
+                <div class="filter-container filter-actions flex gap-2 mt-2">
+                  <button
+                    class="filter-button bg-accent hover:bg-accent/90 text-white px-3 py-1 rounded transition"
+                    id="applyFilter"
+                  >
                     应用筛选
                   </button>
-                  <button class="reset-button" id="resetFilter">重置</button>
+                  <button
+                    class="reset-button bg-gray-200 hover:bg-gray-300 text-neutral-dark px-3 py-1 rounded transition"
+                    id="resetFilter"
+                  >
+                    重置
+                  </button>
                 </div>
               </th>
             </tr>
@@ -149,12 +284,23 @@
 
     <!-- 历史交易记录弹窗 -->
     <div class="modal-overlay" id="historyModal">
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="modal-title">历史交易记录</h3>
-          <button class="close-modal" id="closeHistoryModal">×</button>
+      <div
+        class="modal bg-white rounded-lg w-11/12 md:w-1/2 max-w-2xl max-h-[80vh] overflow-y-auto"
+      >
+        <div
+          class="modal-header p-4 border-b border-border-color flex justify-between items-center"
+        >
+          <h3 class="modal-title text-lg font-semibold text-neutral-dark">
+            历史交易记录
+          </h3>
+          <button
+            class="close-modal text-neutral hover:text-neutral-dark text-2xl"
+            id="closeHistoryModal"
+          >
+            ×
+          </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <div class="history-list" id="historyList">
             <!-- 历史记录将通过JS动态生成 -->
           </div>
@@ -164,47 +310,86 @@
 
     <!-- 交易确认弹窗 -->
     <div class="modal-overlay" id="transactionModal">
-      <div class="modal">
-        <div class="modal-header">
-          <h3 class="modal-title" id="transactionTitle">确认交易</h3>
-          <button class="close-modal" id="closeTransactionModal">×</button>
+      <div
+        class="modal bg-white rounded-lg w-11/12 md:w-1/2 max-w-2xl max-h-[80vh] overflow-y-auto"
+      >
+        <div
+          class="modal-header p-4 border-b border-border-color flex justify-between items-center"
+        >
+          <h3
+            class="modal-title text-lg font-semibold text-neutral-dark"
+            id="transactionTitle"
+          >
+            确认交易
+          </h3>
+          <button
+            class="close-modal text-neutral hover:text-neutral-dark text-2xl"
+            id="closeTransactionModal"
+          >
+            ×
+          </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body p-4">
           <div class="transaction-details">
-            <div class="detail-item">
-              <span class="detail-label">股票名称：</span>
-              <span class="detail-value" id="transactionStock"></span>
+            <div class="detail-item flex justify-between mb-3">
+              <span class="detail-label text-neutral">股票名称：</span>
+              <span
+                class="detail-value text-neutral-dark font-medium"
+                id="transactionStock"
+              ></span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">股票代码：</span>
-              <span class="detail-value" id="transactionCode"></span>
+            <div class="detail-item flex justify-between mb-3">
+              <span class="detail-label text-neutral">股票代码：</span>
+              <span
+                class="detail-value text-neutral-dark font-medium"
+                id="transactionCode"
+              ></span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">当前价格：</span>
-              <span class="detail-value" id="transactionPrice"></span>
+            <div class="detail-item flex justify-between mb-3">
+              <span class="detail-label text-neutral">当前价格：</span>
+              <span
+                class="detail-value text-neutral-dark font-medium"
+                id="transactionPrice"
+              ></span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">交易数量：</span>
-              <span class="detail-value">
+            <div class="detail-item flex justify-between mb-3">
+              <span class="detail-label text-neutral">交易数量：</span>
+              <span class="detail-value text-neutral-dark font-medium">
                 <input
                   type="number"
                   id="transactionQuantity"
                   min="100"
                   step="100"
                   value="100"
+                  class="w-20 px-2 py-1 border border-border-color rounded"
                 />
                 股
               </span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">交易金额：</span>
-              <span class="detail-value" id="transactionAmount"></span>
+            <div class="detail-item flex justify-between mb-3">
+              <span class="detail-label text-neutral">交易金额：</span>
+              <span
+                class="detail-value text-neutral-dark font-medium"
+                id="transactionAmount"
+              ></span>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button class="cancel-button" id="cancelTransaction">取消</button>
-          <button class="confirm-button" id="confirmTransaction">确认</button>
+        <div
+          class="modal-footer p-4 border-t border-border-color flex justify-end gap-2"
+        >
+          <button
+            class="cancel-button bg-gray-200 hover:bg-gray-300 text-neutral-dark px-4 py-2 rounded transition"
+            id="cancelTransaction"
+          >
+            取消
+          </button>
+          <button
+            class="confirm-button bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded transition"
+            id="confirmTransaction"
+          >
+            确认
+          </button>
         </div>
       </div>
     </div>

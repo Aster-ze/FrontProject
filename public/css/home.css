@@ -56,21 +56,32 @@ body {
   color: #4caf50;
   font-weight: bold;
 } */
-.header .nav {
-  display: flex;
-  gap: 2rem;
-}
+/* ... 其他代码 ... */
 .header .nav a {
   text-decoration: none;
   color: #666;
-  font-size: 1rem;
-  padding: 0.5rem 0;
+  font-size: 1rem; /* 统一字体大小 */
+  padding: 0.5rem 0.8rem; /* 统一 padding */
+  border-radius: 4px; /* 统一圆角 */
   transition: color 0.3s;
   position: relative;
+  margin: 0 0.5rem; /* 统一间距 */
 }
+
+.header .nav a.active {
+  color: #4caf50;
+  background-color: #e8f5e9; /* 高亮背景色 */
+}
+
+.header .nav a.active::after {
+  left: 0;
+  width: 100%;
+}
+
 .header .nav a:hover {
   color: #4caf50;
 }
+
 .header .nav a::after {
   content: "";
   position: absolute;
@@ -82,17 +93,12 @@ body {
   transition: all 0.3s;
   border-radius: 1px;
 }
+
 .header .nav a:hover::after {
   left: 0;
   width: 100%;
 }
-.header .nav a.active {
-  color: #4caf50;
-}
-.header .nav a.active::after {
-  left: 0;
-  width: 100%;
-}
+/* ... 其他代码 ... */
 .header .right-section {
   display: flex;
   align-items: center;
