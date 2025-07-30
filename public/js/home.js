@@ -21,12 +21,13 @@ async function fetchStockData() {
 
     // 限制只显示10条数据
     const limitedData = data.slice(0, 10);
+    console.log("请求的列表总股票为",limitedData);
 
     // 存储所有股票数据的Promise
     const stockPromises = limitedData.map(async (item) => {
       // 获取历史数据
       const historyData = await fetchStockHistory(item.ticker_symbol);
-
+      console.log("请求的股票历史数据为",historyData);
       // 计算涨幅
       const { percentChange, trend } = calculatePriceChange(
         parseFloat(item.current_price),
@@ -44,7 +45,7 @@ async function fetchStockData() {
         updatedAt: item.lastUpdated,
         currency: item.currency,
         // 生成模拟的K线数据
-        kline: generateMockKline(parseFloat(item.current_price)),
+        // kline: generateMockKline(historyData),
       };
     });
 
@@ -135,22 +136,6 @@ function calculatePriceChange(currentPrice, historyData) {
   return { percentChange, trend };
 }
 
-// 生成模拟的K线数据
-function generateMockKline(basePrice) {
-  const kline = [];
-  let price = basePrice * (0.98 + Math.random() * 0.04); // 随机起始价格
-
-  // 生成11个时间点的数据
-  for (let i = 0; i < 11; i++) {
-    // 小幅度波动
-    const change = (Math.random() - 0.45) * 0.01 * price;
-    price += change;
-    kline.push(price.toFixed(2) * 1);
-  }
-
-  return kline;
-}
-
 // 初始化股票表格
 function initStockTable() {
   const tableBody = document.getElementById('stockTableBody');
@@ -198,92 +183,179 @@ function initStockTable() {
 }
 
 // 初始化图表
-function initChart(stockId) {
-  const stock = stockData[stockId];
-  const ctx = document.getElementById('stockChart').getContext('2d');
-
-  // 生成时间标签（最近11个小时）
-  const labels = Array.from({ length: 11 }, (_, i) => {
-    const hour = 9 + i;
-    return `${hour}:${
-      hour < 10 ? '00' : hour < 13 ? (hour === 11 ? '30' : '00') : '00'
-    }`;
+async function initChart(stockTicker) {
+  try {
+    // 这里替换为实际的API端点
+    const response = await fetch(`http://localhost:3003/assets/ticker/${stockTicker}/history`);
+    const chartJson = await response.json();
+    chartData = chartJson.data;
+    console.log("请求的历史数据为",chartJson);
+    
+  } catch (error) {
+    console.error(`获取 ${stockTicker} 图表数据时出错:`, error);
+  }
+  // 按日期排序（从旧到新）
+  const sortedData = chartData.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
   });
 
+  // 提取标签和数据
+  labels = sortedData.map(item => {
+      // 可以只显示日期部分
+      const date = new Date(item.date);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+  });
+  // 提取收盘价作为数据点
+  dataValues = chartData.map(item => parseFloat(item.close_price));
+
+
+  const ctx = document.getElementById('stockChart').getContext('2d');
   // 如果已有图表实例，先销毁
   if (window.stockChartInstance) {
-    window.stockChartInstance.destroy();
+      window.stockChartInstance.destroy();
   }
 
-  // 确定图表颜色
-  let borderColor, bgColor;
-  if (stock.trend === 'up') {
-    borderColor = '#4caf50';
-    bgColor = 'rgba(76, 175, 80, 0.1)';
-  } else if (stock.trend === 'down') {
-    borderColor = '#f44336';
-    bgColor = 'rgba(244, 67, 54, 0.1)';
-  } else {
-    borderColor = '#9e9e9e';
-    bgColor = 'rgba(158, 158, 158, 0.1)';
-  }
-
-  // 创建新图表
   window.stockChartInstance = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: '股价',
-          data: stock.kline,
-          borderColor: borderColor,
-          backgroundColor: bgColor,
+      type: 'line',
+      data: {
+          labels: labels || [],
+          datasets: [{
+          data: dataValues || [],
+          borderColor: '#2196F3',
+          backgroundColor: 'rgba(33, 150, 243, 0.1)',
           borderWidth: 2,
-          fill: true,
-          tension: 0.3,
           pointRadius: 0,
-          pointHoverRadius: 5,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          mode: 'index',
-          intersect: false,
-          callbacks: {
-            label: function (context) {
-              return `${stock.currency} ${context.parsed.y.toFixed(2)}`;
-            },
-          },
-        },
+          fill: true,
+          tension: 0.4
+          }]
       },
-      scales: {
-        x: {
-          grid: {
-            display: false,
-          },
-        },
-        y: {
-          grid: {
-            borderDash: [2, 4],
-            color: 'rgba(0, 0, 0, 0.05)',
-          },
-          ticks: {
-            callback: function (value) {
-              return stock.currency + ' ' + value.toFixed(2);
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+                display: false
             },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                  label: function(context) {
+                      return `价格: $${context.parsed.y.toFixed(2)}`;
+                  },
+                  title: function(context) {
+                      return `日期: ${context[0].label}`;
+                  }
+              }
+            }
           },
-        },
-      },
-    },
+          scales: {
+            x: {
+              display: true,
+              grid: {
+                  display: false
+              },
+              ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 8
+              }
+            },
+            y: {
+              display: true,
+              grid: {
+                display: false
+            },
+              ticks: {
+                  callback: function(value) {
+                      return '$' + value.toFixed(2);
+                  }
+              }
+            }
+          }
+      }
   });
+  // 生成时间标签（最近11个小时）
+  // const labels = Array.from({ length: 11 }, (_, i) => {
+  //   const hour = 9 + i;
+  //   return `${hour}:${
+  //     hour < 10 ? '00' : hour < 13 ? (hour === 11 ? '30' : '00') : '00'
+  //   }`;
+  // });
+
+  // // 如果已有图表实例，先销毁
+  // if (window.stockChartInstance) {
+  //   window.stockChartInstance.destroy();
+  // }
+
+  // // 确定图表颜色
+  // let borderColor, bgColor;
+  // if (stock.trend === 'up') {
+  //   borderColor = '#4caf50';
+  //   bgColor = 'rgba(76, 175, 80, 0.1)';
+  // } else if (stock.trend === 'down') {
+  //   borderColor = '#f44336';
+  //   bgColor = 'rgba(244, 67, 54, 0.1)';
+  // } else {
+  //   borderColor = '#9e9e9e';
+  //   bgColor = 'rgba(158, 158, 158, 0.1)';
+  // }
+
+  // // 创建新图表
+  // window.stockChartInstance = new Chart(ctx, {
+  //   type: 'line',
+  //   data: {
+  //     labels: labels,
+  //     datasets: [
+  //       {
+  //         label: '股价',
+  //         data: stock.kline,
+  //         borderColor: borderColor,
+  //         backgroundColor: bgColor,
+  //         borderWidth: 2,
+  //         fill: true,
+  //         tension: 0.3,
+  //         pointRadius: 0,
+  //         pointHoverRadius: 5,
+  //       },
+  //     ],
+  //   },
+  //   options: {
+  //     responsive: true,
+  //     maintainAspectRatio: false,
+  //     plugins: {
+  //       legend: {
+  //         display: false,
+  //       },
+  //       tooltip: {
+  //         mode: 'index',
+  //         intersect: false,
+  //         callbacks: {
+  //           label: function (context) {
+  //             return `${stock.currency} ${context.parsed.y.toFixed(2)}`;
+  //           },
+  //         },
+  //       },
+  //     },
+  //     scales: {
+  //       x: {
+  //         grid: {
+  //           display: false,
+  //         },
+  //       },
+  //       y: {
+  //         grid: {
+  //           borderDash: [2, 4],
+  //           color: 'rgba(0, 0, 0, 0.05)',
+  //         },
+  //         ticks: {
+  //           callback: function (value) {
+  //             return stock.currency + ' ' + value.toFixed(2);
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
 }
 
 // 更新股票详情
@@ -315,16 +387,15 @@ function updateStockDetail(stockId) {
   }
 
   // 更新详细数据
-  document.getElementById('updateTime').textContent = updateTime;
-  document.getElementById('detailPrice').textContent = `${
-    stock.currency
-  } ${stock.price.toFixed(2)}`;
-  document.getElementById('detailChange').textContent = stock.change;
-  document.getElementById('detailType').textContent = stock.assetType;
-  document.getElementById('detailCurrency').textContent = stock.currency;
-
+  // document.getElementById('updateTime').textContent = updateTime;
+  // document.getElementById('detailPrice').textContent = `${
+  //   stock.currency
+  // } ${stock.price.toFixed(2)}`;
+  // document.getElementById('detailChange').textContent = stock.change;
+  // document.getElementById('detailType').textContent = stock.assetType;
+  // document.getElementById('detailCurrency').textContent = stock.currency;
   // 更新图表
-  initChart(stockId);
+  initChart(stock.ticker);
 }
 
 // 启用操作按钮

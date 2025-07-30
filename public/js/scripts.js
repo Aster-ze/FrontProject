@@ -13,9 +13,7 @@ async function updateIndexBasicData(index) {
         const data = await response.json();
         console.log("请求的数据为",data);
         // 找到对应的卡片元素
-        console.log("请求的指数为",index);
         const cardElement = document.querySelector(`#${index.chartId}`).closest('.bg-secondary');;
-        console.log("请求的元素为",cardElement);
         // 更新标题 (h3)
         const titleElement = cardElement.querySelector('h3');
         if (titleElement) {
@@ -36,8 +34,8 @@ async function updateIndexBasicData(index) {
         
         // 更新变化值 (text-success 或 text-danger)
         const changeElement = cardElement.querySelector('p.text-success, p.text-danger');
-        if (data.percentChange !== undefined) {
         // 根据变化值正负设置样式
+        console.log("请求的变化值为",data.percentChange);
         if (parseFloat(data.percentChange) >= 0) {
             changeElement.className = 'text-success text-xs font-medium';
             changeElement.textContent = `+${data.percentChange}% `;
@@ -45,7 +43,6 @@ async function updateIndexBasicData(index) {
             changeElement.className = 'text-danger text-xs font-medium';
             changeElement.textContent = `${data.percentChange}% `;
         }
-    }
         
     } catch (error) {
         console.error(`获取 ${index.name} 基本信息时出错:`, error);
