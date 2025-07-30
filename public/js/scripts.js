@@ -28,22 +28,22 @@ async function updateIndexBasicData(index) {
         symbolElement.textContent = data.ticker || index.symbol;
         }
         
-        // 更新价格 (font-semibold)
+        // 更新价格 (font-semibold) - 保留两位小数
         const priceElement = cardElement.querySelector('p.font-semibold');
         if (priceElement) {
-        priceElement.textContent = data.currentPrice || '0.00';
+        priceElement.textContent = data.currentPrice ? parseFloat(data.currentPrice).toFixed(2) : '0.00';
         }
         
-        // 更新变化值 (text-success 或 text-danger)
+        // 更新变化值 (text-success 或 text-danger) - 保留两位小数
         const changeElement = cardElement.querySelector('p.text-success, p.text-danger');
         if (data.percentChange !== undefined) {
         // 根据变化值正负设置样式
         if (parseFloat(data.percentChange) >= 0) {
             changeElement.className = 'text-success text-xs font-medium';
-            changeElement.textContent = `+${data.percentChange}% `;
+            changeElement.textContent = `+${parseFloat(data.percentChange).toFixed(2)}% `;
         } else {
             changeElement.className = 'text-danger text-xs font-medium';
-            changeElement.textContent = `${data.percentChange}% `;
+            changeElement.textContent = `${parseFloat(data.percentChange).toFixed(2)}% `;
         }
     }
         
@@ -82,8 +82,8 @@ function updateChart(chartId, chartData) {
         const date = new Date(item.date);
         return `${date.getMonth() + 1}/${date.getDate()}`;
     });
-    // 提取收盘价作为数据点
-    dataValues = chartData.map(item => parseFloat(item.close_price));
+    // 提取收盘价作为数据点 - 保留两位小数
+    dataValues = chartData.map(item => parseFloat(item.close_price).toFixed(2));
 
 
     const ctx = document.getElementById(chartId).getContext('2d');
@@ -316,4 +316,3 @@ window.addEventListener('scroll', function() {
         header.classList.remove('shadow-md');
     }
 });
-

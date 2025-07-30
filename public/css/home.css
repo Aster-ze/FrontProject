@@ -194,15 +194,19 @@ body {
   position: sticky;
   top: 0;
 }
+/* 调整行情表格内的文字大小 */
 .stock-table th,
 .stock-table td {
-  padding: 1rem 0.8rem;
+  padding: 0.8rem 0.6rem;
   text-align: left;
-  white-space: nowrap; /* 防止内容换行 */
+  white-space: nowrap;
+  font-size: 0.85rem; /* 减小字体大小 */
 }
+
 .stock-table th {
   color: #4caf50;
   font-weight: 600;
+  font-size: 0.9rem; /* 表头字体稍大 */
 }
 /* 调整列宽比例 */
 .stock-table th:nth-child(1),
@@ -368,4 +372,58 @@ body {
     padding: 0.7rem 0.5rem;
     font-size: 0.9rem;
   }
+}
+
+/* 胶囊选择器样式 */
+.view-options {
+  display: flex;
+  background-color: #f5f5f5;
+  border-radius: 9999px; /* 圆角 */
+  overflow: hidden;
+}
+
+.view-btn {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-btn.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.view-btn:not(.active):hover {
+  background-color: #e0e0e0;
+}
+
+/* 排序指示器样式 */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sort-indicator {
+  font-size: 0.75rem;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.sortable:hover .sort-indicator {
+  color: #4caf50;
+}
+
+.sort-indicator.active.asc {
+  color: #4caf50;
+}
+
+.sort-indicator.active.desc {
+  color: #f44336;
 }

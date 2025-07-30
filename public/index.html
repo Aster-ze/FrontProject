@@ -134,6 +134,7 @@
         class="lg:col-span-1 market-left bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
       >
         <h2 class="text-xl font-semibold text-neutral-dark mb-4">行情中心</h2>
+        <!-- 将原来的 search-sort 部分替换为以下代码 -->
         <div
           class="search-sort flex flex-col sm:flex-row items-center justify-between gap-2 mb-4"
         >
@@ -143,27 +144,54 @@
             id="tableSearch"
             class="flex-grow px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full"
           />
-          <select
-            class="sort-select px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full sm:w-auto mt-2 sm:mt-0"
-            id="sortSelect"
+          <!-- 删除原有的 select 元素，替换为胶囊选择器 -->
+          <div
+            class="view-options flex bg-gray-100 rounded-full overflow-hidden mt-2 sm:mt-0"
           >
-            <option value="change">按涨幅排序</option>
-            <option value="market-cap">按市值排序</option>
-            <option value="name">按名称排序</option>
-          </select>
+            <button class="view-btn active px-3 py-1 text-sm" data-view="all">
+              全
+            </button>
+            <button class="view-btn px-3 py-1 text-sm" data-view="profit">
+              盈
+            </button>
+            <button class="view-btn px-3 py-1 text-sm" data-view="loss">
+              亏
+            </button>
+          </div>
         </div>
 
         <!-- 行情表格：三列数据ID、名字和涨幅 -->
         <div class="overflow-auto max-h-[500px]">
           <table class="stock-table w-full border-collapse">
+            <!-- 修改 stock-table 的 thead 部分 -->
             <thead class="sticky top-0 bg-gray-100">
               <tr>
-                <th class="py-2 px-4 text-left text-accent font-medium">ID</th>
-                <th class="py-2 px-4 text-left text-accent font-medium">
-                  名字
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="id"
+                >
+                  <div class="flex items-center">
+                    ID
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
                 </th>
-                <th class="py-2 px-4 text-left text-accent font-medium">
-                  涨幅
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="name"
+                >
+                  <div class="flex items-center">
+                    名字
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
+                </th>
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="change"
+                >
+                  <div class="flex items-center">
+                    涨幅
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
                 </th>
               </tr>
             </thead>
