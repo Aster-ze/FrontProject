@@ -1,145 +1,155 @@
 // 股票数据 - 用于详情展示
-const stockData = {
-  600519: {
-    name: '贵州茅台',
-    price: 1800.0,
-    change: '+1.23%',
-    trend: 'up',
-    volume: '123.45万',
-    pe: '28.5',
-    turnover: '0.8%',
-    inflow: '¥ 5.67亿',
-    high52: '¥ 2100.00',
-    pb: '12.3',
-    volumeHand: '2.3万手',
-    outflow: '¥ 3.21亿',
-    low52: '¥ 1500.00',
-    kline: [1780, 1785, 1790, 1795, 1800, 1805, 1810, 1808, 1805, 1803, 1800],
-  },
-  _000001: {
-    name: '平安银行',
-    price: 42.35,
-    change: '+0.87%',
-    trend: 'up',
-    volume: '678.90万',
-    pe: '8.5',
-    turnover: '0.9%',
-    inflow: '¥ 2.89亿',
-    high52: '¥ 50.10',
-    pb: '1.2',
-    volumeHand: '67.89万手',
-    outflow: '¥ 2.56亿',
-    low52: '¥ 38.20',
-    kline: [
-      41.9, 42.05, 42.1, 42.15, 42.2, 42.25, 42.3, 42.32, 42.33, 42.34, 42.35,
-    ],
-  },
-  600036: {
-    name: '招商银行',
-    price: 35.67,
-    change: '-1.12%',
-    trend: 'down',
-    volume: '456.78万',
-    pe: '9.3',
-    turnover: '1.1%',
-    inflow: '¥ 1.56亿',
-    high52: '¥ 42.50',
-    pb: '1.4',
-    volumeHand: '45.68万手',
-    outflow: '¥ 1.89亿',
-    low52: '¥ 32.10',
-    kline: [
-      36.05, 36.0, 35.95, 35.9, 35.85, 35.8, 35.75, 35.7, 35.68, 35.67, 35.67,
-    ],
-  },
-  '000858': {
-    name: '五 粮 液',
-    price: 168.9,
-    change: '+3.45%',
-    trend: 'up',
-    volume: '345.67万',
-    pe: '25.6',
-    turnover: '1.8%',
-    inflow: '¥ 5.67亿',
-    high52: '¥ 190.30',
-    pb: '8.7',
-    volumeHand: '34.57万手',
-    outflow: '¥ 4.23亿',
-    low52: '¥ 145.20',
-    kline: [
-      163.2, 164.5, 165.8, 166.3, 167.1, 167.5, 168.0, 168.3, 168.6, 168.8,
-      168.9,
-    ],
-  },
-  600031: {
-    name: '三一重工',
-    price: 18.76,
-    change: '-2.31%',
-    trend: 'down',
-    volume: '987.65万',
-    pe: '12.4',
-    turnover: '3.2%',
-    inflow: '¥ 1.89亿',
-    high52: '¥ 25.30',
-    pb: '1.6',
-    volumeHand: '98.77万手',
-    outflow: '¥ 2.67亿',
-    low52: '¥ 16.50',
-    kline: [
-      19.2, 19.1, 19.0, 18.95, 18.9, 18.85, 18.8, 18.78, 18.77, 18.76, 18.76,
-    ],
-  },
-  601899: {
-    name: '紫金矿业',
-    price: 11.23,
-    change: '+0.56%',
-    trend: 'up',
-    volume: '1234.56万',
-    pe: '18.7',
-    turnover: '4.5%',
-    inflow: '¥ 1.23亿',
-    high52: '¥ 15.60',
-    pb: '2.3',
-    volumeHand: '123.46万手',
-    outflow: '¥ 1.15亿',
-    low52: '¥ 9.80',
-    kline: [
-      11.17, 11.18, 11.19, 11.2, 11.21, 11.22, 11.22, 11.23, 11.23, 11.23,
-      11.23,
-    ],
-  },
-  300750: {
-    name: '宁德时代',
-    price: 550.25,
-    change: '+2.15%',
-    trend: 'up',
-    volume: '567.89万',
-    pe: '65.4',
-    turnover: '2.5%',
-    inflow: '¥ 12.34亿',
-    high52: '¥ 600.50',
-    pb: '15.6',
-    volumeHand: '56.79万手',
-    outflow: '¥ 10.87亿',
-    low52: '¥ 450.30',
-    kline: [
-      540.1, 542.3, 545.6, 547.8, 549.2, 550.1, 550.3, 550.2, 550.25, 550.25,
-      550.25,
-    ],
-  },
-};
-
+const stockData = {};
 // 初始化页面
 document.addEventListener('DOMContentLoaded', function () {
-  // 初始化股票表格
-  initStockTable();
-
-  // 初始化图表
-  initChart('600519');
+  // 从API获取股票数据
+  fetchStockData();
 
   // 绑定事件
   bindEvents();
 });
+
+// 从API获取股票数据
+async function fetchStockData() {
+  try {
+    const response = await fetch('http://localhost:3003/assets');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // 限制只显示10条数据
+    const limitedData = data.slice(0, 10);
+
+    // 存储所有股票数据的Promise
+    const stockPromises = limitedData.map(async (item) => {
+      // 获取历史数据
+      const historyData = await fetchStockHistory(item.ticker_symbol);
+
+      // 计算涨幅
+      const { percentChange, trend } = calculatePriceChange(
+        parseFloat(item.current_price),
+        historyData
+      );
+
+      return {
+        id: item.id,
+        name: item.name,
+        ticker: item.ticker_symbol,
+        price: parseFloat(item.current_price),
+        change: percentChange.toFixed(2) + '%',
+        trend: trend,
+        assetType: item.asset_type,
+        updatedAt: item.lastUpdated,
+        currency: item.currency,
+        // 生成模拟的K线数据
+        kline: generateMockKline(parseFloat(item.current_price)),
+      };
+    });
+
+    // 等待所有股票数据处理完成
+    const processedStocks = await Promise.all(stockPromises);
+
+    // 填充stockData对象
+    processedStocks.forEach((stock) => {
+      stockData[stock.ticker] = stock;
+    });
+
+    // 初始化股票表格
+    initStockTable();
+
+    // 如果有数据，默认选中第一个
+    if (Object.keys(stockData).length > 0) {
+      const firstStockId = Object.keys(stockData)[0];
+      document.querySelector(`tr[data-id="${firstStockId}"]`).click();
+    }
+  } catch (error) {
+    console.error('获取股票数据失败:', error);
+    const tableBody = document.getElementById('stockTableBody');
+    tableBody.innerHTML = `
+                    <tr class="text-center">
+                        <td colspan="3" class="px-3 py-8 text-danger">
+                            <i class="fa fa-exclamation-circle mr-2"></i>数据加载失败，请稍后重试
+                        </td>
+                    </tr>
+                `;
+  }
+}
+
+// 获取股票历史数据
+async function fetchStockHistory(assetId) {
+  try {
+    // 计算日期范围：过去30天到今天
+    const endDate = new Date().toISOString().split('T')[0];
+    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split('T')[0];
+
+    const response = await fetch(
+      `http://localhost:3003/assets/ticker/${assetId}/history?startDate=${startDate}&endDate=${endDate}&page=1&limit=30`
+    );
+
+    if (!response.ok) {
+      throw new Error(`获取历史数据失败: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    // 按日期排序，确保最新的在前面
+    if (data.data && Array.isArray(data.data)) {
+      return data.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    return [];
+  } catch (error) {
+    console.error('获取历史数据出错:', error);
+    return [];
+  }
+}
+
+// 计算价格变化和涨幅
+function calculatePriceChange(currentPrice, historyData) {
+  // 如果没有历史数据，默认持平
+  if (!historyData || historyData.length === 0) {
+    return { percentChange: 0, trend: 'flat' };
+  }
+
+  // 获取上一次的收盘价
+  const lastClosePrice = parseFloat(historyData[1].close_price);
+
+  // 计算价格变化百分比
+  const percentChange =
+    ((currentPrice - lastClosePrice) / lastClosePrice) * 100;
+
+  // 确定趋势
+  let trend;
+  if (percentChange > 0) {
+    trend = 'up';
+  } else if (percentChange < 0) {
+    trend = 'down';
+  } else {
+    trend = 'flat';
+  }
+
+  return { percentChange, trend };
+}
+
+// 生成模拟的K线数据
+function generateMockKline(basePrice) {
+  const kline = [];
+  let price = basePrice * (0.98 + Math.random() * 0.04); // 随机起始价格
+
+  // 生成11个时间点的数据
+  for (let i = 0; i < 11; i++) {
+    // 小幅度波动
+    const change = (Math.random() - 0.45) * 0.01 * price;
+    price += change;
+    kline.push(price.toFixed(2) * 1);
+  }
+
+  return kline;
+}
 
 // 初始化股票表格
 function initStockTable() {
@@ -155,11 +165,19 @@ function initStockTable() {
     row.dataset.change = stock.trend;
     row.dataset.changeValue = stock.change;
 
+    // 设置行样式
+    row.className = 'hover:bg-gray-50 cursor-pointer transition-colors';
+
+    // 涨幅颜色样式
+    let changeClass = '';
+    if (stock.trend === 'up') changeClass = 'text-success';
+    else if (stock.trend === 'down') changeClass = 'text-danger';
+
     row.innerHTML = `
-      <td>${stockId}</td>
-      <td>${stock.name}</td>
-      <td><span class="stock-change ${stock.trend}">${stock.change}</span></td>
-    `;
+                    <td class="px-3 py-3 whitespace-nowrap">${stockId}</td>
+                    <td class="px-3 py-3 whitespace-nowrap">${stock.name}</td>
+                    <td class="px-3 py-3 whitespace-nowrap ${changeClass}">${stock.change}</td>
+                `;
 
     tableBody.appendChild(row);
 
@@ -167,12 +185,14 @@ function initStockTable() {
     row.addEventListener('click', function () {
       // 移除其他行的active类
       document.querySelectorAll('#stockTableBody tr').forEach((r) => {
-        r.classList.remove('active');
+        r.classList.remove('bg-primary/5', 'font-medium');
       });
       // 给当前行添加active类
-      this.classList.add('active');
+      this.classList.add('bg-primary/5', 'font-medium');
       // 更新股票详情
       updateStockDetail(stockId);
+      // 启用操作按钮
+      enableActionButtons();
     });
   });
 }
@@ -195,6 +215,19 @@ function initChart(stockId) {
     window.stockChartInstance.destroy();
   }
 
+  // 确定图表颜色
+  let borderColor, bgColor;
+  if (stock.trend === 'up') {
+    borderColor = '#4caf50';
+    bgColor = 'rgba(76, 175, 80, 0.1)';
+  } else if (stock.trend === 'down') {
+    borderColor = '#f44336';
+    bgColor = 'rgba(244, 67, 54, 0.1)';
+  } else {
+    borderColor = '#9e9e9e';
+    bgColor = 'rgba(158, 158, 158, 0.1)';
+  }
+
   // 创建新图表
   window.stockChartInstance = new Chart(ctx, {
     type: 'line',
@@ -204,11 +237,8 @@ function initChart(stockId) {
         {
           label: '股价',
           data: stock.kline,
-          borderColor: stock.trend === 'up' ? '#4caf50' : '#f44336',
-          backgroundColor:
-            stock.trend === 'up'
-              ? 'rgba(76, 175, 80, 0.1)'
-              : 'rgba(244, 67, 54, 0.1)',
+          borderColor: borderColor,
+          backgroundColor: bgColor,
           borderWidth: 2,
           fill: true,
           tension: 0.3,
@@ -227,6 +257,11 @@ function initChart(stockId) {
         tooltip: {
           mode: 'index',
           intersect: false,
+          callbacks: {
+            label: function (context) {
+              return `${stock.currency} ${context.parsed.y.toFixed(2)}`;
+            },
+          },
         },
       },
       scales: {
@@ -242,7 +277,7 @@ function initChart(stockId) {
           },
           ticks: {
             callback: function (value) {
-              return '¥' + value;
+              return stock.currency + ' ' + value.toFixed(2);
             },
           },
         },
@@ -255,30 +290,48 @@ function initChart(stockId) {
 function updateStockDetail(stockId) {
   const stock = stockData[stockId];
 
+  // 格式化时间
+  const updateTime = new Date(stock.updatedAt).toLocaleString();
+
   // 更新详情区域
   document.getElementById(
     'stockDetailTitle'
   ).textContent = `${stock.name}（${stockId}）`;
-  document.getElementById('stockPrice').textContent = `¥ ${stock.price}`;
+  document.getElementById('stockPrice').textContent = `${
+    stock.currency
+  } ${stock.price.toFixed(2)}`;
 
   const changeEl = document.getElementById('stockChange');
   changeEl.textContent = stock.change;
-  changeEl.className = `change ${stock.trend}`;
+  changeEl.className = `change text-lg font-medium px-2 py-1 rounded`;
 
-  document.getElementById(
-    'stockVolume'
-  ).textContent = `成交量：${stock.volume}`;
-  document.getElementById('stockPe').textContent = stock.pe;
-  document.getElementById('stockTurnover').textContent = stock.turnover;
-  document.getElementById('stockInflow').textContent = stock.inflow;
-  document.getElementById('stockHigh52').textContent = stock.high52;
-  document.getElementById('stockPb').textContent = stock.pb;
-  document.getElementById('stockVolumeHand').textContent = stock.volumeHand;
-  document.getElementById('stockOutflow').textContent = stock.outflow;
-  document.getElementById('stockLow52').textContent = stock.low52;
+  // 设置涨幅颜色
+  if (stock.trend === 'up') {
+    changeEl.classList.add('bg-success/10', 'text-success');
+  } else if (stock.trend === 'down') {
+    changeEl.classList.add('bg-danger/10', 'text-danger');
+  } else {
+    changeEl.classList.add('bg-gray-100', 'text-gray-600');
+  }
+
+  // 更新详细数据
+  document.getElementById('updateTime').textContent = updateTime;
+  document.getElementById('detailPrice').textContent = `${
+    stock.currency
+  } ${stock.price.toFixed(2)}`;
+  document.getElementById('detailChange').textContent = stock.change;
+  document.getElementById('detailType').textContent = stock.assetType;
+  document.getElementById('detailCurrency').textContent = stock.currency;
 
   // 更新图表
   initChart(stockId);
+}
+
+// 启用操作按钮
+function enableActionButtons() {
+  document.getElementById('buyStock').removeAttribute('disabled');
+  document.getElementById('sellStock').removeAttribute('disabled');
+  document.getElementById('addFavorite').removeAttribute('disabled');
 }
 
 // 绑定事件
@@ -351,6 +404,8 @@ function bindEvents() {
         if (matchedStockId) {
           // 触发对应行的点击事件
           document.querySelector(`tr[data-id="${matchedStockId}"]`).click();
+        } else {
+          alert('未找到匹配的股票');
         }
 
         // 清空搜索框
@@ -361,32 +416,46 @@ function bindEvents() {
   // 交易按钮事件
   document.getElementById('buyStock').addEventListener('click', function () {
     // 获取当前选中的股票ID
-    const activeRow = document.querySelector('#stockTableBody tr.active');
+    const activeRow = document.querySelector(
+      '#stockTableBody tr.bg-primary\\/5'
+    );
     if (!activeRow) return;
 
     const stockId = activeRow.getAttribute('data-id');
     const stock = stockData[stockId];
 
     // 这里可以跳转到交易页面或显示交易弹窗
-    alert(`准备买入 ${stock.name}（${stockId}），价格：¥${stock.price}`);
+    alert(
+      `准备买入 ${stock.name}（${stockId}），价格：${
+        stock.currency
+      } ${stock.price.toFixed(2)}`
+    );
   });
 
   document.getElementById('sellStock').addEventListener('click', function () {
     // 获取当前选中的股票ID
-    const activeRow = document.querySelector('#stockTableBody tr.active');
+    const activeRow = document.querySelector(
+      '#stockTableBody tr.bg-primary\\/5'
+    );
     if (!activeRow) return;
 
     const stockId = activeRow.getAttribute('data-id');
     const stock = stockData[stockId];
 
     // 这里可以跳转到交易页面或显示交易弹窗
-    alert(`准备卖出 ${stock.name}（${stockId}），价格：¥${stock.price}`);
+    alert(
+      `准备卖出 ${stock.name}（${stockId}），价格：${
+        stock.currency
+      } ${stock.price.toFixed(2)}`
+    );
   });
 
   // 加入自选按钮事件
   document.getElementById('addFavorite').addEventListener('click', function () {
     // 获取当前选中的股票ID
-    const activeRow = document.querySelector('#stockTableBody tr.active');
+    const activeRow = document.querySelector(
+      '#stockTableBody tr.bg-primary\\/5'
+    );
     if (!activeRow) return;
 
     const stockId = activeRow.getAttribute('data-id');
