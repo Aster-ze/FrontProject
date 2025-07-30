@@ -2,7 +2,7 @@
 const indices = [
     { id: 'spx', name: '标普 500', symbol: '.SPX', chartId: 'spxChart', ticker: 'AAPL' },
     { id: 'ndx', name: '纳斯达克 100', symbol: '.NDX', chartId: 'ndxChart', ticker: 'AMZN' },
-    { id: 'dji', name: '道琼斯工业平均', symbol: '.DJI', chartId: 'djiChart', ticker: 'NVDA'  },
+    { id: 'dji', name: '道琼斯工业平均', symbol: '.DJI', chartId: 'djiChart', ticker: 'NVDA'},
     { id: 'rut', name: '罗素 2000', symbol: '.RUT', chartId: 'rutChart' , ticker: 'NKE' }
 ];
   
@@ -13,8 +13,9 @@ async function updateIndexBasicData(index) {
         const data = await response.json();
         console.log("请求的数据为",data);
         // 找到对应的卡片元素
-        const cardElement = document.querySelector(`#${index.chartId}`).closest('.bg-white');
-        
+        console.log("请求的指数为",index);
+        const cardElement = document.querySelector(`#${index.chartId}`).closest('.bg-secondary');;
+        console.log("请求的元素为",cardElement);
         // 更新标题 (h3)
         const titleElement = cardElement.querySelector('h3');
         if (titleElement) {
