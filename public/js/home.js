@@ -3,6 +3,8 @@ let stockData = {};
 let accountId = 17; // 假设账户ID为17
 let username="5force"; // 假设用户名为5force
 let currentTransaction = null; // 添加当前交易信息变量
+let currentView = "all"; // all, profit, loss
+let sortState = {}; // 存储各列的排序状态
 
 // 从API获取股票数据
 async function fetchStockData() {
@@ -130,15 +132,26 @@ function calculatePriceChange(currentPrice, historyData) {
 }
 
 // 初始化股票表格
-function initStockTable() {
+function initStockTable(filter = "all") {
   const tableBody = document.getElementById('stockTableBody');
   tableBody.innerHTML = '';
 
+  // 根据筛选条件过滤数据
+  let filteredData = Object.keys(stockData).map((key) => stockData[key]);
+
+  if (filter === "profit") {
+    filteredData = filteredData.filter((stock) => stock.trend === "up");
+  } else if (filter === "loss") {
+    filteredData = filteredData.filter((stock) => stock.trend === "down");
+  }
+
+  // 应用排序
+  applySorting(filteredData);
+
   // 遍历股票数据，生成表格行
-  Object.keys(stockData).forEach((stockId) => {
-    const stock = stockData[stockId];
+  filteredData.forEach((stock) => {
     const row = document.createElement('tr');
-    row.dataset.id = stockId;
+    row.dataset.id = stock.ticker;
     row.dataset.name = stock.name;
     row.dataset.change = stock.trend;
     row.dataset.changeValue = stock.change;
@@ -152,7 +165,7 @@ function initStockTable() {
     else if (stock.trend === 'down') changeClass = 'text-danger';
 
     row.innerHTML = `
-                    <td class="px-3 py-3 whitespace-nowrap">${stockId}</td>
+                    <td class="px-3 py-3 whitespace-nowrap">${stock.ticker}</td>
                     <td class="px-3 py-3 whitespace-nowrap">${stock.name}</td>
                     <td class="px-3 py-3 whitespace-nowrap ${changeClass}">${stock.change}</td>
                 `;
@@ -168,25 +181,64 @@ function initStockTable() {
       // 给当前行添加active类
       this.classList.add('bg-primary/5', 'font-medium');
       // 更新股票详情
-      updateStockDetail(stockId);
+      updateStockDetail(stock.ticker);
       // 启用操作按钮
       enableActionButtons();
+    });
+  });
+
+  // 如果有数据，默认选中第一个
+  if (filteredData.length > 0) {
+    const firstStockId = filteredData[0].ticker;
+    document.querySelector(`tr[data-id="${firstStockId}"]`).click();
+  }
+}
+
+// 应用排序到数据
+function applySorting(data) {
+  // 获取所有排序状态，按优先级排序
+  const sortKeys = Object.keys(sortState)
+    .filter((key) => sortState[key] !== 0)
+    .sort((a, b) => Math.abs(sortState[b]) - Math.abs(sortState[a])); // 按优先级排序
+
+  // 依次应用每个排序规则
+  sortKeys.forEach((key) => {
+    const direction = sortState[key] > 0 ? 1 : -1; // 确保方向正确
+    data.sort((a, b) => {
+      let valA, valB;
+
+      switch (key) {
+        case "id":
+          valA = a.ticker;
+          valB = b.ticker;
+          return direction * valA.localeCompare(valB);
+        case "name":
+          valA = a.name;
+          valB = b.name;
+          return direction * valA.localeCompare(valB);
+        case "change":
+          valA = parseFloat(a.change);
+          valB = parseFloat(b.change);
+          return direction * (valA - valB);
+        default:
+          return 0;
+      }
     });
   });
 }
 
 // 初始化图表
-async function initChart(stockTicker) {
+async function initChart(stockId) {
   let chartData = [];
   try {
     // 这里替换为实际的API端点
-    const response = await fetch(`http://localhost:3003/assets/ticker/${stockTicker}/history`);
+    const response = await fetch(`http://localhost:3003/assets/ticker/${stockId}/history`);
     const chartJson = await response.json();
     chartData = chartJson.data;
     console.log("请求的历史数据为", chartJson);
 
   } catch (error) {
-    console.error(`获取 ${stockTicker} 图表数据时出错:`, error);
+    console.error(`获取 ${stockId} 图表数据时出错:`, error);
   }
   // 按日期排序（从旧到新）
   const sortedData = chartData.sort((a, b) => {
@@ -209,14 +261,28 @@ async function initChart(stockTicker) {
     window.stockChartInstance.destroy();
   }
 
+  // 确定图表颜色
+  let borderColor, bgColor;
+  const stock = stockData[stockId];
+  if (stock.trend === "up") {
+    borderColor = "#4caf50";
+    bgColor = "rgba(76, 175, 80, 0.1)";
+  } else if (stock.trend === "down") {
+    borderColor = "#f44336";
+    bgColor = "rgba(244, 67, 54, 0.1)";
+  } else {
+    borderColor = "#9e9e9e";
+    bgColor = "rgba(158, 158, 158, 0.1)";
+  }
+
   window.stockChartInstance = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels || [],
       datasets: [{
         data: dataValues || [],
-        borderColor: '#2196F3',
-        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+        borderColor: borderColor,
+        backgroundColor: bgColor,
         borderWidth: 2,
         pointRadius: 0,
         fill: true,
@@ -299,16 +365,8 @@ function updateStockDetail(stockId) {
     changeEl.classList.add('bg-gray-100', 'text-gray-600');
   }
 
-  // 更新详细数据
-  // document.getElementById('updateTime').textContent = updateTime;
-  // document.getElementById('detailPrice').textContent = `${
-  //   stock.currency
-  // } ${stock.price.toFixed(2)}`;
-  // document.getElementById('detailChange').textContent = stock.change;
-  // document.getElementById('detailType').textContent = stock.assetType;
-  // document.getElementById('detailCurrency').textContent = stock.currency;
   // 更新图表
-  initChart(stock.ticker);
+  initChart(stockId);
 }
 
 // 启用操作按钮
@@ -318,37 +376,6 @@ function enableActionButtons() {
 
 // 绑定事件
 function bindEvents() {
-  // 排序下拉框事件
-  document.getElementById('sortSelect').addEventListener('change', function () {
-    const sortType = this.value;
-    const tableBody = document.getElementById('stockTableBody');
-    const rows = Array.from(tableBody.querySelectorAll('tr'));
-
-    // 根据不同类型排序
-    rows.sort((a, b) => {
-      const idA = a.getAttribute('data-id');
-      const idB = b.getAttribute('data-id');
-
-      if (sortType === 'change') {
-        // 按涨幅排序
-        const changeA = parseFloat(a.getAttribute('data-change-value'));
-        const changeB = parseFloat(b.getAttribute('data-change-value'));
-        return changeB - changeA; // 降序
-      } else if (sortType === 'name') {
-        // 按名称排序
-        const nameA = a.getAttribute('data-name');
-        const nameB = b.getAttribute('data-name');
-        return nameA.localeCompare(nameB);
-      } else {
-        // 按ID排序（默认）
-        return idA.localeCompare(idB);
-      }
-    });
-
-    // 重新添加排序后的行
-    rows.forEach((row) => tableBody.appendChild(row));
-  });
-
   // 搜索框事件
   document.getElementById('tableSearch').addEventListener('input', function () {
     const searchValue = this.value.toLowerCase().trim();
@@ -453,6 +480,67 @@ function bindEvents() {
       document.body.style.overflow = "hidden";
     }
   });
+
+  // 视图切换功能
+  const viewButtons = document.querySelectorAll(".view-btn");
+  viewButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // 更新激活状态
+      viewButtons.forEach((btn) => btn.classList.remove("active"));
+      this.classList.add("active");
+
+      // 获取视图类型并更新表格
+      currentView = this.dataset.view;
+      initStockTable(currentView);
+    });
+  });
+
+  // 表头排序功能
+  const sortableHeaders = document.querySelectorAll(".sortable");
+  sortableHeaders.forEach((header) => {
+    header.addEventListener("click", function () {
+      const sortKey = this.dataset.sort;
+
+      // 切换排序状态: 0(无)->1(升序)->-1(降序)->0(无)
+      if (!sortState[sortKey]) {
+        sortState[sortKey] = 1;
+      } else if (sortState[sortKey] === 1) {
+        sortState[sortKey] = -1;
+      } else {
+        sortState[sortKey] = 0;
+      }
+
+      // 更新表头UI
+      updateSortIndicators();
+
+      // 重新渲染表格
+      initStockTable(currentView);
+    });
+  });
+
+  // 更新排序指示器UI
+  function updateSortIndicators() {
+    // 清除所有激活状态
+    document.querySelectorAll(".sort-indicator").forEach((indicator) => {
+      indicator.classList.remove("active", "asc", "desc");
+    });
+
+    // 为每个有排序状态的列更新指示器
+    Object.keys(sortState).forEach((key) => {
+      if (sortState[key] !== 0) {
+        const header = document.querySelector(`.sortable[data-sort="${key}"]`);
+        if (header) {
+          const indicator = header.querySelector(".sort-indicator");
+          indicator.classList.add("active");
+          if (sortState[key] > 0) {
+            indicator.classList.add("asc");
+          } else {
+            indicator.classList.add("desc");
+          }
+        }
+      }
+    });
+  }
 
   // 绑定交易弹窗相关事件
   bindTransactionEvents();
