@@ -16,18 +16,18 @@
         theme: {
           extend: {
             colors: {
-              primary: '#f8faf7',
-              secondary: '#FFFFFF',
-              accent: '#4caf50',
-              success: '#4caf50',
-              danger: '#f44336',
-              neutral: '#666666',
-              'neutral-light': '#999999',
-              'neutral-dark': '#333333',
-              'border-color': '#e0e0e0',
+              primary: "#f8faf7",
+              secondary: "#FFFFFF",
+              accent: "#4caf50",
+              success: "#4caf50",
+              danger: "#f44336",
+              neutral: "#666666",
+              "neutral-light": "#999999",
+              "neutral-dark": "#333333",
+              "border-color": "#e0e0e0",
             },
             fontFamily: {
-              inter: ['Inter', 'sans-serif'],
+              inter: ["Inter", "sans-serif"],
             },
           },
         },
@@ -67,7 +67,7 @@
                 >持仓</a
               >
               <a
-                href="./news.html"
+                href="#"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
                 >新闻</a
               >
@@ -106,7 +106,7 @@
                   alt="用户头像"
                   class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
                 />
-                <span class="hidden md:inline text-sm font-medium">Guest</span>
+                <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
                 <i class="fa fa-angle-down text-xs text-neutral"></i>
               </button>
             </div>
@@ -283,6 +283,20 @@
       </div>
     </div>
 
+    <script>
+      // 页面加载时检查登录状态
+      document.addEventListener("DOMContentLoaded", function() {
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = './login.html';
+        } else {
+          // 显示用户名
+          const username = localStorage.getItem('username');
+          if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+          }
+        }
+      });
+    </script>
     <script src="./js/positions.js"></script>
   </body>
 </html>
