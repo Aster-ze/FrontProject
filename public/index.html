@@ -16,23 +16,126 @@
         theme: {
           extend: {
             colors: {
-              primary: '#f8faf7',
-              secondary: '#FFFFFF',
-              accent: '#4caf50',
-              success: '#4caf50',
-              danger: '#f44336',
-              neutral: '#666666',
-              'neutral-light': '#999999',
-              'neutral-dark': '#333333',
-              'border-color': '#e0e0e0',
+              primary: "#f8faf7",
+              secondary: "#FFFFFF",
+              accent: "#4caf50",
+              success: "#4caf50",
+              danger: "#f44336",
+              neutral: "#666666",
+              "neutral-light": "#999999",
+              "neutral-dark": "#333333",
+              "border-color": "#e0e0e0",
             },
             fontFamily: {
-              inter: ['Inter', 'sans-serif'],
+              inter: ["Inter", "sans-serif"],
             },
           },
         },
       };
     </script>
+    <style>
+      /* 添加模态框样式 */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .modal-overlay.active {
+        display: flex;
+      }
+      
+      .modal {
+        background: white;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 24px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      
+      .modal-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #999;
+      }
+      
+      .modal-body {
+        padding: 24px;
+      }
+      
+      .transaction-details {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .detail-label {
+        font-weight: 500;
+      }
+      
+      .quantity-input {
+        padding: 8px 12px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        width: 100px;
+      }
+      
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 16px 24px;
+        border-top: 1px solid #e0e0e0;
+      }
+      
+      .cancel-button,
+      .confirm-button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .cancel-button {
+        background-color: #f5f5f5;
+        border: 1px solid #e0e0e0;
+      }
+      
+      .confirm-button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+      }
+    </style>
   </head>
   <body
     class="bg-primary text-neutral-dark font-inter min-h-screen flex flex-col"
@@ -69,7 +172,7 @@
                 >持仓</a
               >
               <a
-                href="./news.html"
+                href="#"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
                 >新闻</a
               >
@@ -110,7 +213,7 @@
                   alt="用户头像"
                   class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
                 />
-                <span class="hidden md:inline text-sm font-medium">Guest</span>
+                <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
                 <i class="fa fa-angle-down text-xs text-neutral"></i>
               </button>
             </div>
@@ -134,7 +237,6 @@
         class="lg:col-span-1 market-left bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
       >
         <h2 class="text-xl font-semibold text-neutral-dark mb-4">行情中心</h2>
-        <!-- 将原来的 search-sort 部分替换为以下代码 -->
         <div
           class="search-sort flex flex-col sm:flex-row items-center justify-between gap-2 mb-4"
         >
@@ -144,54 +246,27 @@
             id="tableSearch"
             class="flex-grow px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full"
           />
-          <!-- 删除原有的 select 元素，替换为胶囊选择器 -->
-          <div
-            class="view-options flex bg-gray-100 rounded-full overflow-hidden mt-2 sm:mt-0"
+          <select
+            class="sort-select px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full sm:w-auto mt-2 sm:mt-0"
+            id="sortSelect"
           >
-            <button class="view-btn active px-3 py-1 text-sm" data-view="all">
-              全
-            </button>
-            <button class="view-btn px-3 py-1 text-sm" data-view="profit">
-              盈
-            </button>
-            <button class="view-btn px-3 py-1 text-sm" data-view="loss">
-              亏
-            </button>
-          </div>
+            <option value="change">按涨幅排序</option>
+            <option value="market-cap">按市值排序</option>
+            <option value="name">按名称排序</option>
+          </select>
         </div>
 
         <!-- 行情表格：三列数据ID、名字和涨幅 -->
         <div class="overflow-auto max-h-[500px]">
           <table class="stock-table w-full border-collapse">
-            <!-- 修改 stock-table 的 thead 部分 -->
             <thead class="sticky top-0 bg-gray-100">
               <tr>
-                <th
-                  class="py-2 px-4 text-left text-accent font-medium sortable"
-                  data-sort="id"
-                >
-                  <div class="flex items-center">
-                    ID
-                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
-                  </div>
+                <th class="py-2 px-4 text-left text-accent font-medium">ID</th>
+                <th class="py-2 px-4 text-left text-accent font-medium">
+                  名字
                 </th>
-                <th
-                  class="py-2 px-4 text-left text-accent font-medium sortable"
-                  data-sort="name"
-                >
-                  <div class="flex items-center">
-                    名字
-                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
-                  </div>
-                </th>
-                <th
-                  class="py-2 px-4 text-left text-accent font-medium sortable"
-                  data-sort="change"
-                >
-                  <div class="flex items-center">
-                    涨幅
-                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
-                  </div>
+                <th class="py-2 px-4 text-left text-accent font-medium">
+                  涨幅
                 </th>
               </tr>
             </thead>
@@ -235,22 +310,10 @@
             </div>
             <div class="action-buttons flex flex-wrap gap-2">
               <button
-                id="addFavorite"
-                class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
-              >
-                加入自选
-              </button>
-              <button
                 id="buyStock"
                 class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
               >
                 买入
-              </button>
-              <button
-                id="sellStock"
-                class="bg-danger hover:bg-danger/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
-              >
-                卖出
               </button>
             </div>
           </div>
@@ -330,8 +393,70 @@
       </div>
     </div>
 
+    <!-- 交易确认弹窗 -->
+    <div class="modal-overlay" id="transactionModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 class="modal-title" id="transactionTitle">买入确认</h3>
+          <button class="close-modal" id="closeTransactionModal">×</button>
+        </div>
+        <div class="modal-body">
+          <div class="transaction-details">
+            <div class="detail-item">
+              <span class="detail-label">股票名称：</span>
+              <span class="detail-value" id="transactionStock"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">股票代码：</span>
+              <span class="detail-value" id="transactionCode"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">当前价格：</span>
+              <span class="detail-value" id="transactionPrice"></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">交易数量：</span>
+              <span class="detail-value">
+                <input
+                  type="number"
+                  id="transactionQuantity"
+                  min="100"
+                  step="100"
+                  value="100"
+                  class="quantity-input"
+                />
+                股
+              </span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">交易金额：</span>
+              <span class="detail-value" id="transactionAmount"></span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-button" id="cancelTransaction">取消</button>
+          <button class="confirm-button" id="confirmTransaction">确认</button>
+        </div>
+      </div>
+    </div>
+
     <!-- 引入Chart.js和自定义脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // 页面加载时检查登录状态
+      window.addEventListener('load', function() {
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = './login.html';
+        } else {
+          // 显示用户名
+          const username = localStorage.getItem('username');
+          if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+          }
+        }
+      });
+    </script>
     <script src="./js/home.js"></script>
   </body>
 </html>
