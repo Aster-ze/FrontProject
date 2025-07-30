@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FiveForces - 股票新闻</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- 保持一致的Tailwind配置 -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#f8faf7',
+              secondary: '#FFFFFF',
+              accent: '#4caf50',
+              success: '#4caf50',
+              danger: '#f44336',
+              neutral: '#666666',
+              'neutral-light': '#999999',
+              'neutral-dark': '#333333',
+              'border-color': '#e0e0e0',
+            },
+            fontFamily: {
+              inter: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer utilities {
+        .content-auto {
+          content-visibility: auto;
+        }
+        .card-hover {
+          transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05),
+            0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="bg-primary text-neutral-dark font-inter min-h-screen flex flex-col"
+  >
+    <!-- 复用相同的导航栏 -->
+    <header
+      class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo和网站名称 -->
+          <div class="flex items-center space-x-4">
+            <div class="text-accent text-2xl font-bold">
+              <i class="fa fa-line-chart mr-2"></i>MarketView
+            </div>
+
+            <!-- 主导航 - 新闻页面高亮 -->
+            <nav class="hidden md:flex space-x-1">
+              <a
+                href="./firstindex.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >首页</a
+              >
+              <a
+                href="./index.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >详情</a
+              >
+              <a
+                href="./positions.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                >持仓</a
+              >
+              <a
+                href="./news.html"
+                class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium"
+                >新闻</a
+              >
+            </nav>
+          </div>
+
+          <!-- 右侧功能区 -->
+          <div class="flex items-center space-x-4">
+            <!-- 搜索框 -->
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                placeholder="搜索股票、指数、加密货币..."
+                class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+              />
+              <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+            </div>
+
+            <!-- 快捷功能按钮 -->
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-bell"></i>
+            </button>
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+            >
+              <i class="fa fa-cog"></i>
+            </button>
+
+            <!-- 用户头像 -->
+            <div class="relative">
+              <button class="flex items-center space-x-1 focus:outline-none">
+                <img
+                  src="https://picsum.photos/id/1005/32/32"
+                  alt="用户头像"
+                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+                />
+                <span class="hidden md:inline text-sm font-medium">Guest</span>
+                <i class="fa fa-angle-down text-xs text-neutral"></i>
+              </button>
+            </div>
+
+            <!-- 移动端菜单按钮 -->
+            <button
+              class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+      <h1 class="text-xl font-bold text-neutral-dark mb-6">股票市场新闻</h1>
+
+      <!-- 关键修改：添加 h-full 确保容器高度一致 -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
+        <!-- 左侧主要新闻 -->
+        <div class="lg:col-span-2 flex flex-col h-full">
+          <div
+            class="bg-secondary rounded-lg border border-border-color shadow-sm p-5 card-hover flex-grow"
+          >
+            <div class="flex items-center mb-4">
+              <span
+                class="bg-primary text-accent text-xs font-medium px-2.5 py-0.5 rounded-full"
+              >
+                市场分析
+              </span>
+              <span class="ml-3 text-neutral-light text-sm">
+                <i class="fa fa-calendar-o mr-1"></i>2025年8月1日 09:45
+              </span>
+            </div>
+
+            <img
+              src="https://picsum.photos/id/237/800/400?random=1"
+              alt="股市新闻图片"
+              class="w-full h-64 object-cover rounded-lg mb-4"
+            />
+
+            <h2 class="text-xl font-semibold text-neutral-dark mb-3">
+              美联储政策转向预期升温，全球股市迎来反弹契机
+            </h2>
+
+            <div class="text-neutral leading-relaxed mb-4">
+              <p class="mb-3">
+                随着最新通胀数据显示美国物价压力有所缓解，市场对美联储加息周期即将结束的预期日益增强，推动全球主要股指本周出现显著反弹。
+              </p>
+              <p class="mb-3">
+                根据TradingView提供的市场数据，标普500指数上周上涨3.2%，纳斯达克综合指数涨幅达到4.5%，创三个月来最佳单周表现。亚洲市场同样表现强劲，日经225指数上涨2.8%，恒生指数上涨3.5%。
+              </p>
+              <p>
+                分析人士指出，美联储货币政策的潜在转向将成为未来市场走势的关键变量。投资者正在密切关注即将公布的美联储会议纪要，以寻找有关加息路径的更多线索。
+              </p>
+            </div>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <img
+                  src="https://picsum.photos/id/1012/32/32"
+                  alt="作者头像"
+                  class="w-8 h-8 rounded-full mr-2"
+                />
+                <span class="text-sm text-neutral"
+                  >TradingView财经分析师团队</span
+                >
+              </div>
+              <span class="text-xs text-neutral-light">
+                来源: TradingView市场资讯
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右侧新闻列表 -->
+        <div class="lg:col-span-1 flex flex-col h-full">
+          <!-- 关键修改：添加 flex-grow 和 overflow-y-auto 使列表区域自适应高度并可滚动 -->
+          <div class="space-y-4 flex-grow overflow-y-auto pr-2">
+            <!-- 新闻列表项 -->
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/180/60/60"
+                alt="半导体行业新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  半导体行业迎来复苏信号，多家龙头企业上调季度业绩预期
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">行业动态</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/119/60/60"
+                alt="新能源板块新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  新能源板块持续走强，政策支持与需求增长双驱动
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">板块分析</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/160/60/60"
+                alt="A股市场新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  北向资金连续五日净流入，A股市场信心逐步恢复
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">资金流向</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/169/60/60"
+                alt="美股科技巨头新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  美股科技巨头财报季来袭，市场聚焦AI业务增长潜力
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">公司财报</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/175/60/60"
+                alt="央行政策新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  央行降准政策落地，市场流动性预期改善
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">宏观政策</span>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="bg-secondary rounded-lg border border-border-color shadow-sm p-4 card-hover flex gap-3"
+            >
+              <img
+                src="https://picsum.photos/id/184/60/60"
+                alt="港股市场新闻图片"
+                class="w-12 h-12 rounded object-cover flex-shrink-0"
+              />
+              <div>
+                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                  港股市场估值优势凸显，机构建议关注优质成长股
+                </h3>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-neutral-light"
+                    ><i class="fa fa-clock-o mr-1"></i>8月1日</span
+                  >
+                  <span class="text-accent text-xs">港股动态</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
