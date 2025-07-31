@@ -348,8 +348,11 @@ function updateStockDetail(stockId) {
   document.getElementById(
     'stockDetailTitle'
   ).textContent = `${stock.name}（${stockId}）`;
+  
+  // 根据当前语言设置货币符号
+  const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
   document.getElementById('stockPrice').textContent = `${
-    stock.currency
+    currencySymbol
   } ${stock.price.toFixed(2)}`;
 
   const changeEl = document.getElementById('stockChange');
@@ -367,6 +370,77 @@ function updateStockDetail(stockId) {
 
   // 更新图表
   initChart(stockId);
+  
+  // 更新金额显示
+  updateAmountDisplays(stock);
+}
+
+// 更新金额显示
+function updateAmountDisplays(stock) {
+  // 获取当前语言
+  const currentLang = window.languageManager ? window.languageManager.getCurrentLanguage() : 'zh';
+  
+  // 更新资金流入显示
+  const inflowElement = document.getElementById('stockInflow');
+  if (inflowElement) {
+    if (currentLang === 'en') {
+      inflowElement.textContent = '¥567.00M';
+    } else {
+      inflowElement.textContent = '¥ 5.67亿';
+    }
+  }
+  
+  // 更新资金流出显示
+  const outflowElement = document.getElementById('stockOutflow');
+  if (outflowElement) {
+    if (currentLang === 'en') {
+      outflowElement.textContent = '¥321.00M';
+    } else {
+      outflowElement.textContent = '¥ 3.21亿';
+    }
+  }
+  
+  // 更新成交量显示
+  const volumeElement = document.getElementById('stockVolume');
+  if (volumeElement) {
+    if (currentLang === 'en') {
+      volumeElement.textContent = 'Volume: 123.45M';
+    } else {
+      volumeElement.textContent = '成交量：123.45万';
+    }
+  }
+  
+  // 更新52周最高显示
+  const high52Element = document.getElementById('stockHigh52');
+  if (high52Element) {
+    const currencySymbol = currentLang === 'en' ? '¥' : '¥';
+    if (currentLang === 'en') {
+      high52Element.textContent = '¥2100.00';
+    } else {
+      high52Element.textContent = '¥ 2100.00';
+    }
+  }
+  
+  // 更新52周最低显示
+  const low52Element = document.getElementById('stockLow52');
+  if (low52Element) {
+    const currencySymbol = currentLang === 'en' ? '¥' : '¥';
+    if (currentLang === 'en') {
+      low52Element.textContent = '¥1500.00';
+    } else {
+      low52Element.textContent = '¥ 1500.00';
+    }
+  }
+  
+  // 更新成交量(手)显示
+  const volumeHandElement = document.getElementById('stockVolumeHand');
+  if (volumeHandElement) {
+    if (currentLang === 'en') {
+      volumeHandElement.textContent = '23.00K lots';
+    } else {
+      volumeHandElement.textContent = '2.3万手';
+    }
+  }
 }
 
 // 启用操作按钮
@@ -460,7 +534,8 @@ function bindEvents() {
 
     const transactionPrice = document.getElementById("transactionPrice");
     if (transactionPrice) {
-      transactionPrice.textContent = "¥" + stock.price.toFixed(2);
+      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+      transactionPrice.textContent = currencySymbol + stock.price.toFixed(2);
     }
 
     const transactionQuantity = document.getElementById("transactionQuantity");
@@ -470,7 +545,8 @@ function bindEvents() {
 
     const transactionAmount = document.getElementById("transactionAmount");
     if (transactionAmount) {
-      transactionAmount.textContent = "¥" + (stock.price * 100).toFixed(2);
+      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+      transactionAmount.textContent = currencySymbol + (stock.price * 100).toFixed(2);
     }
 
     // 显示交易弹窗
@@ -544,6 +620,18 @@ function bindEvents() {
 
   // 绑定交易弹窗相关事件
   bindTransactionEvents();
+  
+  // 监听语言切换完成事件
+  window.addEventListener('languageChangedComplete', function(e) {
+    // 更新当前选中股票的详情显示
+    const activeRow = document.querySelector('#stockTableBody tr.bg-primary\\/5');
+    if (activeRow) {
+      const stockId = activeRow.getAttribute('data-id');
+      if (stockId && stockData[stockId]) {
+        updateStockDetail(stockId);
+      }
+    }
+  });
 }
 
 // 绑定交易弹窗相关事件
@@ -586,7 +674,8 @@ function bindTransactionEvents() {
         if (currentTransaction) {
           const amount = currentTransaction.price * parseInt(this.value || 0);
           if (transactionAmount) {
-            transactionAmount.textContent = "¥" + amount.toFixed(2);
+            const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+            transactionAmount.textContent = currencySymbol + amount.toFixed(2);
           }
         }
       });
