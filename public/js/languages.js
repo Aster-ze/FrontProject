@@ -227,6 +227,10 @@ const translations = {
       'zh': '总资产',
       'en': 'Total Assets'
     },
+    'historical': {
+      'zh': '查看历史交易记录',
+      'en': 'Check historical transaction records'
+    },
     'daily-pnl': {
       'zh': '当日盈亏',
       'en': 'Daily P&L'
@@ -302,8 +306,22 @@ const translations = {
     'history-title': {
       'zh': '历史交易记录',
       'en': 'Transaction History'
-    }
+    },
+    'cancel': {
+      'zh': '取消',
+      'en': 'Cancel'
+    },
+    'confirm': {
+      'zh': '确认',
+      'en': 'Confirm'
+    },
+    'share': {
+      'zh': '股',
+      'en': 'Shares'
+    },
+
   },
+
   
   // 新闻页 news.html
   'news': {
@@ -520,6 +538,8 @@ const translations = {
       'en': 'Search stocks, indices, crypto...'
     }
   }
+
+
 };
 
 // 语言管理器
@@ -627,3 +647,4 @@ translateElements(pageId) {
 document.addEventListener('DOMContentLoaded', function() {
   window.languageManager = new LanguageManager();
 });    
+
