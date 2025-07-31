@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FiveForces - 详情</title>
+    <title>FiveForces - Details</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./css/home.css" />
     <link
@@ -47,11 +48,11 @@
         justify-content: center;
         align-items: center;
       }
-      
+
       .modal-overlay.active {
         display: flex;
       }
-      
+
       .modal {
         background: white;
         border-radius: 8px;
@@ -60,7 +61,7 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
       }
-      
+
       .modal-header {
         display: flex;
         justify-content: space-between;
@@ -68,13 +69,13 @@
         padding: 16px 24px;
         border-bottom: 1px solid #e0e0e0;
       }
-      
+
       .modal-title {
         font-size: 18px;
         font-weight: 600;
         margin: 0;
       }
-      
+
       .close-modal {
         background: none;
         border: none;
@@ -82,34 +83,34 @@
         cursor: pointer;
         color: #999;
       }
-      
+
       .modal-body {
         padding: 24px;
       }
-      
+
       .transaction-details {
         display: flex;
         flex-direction: column;
         gap: 16px;
       }
-      
+
       .detail-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
-      
+
       .detail-label {
         font-weight: 500;
       }
-      
+
       .quantity-input {
         padding: 8px 12px;
         border: 1px solid #e0e0e0;
         border-radius: 4px;
         width: 100px;
       }
-      
+
       .modal-footer {
         display: flex;
         justify-content: flex-end;
@@ -117,19 +118,19 @@
         padding: 16px 24px;
         border-top: 1px solid #e0e0e0;
       }
-      
+
       .cancel-button,
       .confirm-button {
         padding: 8px 16px;
         border-radius: 4px;
         cursor: pointer;
       }
-      
+
       .cancel-button {
         background-color: #f5f5f5;
         border: 1px solid #e0e0e0;
       }
-      
+
       .confirm-button {
         background-color: #4caf50;
         color: white;
@@ -140,104 +141,70 @@
   <body
     class="bg-primary text-neutral-dark font-inter min-h-screen flex flex-col"
   >
-    <!-- 顶部导航栏 - 与positions.html保持一致 -->
-    <!-- 顶部导航栏 - 与positions.html保持一致 -->
-    <header
-      class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm"
-    >
-      <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo和网站名称 -->
-          <div class="flex items-center space-x-4">
-            <div class="text-accent text-2xl font-bold">
-              <i class="fa fa-line-chart mr-2"></i>FiveForces
-            </div>
-
-            <!-- 主导航 -->
-            <!-- ... 其他代码 ... -->
-            <nav class="hidden md:flex space-x-1">
-              <a
-                href="./firstindex.html"
-                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
-                >首页</a
-              >
-              <a
-                href="./index.html"
-                class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium active"
-                >详情</a
-              >
-              <a
-                href="./positions.html"
-                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
-                >持仓</a
-              >
-              <a
-                href="./news.html"
-                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
-                >新闻</a
-              >
-            </nav>
-            <!-- ... 其他代码 ... -->
+    <!-- 顶部导航栏 -->
+  <header class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo和网站名称 -->
+        <div class="flex items-center space-x-4">
+          <div class="text-accent text-2xl font-bold">
+            <i class="fa fa-line-chart mr-2"></i>FiveForces
           </div>
-
-          <!-- 右侧功能区 -->
-          <div class="flex items-center space-x-4">
-            <!-- 搜索框 -->
-            <div class="relative hidden md:block">
-              <input
-                type="text"
-                placeholder="搜索股票..."
-                id="stockSearch"
-                class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
-              />
-              <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
-            </div>
-
-            <!-- 快捷功能按钮 -->
-            <button
-              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
-            >
-              <i class="fa fa-bell"></i>
-            </button>
-            <button
-              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
-            >
-              <i class="fa fa-cog"></i>
-            </button>
-
-        <!-- 在导航栏的用户头像部分替换以下代码 -->
-<div class="relative">
-  <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
-    <img
-      src="https://picsum.photos/id/1005/32/32"
-      alt="用户头像"
-      class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
-    />
-    <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
-    <i class="fa fa-angle-down text-xs text-neutral"></i>
-  </button>
-  
-<!-- 下拉菜单 -->
-  <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-    <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
-    <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
-    <hr class="my-1">
-    <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
-      <i class="fa fa-sign-out mr-2"></i>退出登录
-    </a>
-  </div>
-</div>
-
-            <!-- 移动端菜单按钮 -->
-            <button
-              class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
-            >
-              <i class="fa fa-bars"></i>
+          <!-- 主导航 -->
+          <nav class="hidden md:flex space-x-1">            
+            <a href="./firstindex.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-home">首页</a>
+            <a href="./index.html" class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium" data-i18n="common-details">详情</a>
+            <a href="./positions.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-portfolio">持仓</a>
+            <a href="./news.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-news">新闻</a>
+          </nav>
+        </div>
+        <!-- 右侧功能区 -->
+        <div class="flex items-center space-x-4">
+          <!-- 搜索框 -->
+          <div class="relative hidden md:block">
+            <input type="text" placeholder="搜索股票、指数、加密货币..." class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent" data-i18n-placeholder="common-search-placeholder-news">
+            <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+          </div>
+          <!-- 快捷功能按钮 -->
+          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
+            <i class="fa fa-bell"></i>
+          </button>
+          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
+            <i class="fa fa-cog"></i>
+          </button>
+          <!-- 语言切换按钮 -->
+          <div class="relative">
+            <button class="flex items-center space-x-1 focus:outline-none" id="languageToggle">
+              <i class="fa fa-globe text-neutral"></i>
+              <span id="languageText" class="hidden md:inline text-sm font-medium">EN</span>
             </button>
           </div>
+          <!-- 用户菜单 -->
+          <div class="relative">
+            <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
+              <img src="https://picsum.photos/id/1005/32/32" alt="用户头像" class="h-8 w-8 rounded-full object-cover border-2 border-neutral">
+              <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
+              <i class="fa fa-angle-down text-xs text-neutral"></i>
+            </button>
+            
+            <!-- 下拉菜单 -->
+            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+              <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary" data-i18n="common-personal-settings">个人设置</a>
+              <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary" data-i18n="common-account-info">账户信息</a>
+              <hr class="my-1">
+              <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary" data-i18n="common-logout">
+                <i class="fa fa-sign-out mr-2"></i>退出登录
+              </a>
+            </div>
+          </div>
+          <!-- 移动端菜单按钮 -->
+          <button class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10">
+            <i class="fa fa-bars"></i>
+          </button>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
     <!-- 主体容器：行情页面 -->
     <div
       class="main-container mx-auto px-4 py-4 flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6"
@@ -246,13 +213,13 @@
       <div
         class="lg:col-span-1 market-left bg-secondary rounded-lg p-4 border border-border-color shadow-sm"
       >
-        <h2 class="text-xl font-semibold text-neutral-dark mb-4">行情中心</h2>
+        <h2 class="text-xl font-semibold text-neutral-dark mb-4">Market Center</h2>
         <div
           class="search-sort flex flex-col sm:flex-row items-center justify-between gap-2 mb-4"
         >
           <input
             type="text"
-            placeholder="搜索股票"
+            placeholder="Search for stocks"
             id="tableSearch"
             class="flex-grow px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full"
           />
@@ -260,12 +227,11 @@
             class="sort-select px-4 py-2 border border-border-color rounded-full focus:outline-none focus:ring-1 focus:ring-accent w-full sm:w-auto mt-2 sm:mt-0"
             id="sortSelect"
           >
-            <option value="change">按涨幅排序</option>
-            <option value="market-cap">按市值排序</option>
-            <option value="name">按名称排序</option>
+            <option value="change">Sort by Change</option>
+            <option value="market-cap">Sort by Market Cap</option>
+            <option value="name">Sort by Name</option>
           </select>
         </div>
-
         <!-- 行情表格：三列数据ID、名字和涨幅 -->
         <div class="overflow-auto max-h-[500px]">
           <table class="stock-table w-full border-collapse">
@@ -286,7 +252,7 @@
                   data-sort="name"
                 >
                   <div class="flex items-center">
-                    名字
+                    Name
                     <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
                   </div>
                 </th>
@@ -295,7 +261,7 @@
                   data-sort="change"
                 >
                   <div class="flex items-center">
-                    涨幅
+                    Change
                     <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
                   </div>
                 </th>
@@ -317,7 +283,7 @@
             id="stockDetailTitle"
             class="text-xl font-semibold text-neutral-dark mb-4"
           >
-            贵州茅台（600519）
+            Kweichow Moutai (600519)
           </h3>
           <div
             class="detail-top flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6"
@@ -326,25 +292,28 @@
               <span
                 class="price text-3xl font-bold text-neutral-dark block"
                 id="stockPrice"
-                >¥ 1800.00</span
               >
+                ¥ 1800.00
+              </span>
               <span
                 class="change up text-success font-medium block mt-1"
                 id="stockChange"
-                >+1.23%</span
               >
+                +1.23%
+              </span>
               <span
                 class="volume text-neutral text-sm block mt-1"
                 id="stockVolume"
-                >成交量：123.45万</span
               >
+                Volume: 1.2345 million
+              </span>
             </div>
             <div class="action-buttons flex flex-wrap gap-2">
               <button
                 id="buyStock"
                 class="bg-accent hover:bg-accent/90 text-white px-4 py-2 rounded-md transition whitespace-nowrap"
               >
-                买入
+                Buy
               </button>
             </div>
           </div>
@@ -356,68 +325,76 @@
 
           <div class="stock-data grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="data-item">
-              <span class="label text-neutral text-sm">市盈率</span>
+              <span class="label text-neutral text-sm">P/E Ratio</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockPe"
-                >28.5</span
               >
+                28.5
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">换手率</span>
+              <span class="label text-neutral text-sm">Turnover Rate</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockTurnover"
-                >0.8%</span
               >
+                0.8%
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">资金流入</span>
+              <span class="label text-neutral text-sm">Capital Inflow</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockInflow"
-                >¥ 5.67亿</span
               >
+                ¥ 567 million
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">52周最高</span>
+              <span class="label text-neutral text-sm">52-Week High</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockHigh52"
-                >¥ 2100.00</span
               >
+                ¥ 2100.00
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">市净率</span>
+              <span class="label text-neutral text-sm">P/B Ratio</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockPb"
-                >12.3</span
               >
+                12.3
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">成交量</span>
+              <span class="label text-neutral text-sm">Trading Volume</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockVolumeHand"
-                >2.3万手</span
               >
+                23,000 lots
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">资金流出</span>
+              <span class="label text-neutral text-sm">Capital Outflow</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockOutflow"
-                >¥ 3.21亿</span
               >
+                ¥ 321 million
+              </span>
             </div>
             <div class="data-item">
-              <span class="label text-neutral text-sm">52周最低</span>
+              <span class="label text-neutral text-sm">52-Week Low</span>
               <span
                 class="value text-neutral-dark font-medium block"
                 id="stockLow52"
-                >¥ 1500.00</span
               >
+                ¥ 1500.00
+              </span>
             </div>
           </div>
         </div>
@@ -428,25 +405,25 @@
     <div class="modal-overlay" id="transactionModal">
       <div class="modal">
         <div class="modal-header">
-          <h3 class="modal-title" id="transactionTitle">买入确认</h3>
+          <h3 class="modal-title" id="transactionTitle">Buy Confirmation</h3>
           <button class="close-modal" id="closeTransactionModal">×</button>
         </div>
         <div class="modal-body">
           <div class="transaction-details">
             <div class="detail-item">
-              <span class="detail-label">股票名称：</span>
+              <span class="detail-label">Stock Name:</span>
               <span class="detail-value" id="transactionStock"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">股票代码：</span>
+              <span class="detail-label">Stock Code:</span>
               <span class="detail-value" id="transactionCode"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">当前价格：</span>
+              <span class="detail-label">Current Price:</span>
               <span class="detail-value" id="transactionPrice"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">交易数量：</span>
+              <span class="detail-label">Trading Quantity:</span>
               <span class="detail-value">
                 <input
                   type="number"
@@ -456,18 +433,18 @@
                   value="100"
                   class="quantity-input"
                 />
-                股
+                shares
               </span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">交易金额：</span>
+              <span class="detail-label">Trading Amount:</span>
               <span class="detail-value" id="transactionAmount"></span>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="cancel-button" id="cancelTransaction">取消</button>
-          <button class="confirm-button" id="confirmTransaction">确认</button>
+          <button class="cancel-button" id="cancelTransaction">Cancel</button>
+          <button class="confirm-button" id="confirmTransaction">Confirm</button>
         </div>
       </div>
     </div>
@@ -476,7 +453,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       // 页面加载时检查登录状态
-      window.addEventListener('load', function() {
+      window.addEventListener('load', function () {
         if (localStorage.getItem('isLoggedIn') !== 'true') {
           window.location.href = './login.html';
         } else {
@@ -489,37 +466,38 @@
       });
     </script>
     <script src="./js/home.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const userMenuButton = document.getElementById('userMenuButton');
-    const userDropdown = document.getElementById('userDropdown');
-    const logoutButton = document.getElementById('logoutButton');
-    
-    // 点击头像按钮显示/隐藏下拉菜单
-    userMenuButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userDropdown.classList.toggle('hidden');
-    });
-    
-    // 点击页面其他地方隐藏下拉菜单
-    document.addEventListener('click', function(e) {
-      if (!userMenuButton.contains(e.target)) {
-        userDropdown.classList.add('hidden');
-      }
-    });
-    
-    // 退出登录功能
-    logoutButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      // 清除本地存储的登录信息
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('username');
-      localStorage.removeItem('accountId');
-      
-      // 跳转到登录页面
-      window.location.href = './login.html';
-    });
-  });
-</script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutButton = document.getElementById('logoutButton');
+
+        // 点击头像按钮显示/隐藏下拉菜单
+        userMenuButton.addEventListener('click', function (e) {
+          e.stopPropagation();
+          userDropdown.classList.toggle('hidden');
+        });
+
+        // 点击页面其他地方隐藏下拉菜单
+        document.addEventListener('click', function (e) {
+          if (!userMenuButton.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+          }
+        });
+
+        // 退出登录功能
+        logoutButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          // 清除本地存储的登录信息
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('username');
+          localStorage.removeItem('accountId');
+
+          // 跳转到登录页面
+          window.location.href = './login.html';
+        });
+      });
+    </script>
+    <script src="./js/languages.js"></script>
   </body>
 </html>
