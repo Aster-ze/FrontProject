@@ -1,17 +1,10 @@
+// 全局变量
+let stockData = {};
+let accountId = 17; // 假设账户ID为17
+let username="5force"; // 假设用户名为5force
+let currentTransaction = null; // 添加当前交易信息变量
 let currentView = "all"; // all, profit, loss
 let sortState = {}; // 存储各列的排序状态
-
-// 股票数据 - 用于详情展示
-const stockData = {};
-
-// 初始化页面
-document.addEventListener("DOMContentLoaded", function () {
-  // 从API获取股票数据
-  fetchStockData();
-
-  // 绑定事件
-  bindEvents();
-});
 
 // 从API获取股票数据
 async function fetchStockData() {
@@ -157,8 +150,8 @@ function generateMockKline(basePrice) {
 
 // 初始化股票表格
 function initStockTable(filter = "all") {
-  const tableBody = document.getElementById("stockTableBody");
-  tableBody.innerHTML = "";
+  const tableBody = document.getElementById('stockTableBody');
+  tableBody.innerHTML = '';
 
   // 根据筛选条件过滤数据
   let filteredData = Object.keys(stockData).map((key) => stockData[key]);
@@ -174,7 +167,7 @@ function initStockTable(filter = "all") {
 
   // 遍历股票数据，生成表格行
   filteredData.forEach((stock) => {
-    const row = document.createElement("tr");
+    const row = document.createElement('tr');
     row.dataset.id = stock.ticker;
     row.dataset.name = stock.name;
     row.dataset.change = stock.trend;
@@ -252,9 +245,22 @@ function applySorting(data) {
 }
 
 // 初始化图表
-function initChart(stockId) {
-  const stock = stockData[stockId];
-  const ctx = document.getElementById("stockChart").getContext("2d");
+async function initChart(stockId) {
+  let chartData = [];
+  try {
+    // 这里替换为实际的API端点
+    const response = await fetch(`http://localhost:3003/assets/ticker/${stockId}/history`);
+    const chartJson = await response.json();
+    chartData = chartJson.data;
+    console.log("请求的历史数据为", chartJson);
+
+  } catch (error) {
+    console.error(`获取 ${stockId} 图表数据时出错:`, error);
+  }
+  // 按日期排序（从旧到新）
+  const sortedData = chartData.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
 
   // 生成时间标签（最近11个小时）
   const labels = Array.from({ length: 11 }, (_, i) => {
@@ -271,6 +277,7 @@ function initChart(stockId) {
 
   // 确定图表颜色
   let borderColor, bgColor;
+  const stock = stockData[stockId];
   if (stock.trend === "up") {
     borderColor = "#4caf50";
     bgColor = "rgba(76, 175, 80, 0.1)";
@@ -282,24 +289,19 @@ function initChart(stockId) {
     bgColor = "rgba(158, 158, 158, 0.1)";
   }
 
-  // 创建新图表
   window.stockChartInstance = new Chart(ctx, {
     type: "line",
     data: {
-      labels: labels,
-      datasets: [
-        {
-          label: "股价",
-          data: stock.kline,
-          borderColor: borderColor,
-          backgroundColor: bgColor,
-          borderWidth: 2,
-          fill: true,
-          tension: 0.3,
-          pointRadius: 0,
-          pointHoverRadius: 5,
-        },
-      ],
+      labels: labels || [],
+      datasets: [{
+        data: dataValues || [],
+        borderColor: borderColor,
+        backgroundColor: bgColor,
+        borderWidth: 2,
+        pointRadius: 0,
+        fill: true,
+        tension: 0.4
+      }]
     },
     options: {
       responsive: true,
@@ -373,32 +375,6 @@ function updateStockDetail(stockId) {
     }
   }
 
-  // 更新详细数据 - 为每个元素添加存在性检查
-  const updateTimeEl = document.getElementById("updateTime");
-  if (updateTimeEl) {
-    updateTimeEl.textContent = updateTime;
-  }
-
-  const detailPriceEl = document.getElementById("detailPrice");
-  if (detailPriceEl) {
-    detailPriceEl.textContent = `${stock.currency} ${stock.price.toFixed(2)}`;
-  }
-
-  const detailChangeEl = document.getElementById("detailChange");
-  if (detailChangeEl) {
-    detailChangeEl.textContent = stock.change;
-  }
-
-  const detailTypeEl = document.getElementById("detailType");
-  if (detailTypeEl) {
-    detailTypeEl.textContent = stock.assetType;
-  }
-
-  const detailCurrencyEl = document.getElementById("detailCurrency");
-  if (detailCurrencyEl) {
-    detailCurrencyEl.textContent = stock.currency;
-  }
-
   // 更新图表
   initChart(stockId);
 }
@@ -469,45 +445,52 @@ function bindEvents() {
     const stockId = activeRow.getAttribute("data-id");
     const stock = stockData[stockId];
 
-    // 这里可以跳转到交易页面或显示交易弹窗
-    alert(
-      `准备买入 ${stock.name}（${stockId}），价格：${
-        stock.currency
-      } ${stock.price.toFixed(2)}`
-    );
-  });
+    // 设置当前交易信息
+    currentTransaction = {
+      type: "buy",
+      code: stock.ticker,
+      name: stock.name,
+      price: stock.price,
+      id: stock.id
+    };
 
-  document.getElementById("sellStock").addEventListener("click", function () {
-    // 获取当前选中的股票ID
-    const activeRow = document.querySelector(
-      "#stockTableBody tr.bg-primary\\/5"
-    );
-    if (!activeRow) return;
+    // 更新交易弹窗内容
+    const transactionTitle = document.getElementById("transactionTitle");
+    if (transactionTitle) {
+      transactionTitle.textContent = "买入确认";
+    }
 
-    const stockId = activeRow.getAttribute("data-id");
-    const stock = stockData[stockId];
+    const transactionStock = document.getElementById("transactionStock");
+    if (transactionStock) {
+      transactionStock.textContent = stock.name;
+    }
 
-    // 这里可以跳转到交易页面或显示交易弹窗
-    alert(
-      `准备卖出 ${stock.name}（${stockId}），价格：${
-        stock.currency
-      } ${stock.price.toFixed(2)}`
-    );
-  });
+    const transactionCode = document.getElementById("transactionCode");
+    if (transactionCode) {
+      transactionCode.textContent = stock.ticker;
+    }
 
-  // 加入自选按钮事件
-  document.getElementById("addFavorite").addEventListener("click", function () {
-    // 获取当前选中的股票ID
-    const activeRow = document.querySelector(
-      "#stockTableBody tr.bg-primary\\/5"
-    );
-    if (!activeRow) return;
+    const transactionPrice = document.getElementById("transactionPrice");
+    if (transactionPrice) {
+      transactionPrice.textContent = "¥" + stock.price.toFixed(2);
+    }
 
-    const stockId = activeRow.getAttribute("data-id");
-    const stockName = activeRow.getAttribute("data-name");
+    const transactionQuantity = document.getElementById("transactionQuantity");
+    if (transactionQuantity) {
+      transactionQuantity.value = 100;
+    }
 
-    // 这里可以实现加入自选的逻辑
-    alert(`${stockName}（${stockId}）已加入自选`);
+    const transactionAmount = document.getElementById("transactionAmount");
+    if (transactionAmount) {
+      transactionAmount.textContent = "¥" + (stock.price * 100).toFixed(2);
+    }
+
+    // 显示交易弹窗
+    const transactionModal = document.getElementById("transactionModal");
+    if (transactionModal) {
+      transactionModal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
   });
 
   // 视图切换功能
@@ -570,4 +553,111 @@ function bindEvents() {
       }
     });
   }
+
+  // 绑定交易弹窗相关事件
+  bindTransactionEvents();
 }
+
+// 绑定交易弹窗相关事件
+function bindTransactionEvents() {
+  const transactionModal = document.getElementById("transactionModal");
+  const closeTransactionModal = document.getElementById("closeTransactionModal");
+  const cancelTransaction = document.getElementById("cancelTransaction");
+  const confirmTransaction = document.getElementById("confirmTransaction");
+  const transactionQuantity = document.getElementById("transactionQuantity");
+  const transactionAmount = document.getElementById("transactionAmount");
+
+  if (transactionModal) {
+    function closeTransaction() {
+      transactionModal.classList.remove("active");
+      document.body.style.overflow = "";
+      currentTransaction = null;
+    }
+
+    if (closeTransactionModal) {
+      closeTransactionModal.addEventListener("click", closeTransaction);
+    }
+
+    if (cancelTransaction) {
+      cancelTransaction.addEventListener("click", closeTransaction);
+    }
+
+    transactionModal.addEventListener("click", function(e) {
+      if (e.target === transactionModal) closeTransaction();
+    });
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape" && transactionModal.classList.contains("active")) {
+        closeTransaction();
+      }
+    });
+
+    // 交易数量输入事件
+    if (transactionQuantity) {
+      transactionQuantity.addEventListener("input", function() {
+        if (currentTransaction) {
+          const amount = currentTransaction.price * parseInt(this.value || 0);
+          if (transactionAmount) {
+            transactionAmount.textContent = "¥" + amount.toFixed(2);
+          }
+        }
+      });
+    }
+
+    // 确认交易
+    if (confirmTransaction) {
+      confirmTransaction.addEventListener("click", async function() {
+        if (currentTransaction) {
+          const quantity = parseInt(transactionQuantity.value || 0);
+          if (quantity <= 0) {
+            alert("请输入有效的交易数量");
+            return;
+          }
+          
+          if (currentTransaction.type === "buy") {
+            try {
+              const buyUrl = 'http://localhost:3003/holdings/add-to-portfolio';
+              const today = new Date();
+              const transactionDate = today.toISOString().split('T')[0];
+              const requestBody = {
+                "username": username,
+                "ticker": currentTransaction.code,
+                "accountId": accountId,
+                "quantity": quantity,
+                "price": currentTransaction.price,
+                "transactionDate": transactionDate,
+                "updateMarketPrice": false,
+                "description": "Initial purchase"
+              };
+              const response = await fetch(buyUrl, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+              });
+
+              if (!response.ok) {
+                throw new Error(`买入请求失败，状态码: ${response.status}`);
+              }
+
+              alert("已买入 " + 
+                    currentTransaction.name + "（" + currentTransaction.code + "）" + 
+                    quantity + "股");
+            } catch (error) {
+              console.error("买入请求出错:", error);
+              alert(`买入失败: ${error.message}`);
+            }
+          }
+          closeTransaction();
+        }
+      });
+    }
+  }
+}
+
+// 页面加载完成后执行
+window.addEventListener('load', async () => {
+  await fetchStockData();
+  bindEvents();
+});
