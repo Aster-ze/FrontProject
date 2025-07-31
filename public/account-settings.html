@@ -1,268 +1,587 @@
-<!-- account-settings.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>账户信息 - FiveForces</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: "#f8faf7",
-            secondary: "#FFFFFF",
-            accent: "#4caf50",
-            success: "#4caf50",
-            danger: "#f44336",
-            neutral: "#666666",
-            "neutral-light": "#999999",
-            "neutral-dark": "#333333",
-            "border-color": "#e0e0e0",
-          },
-          fontFamily: {
-            inter: ["Inter", "sans-serif"],
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>账户信息 - FiveForces</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#f8faf7',
+              secondary: '#FFFFFF',
+              accent: '#4caf50',
+              success: '#4caf50',
+              danger: '#f44336',
+              neutral: '#666666',
+              'neutral-light': '#999999',
+              'neutral-dark': '#333333',
+              'border-color': '#e0e0e0',
+            },
+            fontFamily: {
+              inter: ['Inter', 'sans-serif'],
+            },
           },
         },
-      },
-    };
-  </script>
-  <style>
-    .form-input {
-      border: 1px solid #e0e0e0;
-      padding: 12px 16px;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
-    
-    .form-input:focus {
-      outline: none;
-      border-color: #4caf50;
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
-    }
-    
-    .btn-save {
-      background-color: #4caf50;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      width: 100%;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .btn-save:hover {
-      background-color: #43a047;
-    }
-    
-    .btn-danger {
-      background-color: #f44336;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .btn-danger:hover {
-      background-color: #d32f2f;
-    }
-  </style>
-</head>
-<body class="font-inter bg-primary min-h-screen">
-  <!-- 复用导航栏 -->
-  <header class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm">
-    <div class="container mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center space-x-4">
-          <div class="text-accent text-2xl font-bold">
-            <i class="fa fa-line-chart mr-2"></i>FiveForces
-          </div>
-          <nav class="hidden md:flex space-x-1">
-            <a href="./firstindex.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">首页</a>
-            <a href="./index.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">详情</a>
-            <a href="./positions.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">持仓</a>
-            <a href="./news.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">新闻</a>
-          </nav>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div class="relative hidden md:block">
-            <input type="text" placeholder="搜索股票..." class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent">
-            <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
-          </div>
-          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
-            <i class="fa fa-bell"></i>
-          </button>
-          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
-            <i class="fa fa-cog"></i>
-          </button>
-          <div class="relative">
-            <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
-              <img src="https://picsum.photos/id/1005/32/32" alt="用户头像" class="h-8 w-8 rounded-full object-cover border-2 border-neutral">
-              <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
-              <i class="fa fa-angle-down text-xs text-neutral"></i>
-            </button>
-            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-              <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
-              <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
-              <hr class="my-1">
-              <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
-                <i class="fa fa-sign-out mr-2"></i>退出登录
-              </a>
-            </div>
-          </div>
-          <button class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10">
-            <i class="fa fa-bars"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container mx-auto px-4 py-8">
-    <div class="max-w-3xl mx-auto">
-      <h1 class="text-2xl font-bold text-neutral-dark mb-6">账户信息</h1>
-      
-      <div class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm mb-6">
-        <h2 class="text-xl font-semibold text-neutral-dark mb-4">账户详情</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div>
-            <label class="block text-neutral text-sm">用户名</label>
-            <div class="text-neutral-dark font-medium">5force</div>
-          </div>
-          <div>
-            <label class="block text-neutral text-sm">账户ID</label>
-            <div class="text-neutral-dark font-medium">17</div>
-          </div>
-          <div>
-            <label class="block text-neutral text-sm">注册时间</label>
-            <div class="text-neutral-dark font-medium">2023-01-15</div>
-          </div>
-          <div>
-            <label class="block text-neutral text-sm">最后登录</label>
-            <div class="text-neutral-dark font-medium">2023-08-01 14:30</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm mb-6">
-        <h2 class="text-xl font-semibold text-neutral-dark mb-4">安全设置</h2>
-        <form id="securitySettingsForm">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label class="block text-neutral-dark font-medium mb-2">当前密码</label>
-              <input type="password" class="form-input" id="currentPassword" placeholder="请输入当前密码">
-            </div>
-            <div></div>
-            <div>
-              <label class="block text-neutral-dark font-medium mb-2">新密码</label>
-              <input type="password" class="form-input" id="newPassword" placeholder="请输入新密码">
-            </div>
-            <div>
-              <label class="block text-neutral-dark font-medium mb-2">确认新密码</label>
-              <input type="password" class="form-input" id="confirmPassword" placeholder="请再次输入新密码">
-            </div>
-          </div>
-          <button type="submit" class="btn-save">修改密码</button>
-        </form>
-      </div>
-      
-      <div class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm">
-        <h2 class="text-xl font-semibold text-neutral-dark mb-4">危险操作</h2>
-        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 bg-red-50 rounded-md">
-          <div>
-            <h3 class="font-medium text-danger">注销账户</h3>
-            <p class="text-sm text-neutral mt-1">注销后将永久删除您的所有数据，此操作不可恢复</p>
-          </div>
-          <button class="btn-danger">注销账户</button>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // 检查登录状态
-      if (localStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = './login.html';
-      } else {
-        // 显示用户名
-        const username = localStorage.getItem('username');
-        if (username) {
-          document.getElementById('usernameDisplay').textContent = username;
-        }
+      };
+    </script>
+    <style>
+      .form-input {
+        border: 1px solid #e0e0e0;
+        padding: 12px 16px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        width: 100%;
       }
-      
-      // 用户菜单功能
-      const userMenuButton = document.getElementById('userMenuButton');
-      const userDropdown = document.getElementById('userDropdown');
-      const logoutButton = document.getElementById('logoutButton');
-      
-      userMenuButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userDropdown.classList.toggle('hidden');
-      });
-      
-      document.addEventListener('click', function(e) {
-        if (!userMenuButton.contains(e.target)) {
-          userDropdown.classList.add('hidden');
+
+      .form-input:focus {
+        outline: none;
+        border-color: #4caf50;
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+      }
+
+      .btn-save {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-save:hover {
+        background-color: #43a047;
+      }
+
+      .btn-danger {
+        background-color: #f44336;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-danger:hover {
+        background-color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body class="font-inter bg-primary min-h-screen">
+    <!-- 复用导航栏 -->
+    <header
+      class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center space-x-4">
+            <div class="text-accent text-2xl font-bold">
+              <i class="fa fa-line-chart mr-2"></i>FiveForces
+            </div>
+            <nav class="hidden md:flex space-x-1">
+              <a
+                href="./firstindex.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-home"
+                >首页</a
+              >
+              <a
+                href="./index.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-details"
+                >详情</a
+              >
+              <a
+                href="./positions.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-portfolio"
+                >持仓</a
+              >
+              <a
+                href="./news.html"
+                class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-news"
+                >新闻</a
+              >
+            </nav>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                placeholder="搜索股票..."
+                class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                data-i18n-placeholder="common-search-placeholder"
+              />
+              <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+            </div>
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+              data-i18n-title="common-notifications"
+              title="通知"
+            >
+              <i class="fa fa-bell"></i>
+            </button>
+            <button
+              class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+              data-i18n-title="common-settings"
+              title="设置"
+            >
+              <i class="fa fa-cog"></i>
+            </button>
+
+            <!-- 语言切换按钮 -->
+            <div class="relative">
+              <button
+                class="flex items-center space-x-1 focus:outline-none"
+                id="languageToggle"
+              >
+                <i class="fa fa-globe text-neutral"></i>
+                <span
+                  id="languageText"
+                  class="hidden md:inline text-sm font-medium"
+                  >EN</span
+                >
+              </button>
+            </div>
+
+            <div class="relative">
+              <button
+                class="flex items-center space-x-1 focus:outline-none"
+                id="userMenuButton"
+              >
+                <img
+                  src="https://picsum.photos/id/1005/32/32"
+                  alt="用户头像"
+                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+                />
+                <span
+                  id="usernameDisplay"
+                  class="hidden md:inline text-sm font-medium"
+                  >Guest</span
+                >
+                <i class="fa fa-angle-down text-xs text-neutral"></i>
+              </button>
+              <div
+                id="userDropdown"
+                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50"
+              >
+                <a
+                  href="./personal-settings.html"
+                  class="block px-4 py-2 text-sm text-neutral hover:bg-primary"
+                  data-i18n="common-personal-settings"
+                  >个人设置</a
+                >
+                <a
+                  href="./account-settings.html"
+                  class="block px-4 py-2 text-sm text-neutral hover:bg-primary"
+                  data-i18n="common-account-info"
+                  >账户信息</a
+                >
+                <hr class="my-1" />
+                <a
+                  href="#"
+                  id="logoutButton"
+                  class="block px-4 py-2 text-sm text-danger hover:bg-primary"
+                  data-i18n="common-logout"
+                >
+                  <i class="fa fa-sign-out mr-2"></i>退出登录
+                </a>
+              </div>
+            </div>
+            <button
+              class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+              data-i18n-title="common-menu"
+              title="菜单"
+            >
+              <i class="fa fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+      <div class="max-w-3xl mx-auto">
+        <h1
+          class="text-2xl font-bold text-neutral-dark mb-6"
+          data-i18n="account-settings-title"
+        >
+          账户信息
+        </h1>
+
+        <div
+          class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm mb-6"
+        >
+          <h2
+            class="text-xl font-semibold text-neutral-dark mb-4"
+            data-i18n="account-details"
+          >
+            账户详情
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label
+                class="block text-neutral text-sm"
+                data-i18n="account-username"
+                >用户名</label
+              >
+              <div class="text-neutral-dark font-medium">5force</div>
+            </div>
+            <div>
+              <label class="block text-neutral text-sm" data-i18n="account-id"
+                >账户ID</label
+              >
+              <div class="text-neutral-dark font-medium">17</div>
+            </div>
+            <div>
+              <label
+                class="block text-neutral text-sm"
+                data-i18n="account-registration-date"
+                >注册时间</label
+              >
+              <div class="text-neutral-dark font-medium">2023-01-15</div>
+            </div>
+            <div>
+              <label
+                class="block text-neutral text-sm"
+                data-i18n="account-last-login"
+                >最后登录</label
+              >
+              <div class="text-neutral-dark font-medium">2023-08-01 14:30</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm mb-6"
+        >
+          <h2
+            class="text-xl font-semibold text-neutral-dark mb-4"
+            data-i18n="account-security-settings"
+          >
+            安全设置
+          </h2>
+          <form id="securitySettingsForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label
+                  class="block text-neutral-dark font-medium mb-2"
+                  data-i18n="account-current-password"
+                  >当前密码</label
+                >
+                <input
+                  type="password"
+                  class="form-input"
+                  id="currentPassword"
+                  placeholder="请输入当前密码"
+                  data-i18n-placeholder="account-current-password-placeholder"
+                />
+              </div>
+              <div></div>
+              <div>
+                <label
+                  class="block text-neutral-dark font-medium mb-2"
+                  data-i18n="account-new-password"
+                  >新密码</label
+                >
+                <input
+                  type="password"
+                  class="form-input"
+                  id="newPassword"
+                  placeholder="请输入新密码"
+                  data-i18n-placeholder="account-new-password-placeholder"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-neutral-dark font-medium mb-2"
+                  data-i18n="account-confirm-password"
+                  >确认新密码</label
+                >
+                <input
+                  type="password"
+                  class="form-input"
+                  id="confirmPassword"
+                  placeholder="请再次输入新密码"
+                  data-i18n-placeholder="account-confirm-password-placeholder"
+                />
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn-save"
+              data-i18n="account-change-password"
+            >
+              修改密码
+            </button>
+          </form>
+        </div>
+
+        <div
+          class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm"
+        >
+          <h2
+            class="text-xl font-semibold text-neutral-dark mb-4"
+            data-i18n="account-dangerous-operations"
+          >
+            危险操作
+          </h2>
+          <div
+            class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 bg-red-50 rounded-md"
+          >
+            <div>
+              <h3 class="font-medium text-danger" data-i18n="account-delete">
+                注销账户
+              </h3>
+              <p
+                class="text-sm text-neutral mt-1"
+                data-i18n="account-delete-warning"
+              >
+                注销后将永久删除您的所有数据，此操作不可恢复
+              </p>
+            </div>
+            <button class="btn-danger" data-i18n="account-confirm-delete">
+              注销账户
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // 语言数据
+      const languages = {
+        zh: {
+          'common-home': '首页',
+          'common-details': '详情',
+          'common-portfolio': '持仓',
+          'common-news': '新闻',
+          'common-search-placeholder': '搜索股票...',
+          'common-notifications': '通知',
+          'common-settings': '设置',
+          'common-personal-settings': '个人设置',
+          'common-account-info': '账户信息',
+          'common-logout': '退出登录',
+          'common-menu': '菜单',
+
+          'account-settings-title': '账户信息',
+          'account-details': '账户详情',
+          'account-username': '用户名',
+          'account-id': '账户ID',
+          'account-registration-date': '注册时间',
+          'account-last-login': '最后登录',
+          'account-security-settings': '安全设置',
+          'account-current-password': '当前密码',
+          'account-current-password-placeholder': '请输入当前密码',
+          'account-new-password': '新密码',
+          'account-new-password-placeholder': '请输入新密码',
+          'account-confirm-password': '确认新密码',
+          'account-confirm-password-placeholder': '请再次输入新密码',
+          'account-change-password': '修改密码',
+          'account-dangerous-operations': '危险操作',
+          'account-delete': '注销账户',
+          'account-delete-warning':
+            '注销后将永久删除您的所有数据，此操作不可恢复',
+          'account-confirm-delete': '注销账户',
+
+          'alert-fill-all-fields': '请填写所有密码字段',
+          'alert-passwords-not-match': '新密码与确认密码不一致',
+          'alert-password-too-short': '新密码至少需要6个字符',
+          'alert-password-updated': '密码修改成功！',
+          'alert-confirm-account-deletion':
+            '确定要注销账户吗？此操作不可恢复！',
+          'alert-account-deleted': '账户已注销',
+        },
+        en: {
+          'common-home': 'Home',
+          'common-details': 'Details',
+          'common-portfolio': 'Portfolio',
+          'common-news': 'News',
+          'common-search-placeholder': 'Search stocks...',
+          'common-notifications': 'Notifications',
+          'common-settings': 'Settings',
+          'common-personal-settings': 'Personal Settings',
+          'common-account-info': 'Account Information',
+          'common-logout': 'Logout',
+          'common-menu': 'Menu',
+
+          'account-settings-title': 'Account Information',
+          'account-details': 'Account Details',
+          'account-username': 'Username',
+          'account-id': 'Account ID',
+          'account-registration-date': 'Registration Date',
+          'account-last-login': 'Last Login',
+          'account-security-settings': 'Security Settings',
+          'account-current-password': 'Current Password',
+          'account-current-password-placeholder':
+            'Please enter current password',
+          'account-new-password': 'New Password',
+          'account-new-password-placeholder': 'Please enter new password',
+          'account-confirm-password': 'Confirm New Password',
+          'account-confirm-password-placeholder':
+            'Please re-enter new password',
+          'account-change-password': 'Change Password',
+          'account-dangerous-operations': 'Dangerous Operations',
+          'account-delete': 'Delete Account',
+          'account-delete-warning':
+            'All your data will be permanently deleted after deletion, this operation cannot be undone',
+          'account-confirm-delete': 'Delete Account',
+
+          'alert-fill-all-fields': 'Please fill in all password fields',
+          'alert-passwords-not-match':
+            'New password and confirmation password do not match',
+          'alert-password-too-short':
+            'New password must be at least 6 characters',
+          'alert-password-updated': 'Password updated successfully!',
+          'alert-confirm-account-deletion':
+            'Are you sure you want to delete your account? This operation cannot be undone!',
+          'alert-account-deleted': 'Account has been deleted',
+        },
+      };
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // 检查登录状态
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = './login.html';
+        } else {
+          // 显示用户名
+          const username = localStorage.getItem('username');
+          if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+          }
         }
-      });
-      
-      logoutButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
-        localStorage.removeItem('accountId');
-        window.location.href = './login.html';
-      });
-      
-      // 密码修改功能
-      document.getElementById('securitySettingsForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const currentPassword = document.getElementById('currentPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-        
-        if (!currentPassword || !newPassword || !confirmPassword) {
-          alert('请填写所有密码字段');
-          return;
-        }
-        
-        if (newPassword !== confirmPassword) {
-          alert('新密码与确认密码不一致');
-          return;
-        }
-        
-        if (newPassword.length < 6) {
-          alert('新密码至少需要6个字符');
-          return;
-        }
-        
-        // 模拟密码修改
-        alert('密码修改成功！');
-        document.getElementById('securitySettingsForm').reset();
-      });
-      
-      // 注销账户功能
-      document.querySelector('.btn-danger:not([type="submit"])').addEventListener('click', function(e) {
-        if (confirm('确定要注销账户吗？此操作不可恢复！')) {
-          // 模拟注销账户
-          alert('账户已注销');
+
+        // 用户菜单功能
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutButton = document.getElementById('logoutButton');
+        const languageToggle = document.getElementById('languageToggle');
+        const languageText = document.getElementById('languageText');
+
+        userMenuButton.addEventListener('click', function (e) {
+          e.stopPropagation();
+          userDropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!userMenuButton.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+          }
+        });
+
+        logoutButton.addEventListener('click', function (e) {
+          e.preventDefault();
           localStorage.removeItem('isLoggedIn');
           localStorage.removeItem('username');
           localStorage.removeItem('accountId');
           window.location.href = './login.html';
+        });
+
+        // 密码修改功能
+        document
+          .getElementById('securitySettingsForm')
+          .addEventListener('submit', function (e) {
+            e.preventDefault();
+            const lang = localStorage.getItem('currentLang') || 'zh';
+            const currentPassword =
+              document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword =
+              document.getElementById('confirmPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+              alert(languages[lang]['alert-fill-all-fields']);
+              return;
+            }
+
+            if (newPassword !== confirmPassword) {
+              alert(languages[lang]['alert-passwords-not-match']);
+              return;
+            }
+
+            if (newPassword.length < 6) {
+              alert(languages[lang]['alert-password-too-short']);
+              return;
+            }
+
+            // 模拟密码修改
+            alert(languages[lang]['alert-password-updated']);
+            document.getElementById('securitySettingsForm').reset();
+          });
+
+        // 注销账户功能
+        document
+          .querySelector('.btn-danger:not([type="submit"])')
+          .addEventListener('click', function (e) {
+            const lang = localStorage.getItem('currentLang') || 'zh';
+            if (confirm(languages[lang]['alert-confirm-account-deletion'])) {
+              // 模拟注销账户
+              alert(languages[lang]['alert-account-deleted']);
+              localStorage.removeItem('isLoggedIn');
+              localStorage.removeItem('username');
+              localStorage.removeItem('accountId');
+              window.location.href = './login.html';
+            }
+          });
+
+        // 语言切换功能
+        let currentLang = localStorage.getItem('currentLang') || 'zh';
+
+        function updateLanguageDisplay() {
+          languageText.textContent = currentLang === 'zh' ? 'EN' : '中文';
         }
+
+        updateLanguageDisplay();
+
+        languageToggle.addEventListener('click', function () {
+          currentLang = currentLang === 'zh' ? 'en' : 'zh';
+          localStorage.setItem('currentLang', currentLang);
+          updateLanguageDisplay();
+          applyLanguage(currentLang);
+        });
+
+        function applyLanguage(lang) {
+          if (!languages[lang]) return;
+
+          document.querySelectorAll('[data-i18n]').forEach((element) => {
+            const key = element.getAttribute('data-i18n');
+            if (languages[lang][key]) {
+              element.textContent = languages[lang][key];
+            }
+          });
+
+          document
+            .querySelectorAll('[data-i18n-placeholder]')
+            .forEach((element) => {
+              const key = element.getAttribute('data-i18n-placeholder');
+              if (languages[lang][key]) {
+                element.placeholder = languages[lang][key];
+              }
+            });
+
+          document.querySelectorAll('[data-i18n-title]').forEach((element) => {
+            const key = element.getAttribute('data-i18n-title');
+            if (languages[lang][key]) {
+              element.title = languages[lang][key];
+            }
+          });
+        }
+
+        // 应用初始语言设置
+        applyLanguage(currentLang);
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
