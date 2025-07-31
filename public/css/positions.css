@@ -207,13 +207,21 @@ body {
 }
 
 .dashboard-cards .card .change::before {
-  content: "↑";
   margin-right: 4px;
   font-size: 0.8rem;
 }
 
-.dashboard-cards .card .change[style*="#f44336"]::before {
+/* 新增：通过类控制箭头方向 */
+.dashboard-cards .card .change.up::before {
+  content: "↑";
+}
+
+.dashboard-cards .card .change.down::before {
   content: "↓";
+}
+
+.dashboard-cards .card .change.flat::before {
+  content: "→"; /* 持平状态的箭头（可选） */
 }
 
 /* 历史交易记录链接样式 */
