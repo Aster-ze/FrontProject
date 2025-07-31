@@ -16,18 +16,18 @@
         theme: {
           extend: {
             colors: {
-              primary: '#f8faf7',
-              secondary: '#FFFFFF',
-              accent: '#4caf50',
-              success: '#4caf50',
-              danger: '#f44336',
-              neutral: '#666666',
-              'neutral-light': '#999999',
-              'neutral-dark': '#333333',
-              'border-color': '#e0e0e0',
+              primary: "#f8faf7",
+              secondary: "#FFFFFF",
+              accent: "#4caf50",
+              success: "#4caf50",
+              danger: "#f44336",
+              neutral: "#666666",
+              "neutral-light": "#999999",
+              "neutral-dark": "#333333",
+              "border-color": "#e0e0e0",
             },
             fontFamily: {
-              inter: ['Inter', 'sans-serif'],
+              inter: ["Inter", "sans-serif"],
             },
           },
         },
@@ -98,18 +98,28 @@
               <i class="fa fa-cog"></i>
             </button>
 
-            <!-- 用户头像 -->
-            <div class="relative">
-              <button class="flex items-center space-x-1 focus:outline-none">
-                <img
-                  src="https://picsum.photos/id/1005/32/32"
-                  alt="用户头像"
-                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
-                />
-                <span class="hidden md:inline text-sm font-medium">Guest</span>
-                <i class="fa fa-angle-down text-xs text-neutral"></i>
-              </button>
-            </div>
+            <!-- 在导航栏的用户头像部分替换以下代码 -->
+<div class="relative">
+  <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
+    <img
+      src="https://picsum.photos/id/1005/32/32"
+      alt="用户头像"
+      class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+    />
+    <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
+    <i class="fa fa-angle-down text-xs text-neutral"></i>
+  </button>
+  
+  <!-- 下拉菜单 -->
+  <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+    <a href="#" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
+    <a href="#" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
+    <hr class="my-1">
+    <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
+      <i class="fa fa-sign-out mr-2"></i>退出登录
+    </a>
+  </div>
+</div>
 
             <!-- 移动端菜单按钮 -->
             <button
@@ -283,6 +293,52 @@
       </div>
     </div>
 
+    <script>
+      // 页面加载时检查登录状态
+      document.addEventListener("DOMContentLoaded", function() {
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = './login.html';
+        } else {
+          // 显示用户名
+          const username = localStorage.getItem('username');
+          if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+          }
+        }
+      });
+    </script>
     <script src="./js/positions.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const userMenuButton = document.getElementById('userMenuButton');
+    const userDropdown = document.getElementById('userDropdown');
+    const logoutButton = document.getElementById('logoutButton');
+    
+    // 点击头像按钮显示/隐藏下拉菜单
+    userMenuButton.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userDropdown.classList.toggle('hidden');
+    });
+    
+    // 点击页面其他地方隐藏下拉菜单
+    document.addEventListener('click', function(e) {
+      if (!userMenuButton.contains(e.target)) {
+        userDropdown.classList.add('hidden');
+      }
+    });
+    
+    // 退出登录功能
+    logoutButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      // 清除本地存储的登录信息
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      localStorage.removeItem('accountId');
+      
+      // 跳转到登录页面
+      window.location.href = './login.html';
+    });
+  });
+</script>
   </body>
 </html>
