@@ -172,7 +172,7 @@
                 >持仓</a
               >
               <a
-                href="#"
+                href="./news.html"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
                 >新闻</a
               >
@@ -259,14 +259,35 @@
         <!-- 行情表格：三列数据ID、名字和涨幅 -->
         <div class="overflow-auto max-h-[500px]">
           <table class="stock-table w-full border-collapse">
+            <!-- 修改 stock-table 的 thead 部分 -->
             <thead class="sticky top-0 bg-gray-100">
               <tr>
-                <th class="py-2 px-4 text-left text-accent font-medium">ID</th>
-                <th class="py-2 px-4 text-left text-accent font-medium">
-                  名字
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="id"
+                >
+                  <div class="flex items-center">
+                    ID
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
                 </th>
-                <th class="py-2 px-4 text-left text-accent font-medium">
-                  涨幅
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="name"
+                >
+                  <div class="flex items-center">
+                    名字
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
+                </th>
+                <th
+                  class="py-2 px-4 text-left text-accent font-medium sortable"
+                  data-sort="change"
+                >
+                  <div class="flex items-center">
+                    涨幅
+                    <i class="sort-indicator ml-1 fa fa-sort text-xs"></i>
+                  </div>
                 </th>
               </tr>
             </thead>
