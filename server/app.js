@@ -22,9 +22,19 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/api/stocks', stockRoutes);
 app.use('/api/positions', positionRoutes);
 
-// 根路由
+// 根路由 - 确保跳转到登录页
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.redirect('/login.html');  // 修改为直接指向login.html
+});
+
+// 登录页路由
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/login.html'));
+});
+
+// firstindex页面路由
+app.get('/firstindex', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/firstindex.html'));
 });
 
 app.get('/positions', (req, res) => {

@@ -186,8 +186,6 @@ const translations = {
     'search-placeholder': { 'zh': '搜索股票...', 'en': 'Search stocks...' },
     'search-placeholder-news': { 'zh': '搜索股票、指数、加密货币...', 'en': 'Search stocks, indices, crypto...' }
   }
-
-
 };
 
 // 修复后的语言管理器
@@ -266,6 +264,9 @@ class LanguageManager {
     
     // 特殊处理：翻译模态框中的元素
     this.translateModalElements();
+    
+    // 特殊处理：翻译带有 placeholder 属性的元素
+    this.translatePlaceholderElements();
   }
   
   // 单独翻译通用元素（导航、按钮等）
@@ -287,6 +288,15 @@ class LanguageManager {
         this.translateElement(key, 'index', key);
       });
     }
+  }
+  
+  // 翻译带有 placeholder 属性的元素
+  translatePlaceholderElements() {
+    // 翻译顶部搜索框
+    this.translatePlaceholder('common-search-placeholder', 'common', 'search-placeholder');
+    
+    // 翻译表格搜索框
+    this.translatePlaceholder('common-search-stock', 'index', 'common-search-stock');
   }
   
   getCurrentPageId() {

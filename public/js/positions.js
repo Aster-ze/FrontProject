@@ -446,13 +446,14 @@ function bindEvents() {
               const buyUrl = 'http://localhost:3003/holdings/add-to-portfolio';
               const today = new Date();
               const transactionDate = today.toISOString().split('T')[0];
+              console.log("请求参数:", transactionDate);
               const requestBody = {
                 "username": username,
                 "ticker": currentTransaction.code,
                 "accountId": accountId,
                 "quantity": quantity,
                 "price": currentTransaction.price,
-                "transactionDate": transactionDate,
+                "transactionDate": today,
                 "updateMarketPrice": false,
                 "description": "Initial purchase"
               };
