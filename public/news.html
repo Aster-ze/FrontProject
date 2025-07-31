@@ -74,21 +74,25 @@
               <a
                 href="./firstindex.html"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-home"
                 >首页</a
               >
               <a
                 href="./index.html"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-details"
                 >详情</a
               >
               <a
                 href="./positions.html"
                 class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+                data-i18n="common-portfolio"
                 >持仓</a
               >
               <a
                 href="./news.html"
                 class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium"
+                data-i18n="common-news"
                 >新闻</a
               >
             </nav>
@@ -102,6 +106,7 @@
                 type="text"
                 placeholder="搜索股票、指数、加密货币..."
                 class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent"
+                data-i18n-placeholder="common-search-placeholder-news"
               />
               <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
             </div>
@@ -109,41 +114,87 @@
             <!-- 快捷功能按钮 -->
             <button
               class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+              data-i18n-title="common-notifications"
+              title="通知"
             >
               <i class="fa fa-bell"></i>
             </button>
             <button
               class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors"
+              data-i18n-title="common-settings"
+              title="设置"
             >
               <i class="fa fa-cog"></i>
             </button>
 
-           <!-- 在导航栏的用户头像部分替换以下代码 -->
-<div class="relative">
-  <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
-    <img
-      src="https://picsum.photos/id/1005/32/32"
-      alt="用户头像"
-      class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
-    />
-    <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
-    <i class="fa fa-angle-down text-xs text-neutral"></i>
-  </button>
-  
-<!-- 下拉菜单 -->
-  <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-    <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
-    <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
-    <hr class="my-1">
-    <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
-      <i class="fa fa-sign-out mr-2"></i>退出登录
-    </a>
-  </div>
-</div>
+            <!-- 语言切换按钮 -->
+            <div class="relative">
+              <button
+                class="flex items-center space-x-1 focus:outline-none"
+                id="languageToggle"
+              >
+                <i class="fa fa-globe text-neutral"></i>
+                <span
+                  id="languageText"
+                  class="hidden md:inline text-sm font-medium"
+                  >EN</span
+                >
+              </button>
+            </div>
+
+            <!-- 用户菜单 -->
+            <div class="relative">
+              <button
+                class="flex items-center space-x-1 focus:outline-none"
+                id="userMenuButton"
+              >
+                <img
+                  src="https://picsum.photos/id/1005/32/32"
+                  alt="用户头像"
+                  class="h-8 w-8 rounded-full object-cover border-2 border-neutral"
+                />
+                <span
+                  id="usernameDisplay"
+                  class="hidden md:inline text-sm font-medium"
+                  >Guest</span
+                >
+                <i class="fa fa-angle-down text-xs text-neutral"></i>
+              </button>
+
+              <!-- 下拉菜单 -->
+              <div
+                id="userDropdown"
+                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50"
+              >
+                <a
+                  href="./personal-settings.html"
+                  class="block px-4 py-2 text-sm text-neutral hover:bg-primary"
+                  data-i18n="common-personal-settings"
+                  >个人设置</a
+                >
+                <a
+                  href="./account-settings.html"
+                  class="block px-4 py-2 text-sm text-neutral hover:bg-primary"
+                  data-i18n="common-account-info"
+                  >账户信息</a
+                >
+                <hr class="my-1" />
+                <a
+                  href="#"
+                  id="logoutButton"
+                  class="block px-4 py-2 text-sm text-danger hover:bg-primary"
+                  data-i18n="common-logout"
+                >
+                  <i class="fa fa-sign-out mr-2"></i>退出登录
+                </a>
+              </div>
+            </div>
 
             <!-- 移动端菜单按钮 -->
             <button
               class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+              data-i18n-title="common-menu"
+              title="菜单"
             >
               <i class="fa fa-bars"></i>
             </button>
@@ -154,9 +205,13 @@
 
     <!-- 主内容区 -->
     <main class="flex-grow container mx-auto px-4 py-6">
-      <h1 class="text-xl font-bold text-neutral-dark mb-6">股票市场新闻</h1>
+      <h1
+        class="text-xl font-bold text-neutral-dark mb-6"
+        data-i18n="news-title"
+      >
+        股票市场新闻
+      </h1>
 
-      <!-- 关键修改：添加 h-full 确保容器高度一致 -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
         <!-- 左侧主要新闻 -->
         <div class="lg:col-span-2 flex flex-col h-full">
@@ -166,25 +221,35 @@
             <div class="flex items-center mb-4">
               <span
                 class="bg-primary text-accent text-xs font-medium px-2.5 py-0.5 rounded-full"
+                data-i18n="news-market-analysis"
               >
                 市场分析
               </span>
-              <span class="ml-3 text-neutral-light text-sm">
+              <span
+                class="ml-3 text-neutral-light text-sm"
+                data-i18n="news-date-main"
+              >
                 <i class="fa fa-calendar-o mr-1"></i>2025年8月1日 09:45
               </span>
             </div>
 
             <img
               src="https://picsum.photos/id/237/800/400?random=1"
-              alt="股市新闻图片"
+              alt="股市新闻图片 - 美联储政策转向预期升温，全球股市迎来反弹契机"
               class="w-full h-64 object-cover rounded-lg mb-4"
             />
 
-            <h2 class="text-xl font-semibold text-neutral-dark mb-3">
+            <h2
+              class="text-xl font-semibold text-neutral-dark mb-3"
+              data-i18n="news-main-title"
+            >
               美联储政策转向预期升温，全球股市迎来反弹契机
             </h2>
 
-            <div class="text-neutral leading-relaxed mb-4">
+            <div
+              class="text-neutral leading-relaxed mb-4"
+              data-i18n="news-main-content"
+            >
               <p class="mb-3">
                 随着最新通胀数据显示美国物价压力有所缓解，市场对美联储加息周期即将结束的预期日益增强，推动全球主要股指本周出现显著反弹。
               </p>
@@ -200,23 +265,22 @@
               <div class="flex items-center">
                 <img
                   src="https://picsum.photos/id/1012/32/32"
-                  alt="作者头像"
+                  alt="作者头像 - TradingView财经分析师团队"
                   class="w-8 h-8 rounded-full mr-2"
                 />
-                <span class="text-sm text-neutral"
+                <span class="text-sm text-neutral" data-i18n="news-author"
                   >TradingView财经分析师团队</span
                 >
               </div>
-              <span class="text-xs text-neutral-light">
-                来源: TradingView市场资讯
-              </span>
+              <span class="text-xs text-neutral-light" data-i18n="news-source"
+                >来源: TradingView市场资讯</span
+              >
             </div>
           </div>
         </div>
 
         <!-- 右侧新闻列表 -->
         <div class="lg:col-span-1 flex flex-col h-full">
-          <!-- 关键修改：添加 flex-grow 和 overflow-y-auto 使列表区域自适应高度并可滚动 -->
           <div class="space-y-4 flex-grow overflow-y-auto pr-2">
             <!-- 新闻列表项 -->
             <div
@@ -224,18 +288,25 @@
             >
               <img
                 src="https://picsum.photos/id/180/60/60"
-                alt="半导体行业新闻图片"
+                alt="半导体行业新闻图片 - 半导体行业迎来复苏信号"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-1"
+                >
                   半导体行业迎来复苏信号，多家龙头企业上调季度业绩预期
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-1"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">行业动态</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-industry"
+                    >行业动态</span
+                  >
                 </div>
               </div>
             </div>
@@ -245,18 +316,25 @@
             >
               <img
                 src="https://picsum.photos/id/119/60/60"
-                alt="新能源板块新闻图片"
+                alt="新能源板块新闻图片 - 新能源板块持续走强"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-2"
+                >
                   新能源板块持续走强，政策支持与需求增长双驱动
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-2"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">板块分析</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-sector"
+                    >板块分析</span
+                  >
                 </div>
               </div>
             </div>
@@ -266,18 +344,25 @@
             >
               <img
                 src="https://picsum.photos/id/160/60/60"
-                alt="A股市场新闻图片"
+                alt="A股市场新闻图片 - 北向资金连续五日净流入"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-3"
+                >
                   北向资金连续五日净流入，A股市场信心逐步恢复
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-3"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">资金流向</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-fund-flow"
+                    >资金流向</span
+                  >
                 </div>
               </div>
             </div>
@@ -287,18 +372,25 @@
             >
               <img
                 src="https://picsum.photos/id/169/60/60"
-                alt="美股科技巨头新闻图片"
+                alt="美股科技巨头新闻图片 - 美股科技巨头财报季来袭"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-4"
+                >
                   美股科技巨头财报季来袭，市场聚焦AI业务增长潜力
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-4"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">公司财报</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-earnings"
+                    >公司财报</span
+                  >
                 </div>
               </div>
             </div>
@@ -308,18 +400,25 @@
             >
               <img
                 src="https://picsum.photos/id/175/60/60"
-                alt="央行政策新闻图片"
+                alt="央行政策新闻图片 - 央行降准政策落地"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-5"
+                >
                   央行降准政策落地，市场流动性预期改善
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-5"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">宏观政策</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-policy"
+                    >宏观政策</span
+                  >
                 </div>
               </div>
             </div>
@@ -329,18 +428,25 @@
             >
               <img
                 src="https://picsum.photos/id/184/60/60"
-                alt="港股市场新闻图片"
+                alt="港股市场新闻图片 - 港股市场估值优势凸显"
                 class="w-12 h-12 rounded object-cover flex-shrink-0"
               />
               <div>
-                <h3 class="text-neutral-dark font-medium mb-2 line-clamp-2">
+                <h3
+                  class="text-neutral-dark font-medium mb-2 line-clamp-2"
+                  data-i18n="news-item-6"
+                >
                   港股市场估值优势凸显，机构建议关注优质成长股
                 </h3>
                 <div class="flex items-center justify-between text-sm">
-                  <span class="text-neutral-light"
+                  <span class="text-neutral-light" data-i18n="news-date-6"
                     ><i class="fa fa-clock-o mr-1"></i>8月1日</span
                   >
-                  <span class="text-accent text-xs">港股动态</span>
+                  <span
+                    class="text-accent text-xs"
+                    data-i18n="news-category-hk-market"
+                    >港股动态</span
+                  >
                 </div>
               </div>
             </div>
@@ -348,37 +454,212 @@
         </div>
       </div>
     </main>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const userMenuButton = document.getElementById('userMenuButton');
-    const userDropdown = document.getElementById('userDropdown');
-    const logoutButton = document.getElementById('logoutButton');
-    
-    // 点击头像按钮显示/隐藏下拉菜单
-    userMenuButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userDropdown.classList.toggle('hidden');
-    });
-    
-    // 点击页面其他地方隐藏下拉菜单
-    document.addEventListener('click', function(e) {
-      if (!userMenuButton.contains(e.target)) {
-        userDropdown.classList.add('hidden');
-      }
-    });
-    
-    // 退出登录功能
-    logoutButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      // 清除本地存储的登录信息
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('username');
-      localStorage.removeItem('accountId');
-      
-      // 跳转到登录页面
-      window.location.href = './login.html';
-    });
-  });
-</script>
+
+    <script>
+      // 语言数据 - 实际项目中通常放在单独的languages.js文件中
+      const languages = {
+        zh: {
+          'common-home': '首页',
+          'common-details': '详情',
+          'common-portfolio': '持仓',
+          'common-news': '新闻',
+          'common-search-placeholder-news': '搜索股票、指数、加密货币...',
+          'common-notifications': '通知',
+          'common-settings': '设置',
+          'common-personal-settings': '个人设置',
+          'common-account-info': '账户信息',
+          'common-logout': '退出登录',
+          'common-menu': '菜单',
+
+          'news-title': '股票市场新闻',
+          'news-market-analysis': '市场分析',
+          'news-date-main':
+            "<i class='fa fa-calendar-o mr-1'></i>2025年8月1日 09:45",
+          'news-main-title': '美联储政策转向预期升温，全球股市迎来反弹契机',
+          'news-main-content': `
+            <p class="mb-3">随着最新通胀数据显示美国物价压力有所缓解，市场对美联储加息周期即将结束的预期日益增强，推动全球主要股指本周出现显著反弹。</p>
+            <p class="mb-3">根据TradingView提供的市场数据，标普500指数上周上涨3.2%，纳斯达克综合指数涨幅达到4.5%，创三个月来最佳单周表现。亚洲市场同样表现强劲，日经225指数上涨2.8%，恒生指数上涨3.5%。</p>
+            <p>分析人士指出，美联储货币政策的潜在转向将成为未来市场走势的关键变量。投资者正在密切关注即将公布的美联储会议纪要，以寻找有关加息路径的更多线索。</p>
+          `,
+          'news-author': 'TradingView财经分析师团队',
+          'news-source': '来源: TradingView市场资讯',
+
+          'news-item-1': '半导体行业迎来复苏信号，多家龙头企业上调季度业绩预期',
+          'news-item-2': '新能源板块持续走强，政策支持与需求增长双驱动',
+          'news-item-3': '北向资金连续五日净流入，A股市场信心逐步恢复',
+          'news-item-4': '美股科技巨头财报季来袭，市场聚焦AI业务增长潜力',
+          'news-item-5': '央行降准政策落地，市场流动性预期改善',
+          'news-item-6': '港股市场估值优势凸显，机构建议关注优质成长股',
+
+          'news-date-1': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+          'news-date-2': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+          'news-date-3': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+          'news-date-4': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+          'news-date-5': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+          'news-date-6': "<i class='fa fa-clock-o mr-1'></i>8月1日",
+
+          'news-category-industry': '行业动态',
+          'news-category-sector': '板块分析',
+          'news-category-fund-flow': '资金流向',
+          'news-category-earnings': '公司财报',
+          'news-category-policy': '宏观政策',
+          'news-category-hk-market': '港股动态',
+        },
+        en: {
+          'common-home': 'Home',
+          'common-details': 'Details',
+          'common-portfolio': 'Portfolio',
+          'common-news': 'News',
+          'common-search-placeholder-news':
+            'Search stocks, indices, cryptocurrencies...',
+          'common-notifications': 'Notifications',
+          'common-settings': 'Settings',
+          'common-personal-settings': 'Personal Settings',
+          'common-account-info': 'Account Information',
+          'common-logout': 'Logout',
+          'common-menu': 'Menu',
+
+          'news-title': 'Stock Market News',
+          'news-market-analysis': 'Market Analysis',
+          'news-date-main':
+            "<i class='fa fa-calendar-o mr-1'></i>August 1, 2025 09:45",
+          'news-main-title':
+            'Expectations of Fed policy shift rise, global stock markets rebound',
+          'news-main-content': `
+            <p class="mb-3">As the latest inflation data shows that U.S. price pressures have eased, expectations that the Federal Reserve's interest rate hike cycle is coming to an end have increased, driving a significant rebound in major global stock indices this week.</p>
+            <p class="mb-3">According to market data from TradingView, the S&P 500 rose 3.2% last week, while the Nasdaq Composite Index gained 4.5%, its best weekly performance in three months. Asian markets also performed strongly, with the Nikkei 225 up 2.8% and the Hang Seng Index up 3.5%.</p>
+            <p>Analysts point out that the potential shift in Fed monetary policy will be a key variable in future market trends. Investors are closely watching the upcoming release of the Fed's meeting minutes for more clues about the rate hike path.</p>
+          `,
+          'news-author': 'TradingView Financial Analyst Team',
+          'news-source': 'Source: TradingView Market News',
+
+          'news-item-1':
+            'Semiconductor industry shows recovery signs, major companies raise quarterly earnings forecasts',
+          'news-item-2':
+            'New energy sector continues to strengthen, driven by policy support and demand growth',
+          'news-item-3':
+            'Northbound funds see net inflows for fifth consecutive day, A-share market confidence gradually recovers',
+          'news-item-4':
+            "U.S. tech giants' earnings season approaches, market focuses on AI business growth potential",
+          'news-item-5':
+            "Central bank's RRR cut policy implemented, market liquidity expectations improve",
+          'news-item-6':
+            'Hong Kong stock market valuation advantages highlighted, institutions recommend focusing on high-quality growth stocks',
+
+          'news-date-1': "<i class='fa fa-clock-o mr-1'></i>August 1",
+          'news-date-2': "<i class='fa fa-clock-o mr-1'></i>August 1",
+          'news-date-3': "<i class='fa fa-clock-o mr-1'></i>August 1",
+          'news-date-4': "<i class='fa fa-clock-o mr-1'></i>August 1",
+          'news-date-5': "<i class='fa fa-clock-o mr-1'></i>August 1",
+          'news-date-6': "<i class='fa fa-clock-o mr-1'></i>August 1",
+
+          'news-category-industry': 'Industry Trends',
+          'news-category-sector': 'Sector Analysis',
+          'news-category-fund-flow': 'Fund Flow',
+          'news-category-earnings': 'Corporate Earnings',
+          'news-category-policy': 'Macro Policy',
+          'news-category-hk-market': 'Hong Kong Market',
+        },
+      };
+
+      document.addEventListener('DOMContentLoaded', function () {
+        // 用户菜单功能
+        const userMenuButton = document.getElementById('userMenuButton');
+        const userDropdown = document.getElementById('userDropdown');
+        const logoutButton = document.getElementById('logoutButton');
+        const languageToggle = document.getElementById('languageToggle');
+        const languageText = document.getElementById('languageText');
+
+        // 点击头像按钮显示/隐藏下拉菜单
+        userMenuButton.addEventListener('click', function (e) {
+          e.stopPropagation();
+          userDropdown.classList.toggle('hidden');
+        });
+
+        // 点击页面其他地方隐藏下拉菜单
+        document.addEventListener('click', function (e) {
+          if (!userMenuButton.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+          }
+        });
+
+        // 退出登录功能
+        logoutButton.addEventListener('click', function (e) {
+          e.preventDefault();
+          // 清除本地存储的登录信息
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('username');
+          localStorage.removeItem('accountId');
+
+          // 跳转到登录页面
+          window.location.href = './login.html';
+        });
+
+        // 语言切换功能
+        // 检查本地存储中的语言设置，默认为中文
+        let currentLang = localStorage.getItem('currentLang') || 'zh';
+
+        // 更新语言显示
+        function updateLanguageDisplay() {
+          languageText.textContent = currentLang === 'zh' ? 'EN' : '中文';
+        }
+
+        // 初始更新语言显示
+        updateLanguageDisplay();
+
+        // 切换语言
+        languageToggle.addEventListener('click', function () {
+          currentLang = currentLang === 'zh' ? 'en' : 'zh';
+          localStorage.setItem('currentLang', currentLang);
+          updateLanguageDisplay();
+          applyLanguage(currentLang);
+        });
+
+        // 应用语言设置 - 支持HTML内容
+        function applyLanguage(lang) {
+          // 检查是否有语言数据
+          if (!languages[lang]) return;
+
+          // 更新所有带data-i18n属性的元素（支持HTML内容）
+          document.querySelectorAll('[data-i18n]').forEach((element) => {
+            const key = element.getAttribute('data-i18n');
+            if (languages[lang][key]) {
+              element.innerHTML = languages[lang][key];
+            }
+          });
+
+          // 更新所有带data-i18n-placeholder属性的元素
+          document
+            .querySelectorAll('[data-i18n-placeholder]')
+            .forEach((element) => {
+              const key = element.getAttribute('data-i18n-placeholder');
+              if (languages[lang][key]) {
+                element.placeholder = languages[lang][key];
+              }
+            });
+
+          // 更新所有带data-i18n-title属性的元素
+          document.querySelectorAll('[data-i18n-title]').forEach((element) => {
+            const key = element.getAttribute('data-i18n-title');
+            if (languages[lang][key]) {
+              element.title = languages[lang][key];
+            }
+          });
+        }
+
+        // 页面加载时应用保存的语言设置
+        applyLanguage(currentLang);
+
+        // 检查登录状态
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+          window.location.href = './login.html';
+        } else {
+          const username = localStorage.getItem('username');
+          if (username) {
+            document.getElementById('usernameDisplay').textContent = username;
+          }
+        }
+      });
+    </script>
   </body>
 </html>
