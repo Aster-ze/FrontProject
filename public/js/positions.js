@@ -259,8 +259,8 @@ function initPositionTable(filter = "all") {
       <td>
         <div class="action-buttons">
           <input type="number" class="quantity-input" value="100" min="100" step="100">
-          <button class="buy-button" data-code="${stock.code}">买入</button>
-          <button class="sell-button" data-code="${stock.code}" data-id="${stock.id}">卖出</button>
+          <button class="buy-button" data-code="${stock.code}" data-i18n="positions-buy">buy</button>
+          <button class="sell-button" data-code="${stock.code}" data-id="${stock.id}" data-i18n="positions-sell">sell</button>
         </div>
       </td>
     `;
@@ -431,15 +431,15 @@ function bindEvents() {
               });
 
               if (!response.ok) {
-                throw new Error(`库存不足，交易失败`);
+                throw new Error(`Insufficient stock, transaction failed.`);
               }
 
-              alert("已卖出 " + 
+              alert("Already sold " + 
                     currentTransaction.name + "（" + currentTransaction.code + "）" + 
-                    quantity + "股");
+                    quantity + "shares");
             } catch (error) {
               console.error("卖出请求出错:", error);
-              alert(`卖出失败: ${error.message}`);
+              alert(`Sale failed: ${error.message}`);
             }
           } else {
             try {
@@ -468,9 +468,9 @@ function bindEvents() {
                 throw new Error(`买入请求失败，状态码: ${response.status}`);
               }
 
-              alert("已买入 " + 
+              alert("Already purchased " + 
                     currentTransaction.name + "（" + currentTransaction.code + "）" + 
-                    quantity + "股");
+                    quantity + "shares");
             } catch (error) {
               console.error("买入请求出错:", error);
               alert(`买入失败: ${error.message}`);

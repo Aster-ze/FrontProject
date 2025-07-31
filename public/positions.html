@@ -98,6 +98,14 @@
               <i class="fa fa-cog"></i>
             </button>
 
+            <!-- 语言切换按钮 -->
+          <div class="relative">
+            <button class="flex items-center space-x-1 focus:outline-none" id="languageToggle">
+              <i class="fa fa-globe text-neutral"></i>
+              <span id="languageText" class="hidden md:inline text-sm font-medium">EN</span>
+            </button>
+          </div>
+
             <!-- 在导航栏的用户头像部分替换以下代码 -->
 <div class="relative">
   <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
@@ -136,22 +144,22 @@
     <div class="main-container">
       <section class="dashboard-cards">
         <div class="card">
-          <div class="title">总资产</div>
+          <div class="title" data-i18n="positions-total-assets">总资产</div>
           <div class="value">¥ 0.00</div>
-          <div class="history-link" id="historyTrigger">查看历史交易记录</div>
+          <div class="history-link" id="historyTrigger" data-i18n="positions-historical">查看历史交易记录</div>
         </div>
 
         <div class="card">
-          <div class="title">当日盈亏</div>
+          <div class="title" data-i18n="positions-daily-pnl">当日盈亏</div>
           <div class="value">¥ 0.00</div>
           <div class="change">+0.00%</div>
         </div>
         <div class="card">
-          <div class="title">持仓股票数</div>
+          <div class="title" data-i18n="positions-holdings-count">持仓股票数</div>
           <div class="value">0 只</div>
         </div>
         <div class="card">
-          <div class="title">上证指数</div>
+          <div class="title" data-i18n="positions-shanghai-index">上证指数</div>
           <div class="value">0.00</div>
           <div class="change" style="color: #f44336">-0.00%</div>
         </div>
@@ -160,7 +168,7 @@
       <!-- 重新设计的股票详情表格 -->
       <div class="portfolio-section">
         <div class="portfolio-header">
-          <h2 class="portfolio-title">持仓详情</h2>
+          <h2 class="portfolio-title" data-i18n="positions-portfolio-details">持仓详情</h2>
           <div class="portfolio-controls">
             <div class="search-box">
               <input
@@ -168,13 +176,14 @@
                 id="stockSearch"
                 placeholder="搜索股票代码或名称..."
                 class="search-input"
+                data-i18n="positions-search-placeholder"
               />
               <i class="fa fa-search search-icon"></i>
             </div>
             <div class="view-options">
-              <button class="view-btn active" data-view="all">全部</button>
-              <button class="view-btn" data-view="profit">盈利</button>
-              <button class="view-btn" data-view="loss">亏损</button>
+              <button class="view-btn active" data-view="all" data-i18n="positions-view-all">全部</button>
+              <button class="view-btn" data-view="profit" data-i18n="positions-profit">盈利</button>
+              <button class="view-btn" data-view="loss" data-i18n="positions-loss">亏损</button>
             </div>
           </div>
         </div>
@@ -184,44 +193,44 @@
             <thead>
               <tr class="table-header">
                 <th class="sortable" data-sort="code">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-stock-code">
                     股票代码
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
                 <th class="sortable" data-sort="name">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-stock-name">
                     名称
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
                 <th class="sortable" data-sort="amount">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-quantity">
                     持仓数量
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
                 <th class="sortable" data-sort="cost">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-cost-price">
                     成本价
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
                 <th class="sortable" data-sort="price">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-current-price">
                     当前价
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
                 <th class="sortable" data-sort="profit">
-                  <div class="header-content">
+                  <div class="header-content" data-i18n="positions-pnl">
                     盈亏
                     <i class="sort-indicator fa fa-sort"></i>
                   </div>
                 </th>
-                <th>操作</th>
+                <th data-i18n="positions-action">操作</th>
               </tr>
-            </thead>
+            </thead>            
             <tbody id="portfolioTableBody">
               <!-- 表格内容将通过JS动态生成 -->
             </tbody>
@@ -234,7 +243,7 @@
     <div class="modal-overlay" id="historyModal">
       <div class="modal">
         <div class="modal-header">
-          <h3 class="modal-title">历史交易记录</h3>
+          <h3 class="modal-title" data-i18n="positions-history">历史交易记录</h3>
           <button class="close-modal" id="closeHistoryModal">×</button>
         </div>
         <div class="modal-body">
@@ -249,25 +258,25 @@
     <div class="modal-overlay" id="transactionModal">
       <div class="modal">
         <div class="modal-header">
-          <h3 class="modal-title" id="transactionTitle">确认交易</h3>
+          <h3 class="modal-title" id="transactionTitle" data-i18n="positions-transaction-confirm">确认交易</h3>
           <button class="close-modal" id="closeTransactionModal">×</button>
         </div>
         <div class="modal-body">
           <div class="transaction-details">
             <div class="detail-item">
-              <span class="detail-label">股票名称：</span>
+              <span class="detail-label" data-i18n="positions-transaction-stock">股票名称：</span>
               <span class="detail-value" id="transactionStock"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">股票代码：</span>
+              <span class="detail-label" data-i18n="positions-transaction-code">股票代码：</span>
               <span class="detail-value" id="transactionCode"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">当前价格：</span>
+              <span class="detail-label" data-i18n="positions-transaction-price">当前价格：</span>
               <span class="detail-value" id="transactionPrice"></span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">交易数量：</span>
+              <span class="detail-label" data-i18n="positions-transaction-quantity">交易数量：</span>
               <span class="detail-value">
                 <input
                   type="number"
@@ -277,22 +286,19 @@
                   value="100"
                   class="quantity-input"
                 />
-                股
+                <span data-i18n="positions-share">股</span>
               </span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">交易金额：</span>
-              <span class="detail-value" id="transactionAmount"></span>
+            <div class="modal-footer">
+              <button class="cancel-button" id="cancelTransaction" data-i18n="positions-cancel">取消</button>
+              <button class="confirm-button" id="confirmTransaction" data-i18n="positions-confirm">确认</button>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button class="cancel-button" id="cancelTransaction">取消</button>
-          <button class="confirm-button" id="confirmTransaction">确认</button>
         </div>
       </div>
     </div>
 
+    <script src="./js/languages.js"></script>
     <script>
       // 页面加载时检查登录状态
       document.addEventListener("DOMContentLoaded", function() {
