@@ -418,7 +418,7 @@ function bindEvents() {
               });
 
               if (!response.ok) {
-                throw new Error(`卖出请求失败，状态码: ${response.status}`);
+                throw new Error(`库存不足，交易失败`);
               }
 
               alert("已卖出 " + 
