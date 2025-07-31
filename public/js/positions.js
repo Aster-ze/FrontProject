@@ -164,19 +164,32 @@ async function updateStatisticsPanel() {
     })}`;
   }
 
-  // 当日盈亏卡片
-  const profitEl = document.querySelector('.dashboard-cards .card:nth-child(2) .value');
-  const profitRateEl = document.querySelector('.dashboard-cards .card:nth-child(2) .change');
-  if (profitEl && profitRateEl) {
-    const totalCost = totalAssets - totalProfit; // 总成本 = 当前市值 - 总盈利
-    const profitRate = totalCost > 0 ? (totalProfit / totalCost) * 100 : 0;
-    
-    profitEl.textContent = `¥ ${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(2)}`;
-    profitEl.style.color = totalProfit >= 0 ? '#4caf50' : '#f44336'; // 盈利红、亏损绿
-    
-    profitRateEl.textContent = `${profitRate >= 0 ? '+' : ''}${profitRate.toFixed(2)}%`;
-    profitRateEl.style.color = profitRate >= 0 ? '#4caf50' : '#f44336';
+const profitEl = document.querySelector('.dashboard-cards .card:nth-child(2) .value');
+const profitRateEl = document.querySelector('.dashboard-cards .card:nth-child(2) .change');
+if (profitEl && profitRateEl) {
+  const totalCost = totalAssets - totalProfit; 
+  const profitRate = totalCost > 0 ? (totalProfit / totalCost) * 100 : 0;
+  
+  // 清除之前的箭头方向类
+  profitRateEl.classList.remove('up', 'down', 'flat');
+  
+  // 根据盈利情况设置箭头方向和样式
+  if (profitRate > 0) {
+    profitRateEl.classList.add('up'); // 盈利：向上箭头
+    profitRateEl.style.color = '#4caf50';
+  } else if (profitRate < 0) {
+    profitRateEl.classList.add('down'); // 亏损：向下箭头
+    profitRateEl.style.color = '#f44336';
+  } else {
+    profitRateEl.classList.add('flat'); // 持平：水平箭头（可选）
+    profitRateEl.style.color = '#666666';
   }
+  
+  // 更新文本内容
+  profitEl.textContent = `¥ ${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(2)}`;
+  profitEl.style.color = profitRateEl.style.color; // 与百分比颜色保持一致
+  profitRateEl.textContent = `${profitRate >= 0 ? '+' : ''}${profitRate.toFixed(2)}%`;
+}
 
   // 持仓股票数卡片
   const stockCountEl = document.querySelector('.dashboard-cards .card:nth-child(3) .value');
@@ -418,7 +431,7 @@ function bindEvents() {
               });
 
               if (!response.ok) {
-                throw new Error(`卖出请求失败，状态码: ${response.status}`);
+                throw new Error(`库存不足，交易失败`);
               }
 
               alert("已卖出 " + 
