@@ -1,0 +1,205 @@
+<!-- personal-settings.html -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人设置 - FiveForces</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#f8faf7",
+            secondary: "#FFFFFF",
+            accent: "#4caf50",
+            success: "#4caf50",
+            danger: "#f44336",
+            neutral: "#666666",
+            "neutral-light": "#999999",
+            "neutral-dark": "#333333",
+            "border-color": "#e0e0e0",
+          },
+          fontFamily: {
+            inter: ["Inter", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .form-input {
+      border: 1px solid #e0e0e0;
+      padding: 12px 16px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+    
+    .btn-save {
+      background-color: #4caf50;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      width: 100%;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn-save:hover {
+      background-color: #43a047;
+    }
+  </style>
+</head>
+<body class="font-inter bg-primary min-h-screen">
+  <!-- 复用导航栏 -->
+  <header class="bg-secondary border-b border-border-color sticky top-0 z-50 shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-4">
+          <div class="text-accent text-2xl font-bold">
+            <i class="fa fa-line-chart mr-2"></i>FiveForces
+          </div>
+          <nav class="hidden md:flex space-x-1">
+            <a href="./firstindex.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">首页</a>
+            <a href="./index.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">详情</a>
+            <a href="./positions.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">持仓</a>
+            <a href="./news.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">新闻</a>
+          </nav>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="relative hidden md:block">
+            <input type="text" placeholder="搜索股票..." class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent">
+            <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
+          </div>
+          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
+            <i class="fa fa-bell"></i>
+          </button>
+          <button class="text-neutral hover:text-neutral-dark p-2 rounded-full hover:bg-neutral/10 transition-colors">
+            <i class="fa fa-cog"></i>
+          </button>
+          <div class="relative">
+            <button class="flex items-center space-x-1 focus:outline-none" id="userMenuButton">
+              <img src="https://picsum.photos/id/1005/32/32" alt="用户头像" class="h-8 w-8 rounded-full object-cover border-2 border-neutral">
+              <span id="usernameDisplay" class="hidden md:inline text-sm font-medium">Guest</span>
+              <i class="fa fa-angle-down text-xs text-neutral"></i>
+            </button>
+            <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
+              <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
+              <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
+              <hr class="my-1">
+              <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
+                <i class="fa fa-sign-out mr-2"></i>退出登录
+              </a>
+            </div>
+          </div>
+          <button class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-2xl font-bold text-neutral-dark mb-6">个人设置</h1>
+      
+      <div class="bg-secondary rounded-lg p-6 border border-border-color shadow-sm">
+        <form id="personalSettingsForm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label class="block text-neutral-dark font-medium mb-2">姓名</label>
+              <input type="text" class="form-input" id="fullName" placeholder="请输入您的姓名">
+            </div>
+            <div>
+              <label class="block text-neutral-dark font-medium mb-2">昵称</label>
+              <input type="text" class="form-input" id="nickname" placeholder="请输入您的昵称">
+            </div>
+            <div>
+              <label class="block text-neutral-dark font-medium mb-2">邮箱</label>
+              <input type="email" class="form-input" id="email" placeholder="请输入您的邮箱">
+            </div>
+            <div>
+              <label class="block text-neutral-dark font-medium mb-2">手机号</label>
+              <input type="tel" class="form-input" id="phone" placeholder="请输入您的手机号">
+            </div>
+          </div>
+          
+          <div class="mb-6">
+            <label class="block text-neutral-dark font-medium mb-2">个人简介</label>
+            <textarea class="form-input" id="bio" rows="4" placeholder="请输入您的个人简介"></textarea>
+          </div>
+          
+          <div class="flex items-center justify-between">
+            <div>
+              <label class="block text-neutral-dark font-medium mb-2">头像</label>
+              <div class="flex items-center">
+                <img src="https://picsum.photos/id/1005/64/64" alt="头像预览" class="w-16 h-16 rounded-full object-cover mr-4">
+                <button type="button" class="text-accent hover:underline text-sm">更换头像</button>
+              </div>
+            </div>
+            
+            <button type="submit" class="btn-save">保存设置</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查登录状态
+      if (localStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = './login.html';
+      } else {
+        // 显示用户名
+        const username = localStorage.getItem('username');
+        if (username) {
+          document.getElementById('usernameDisplay').textContent = username;
+        }
+      }
+      
+      // 用户菜单功能
+      const userMenuButton = document.getElementById('userMenuButton');
+      const userDropdown = document.getElementById('userDropdown');
+      const logoutButton = document.getElementById('logoutButton');
+      
+      userMenuButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.classList.toggle('hidden');
+      });
+      
+      document.addEventListener('click', function(e) {
+        if (!userMenuButton.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+      
+      logoutButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        localStorage.removeItem('accountId');
+        window.location.href = './login.html';
+      });
+      
+      // 表单提交功能
+      document.getElementById('personalSettingsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('个人设置已保存！');
+      });
+    });
+  </script>
+</body>
+</html>
