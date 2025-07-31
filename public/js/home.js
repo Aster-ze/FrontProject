@@ -9,7 +9,7 @@ let sortState = {}; // 存储各列的排序状态
 // 从API获取股票数据
 async function fetchStockData() {
   try {
-    const response = await fetch("http://localhost:3003/assets");
+    const response = await fetch('http://localhost:3003/assets');
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -18,12 +18,13 @@ async function fetchStockData() {
 
     // 限制只显示10条数据
     const limitedData = data.slice(0, 10);
+    console.log("请求的列表总股票为", limitedData);
 
     // 存储所有股票数据的Promise
     const stockPromises = limitedData.map(async (item) => {
       // 获取历史数据
       const historyData = await fetchStockHistory(item.ticker_symbol);
-
+      console.log("请求的股票历史数据为", historyData);
       // 计算涨幅
       const { percentChange, trend } = calculatePriceChange(
         parseFloat(item.current_price),
@@ -35,13 +36,11 @@ async function fetchStockData() {
         name: item.name,
         ticker: item.ticker_symbol,
         price: parseFloat(item.current_price),
-        change: percentChange.toFixed(2) + "%",
+        change: percentChange.toFixed(2) + '%',
         trend: trend,
         assetType: item.asset_type,
         updatedAt: item.lastUpdated,
         currency: item.currency,
-        // 生成模拟的K线数据
-        kline: generateMockKline(parseFloat(item.current_price)),
       };
     });
 
@@ -62,8 +61,8 @@ async function fetchStockData() {
       document.querySelector(`tr[data-id="${firstStockId}"]`).click();
     }
   } catch (error) {
-    console.error("获取股票数据失败:", error);
-    const tableBody = document.getElementById("stockTableBody");
+    console.error('获取股票数据失败:', error);
+    const tableBody = document.getElementById('stockTableBody');
     tableBody.innerHTML = `
                     <tr class="text-center">
                         <td colspan="3" class="px-3 py-8 text-danger">
@@ -78,10 +77,10 @@ async function fetchStockData() {
 async function fetchStockHistory(assetId) {
   try {
     // 计算日期范围：过去30天到今天
-    const endDate = new Date().toISOString().split("T")[0];
+    const endDate = new Date().toISOString().split('T')[0];
     const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
       .toISOString()
-      .split("T")[0];
+      .split('T')[0];
 
     const response = await fetch(
       `http://localhost:3003/assets/ticker/${assetId}/history?startDate=${startDate}&endDate=${endDate}&page=1&limit=30`
@@ -100,7 +99,7 @@ async function fetchStockHistory(assetId) {
 
     return [];
   } catch (error) {
-    console.error("获取历史数据出错:", error);
+    console.error('获取历史数据出错:', error);
     return [];
   }
 }
@@ -109,7 +108,7 @@ async function fetchStockHistory(assetId) {
 function calculatePriceChange(currentPrice, historyData) {
   // 如果没有历史数据，默认持平
   if (!historyData || historyData.length === 0) {
-    return { percentChange: 0, trend: "flat" };
+    return { percentChange: 0, trend: 'flat' };
   }
 
   // 获取上一次的收盘价
@@ -122,30 +121,14 @@ function calculatePriceChange(currentPrice, historyData) {
   // 确定趋势
   let trend;
   if (percentChange > 0) {
-    trend = "up";
+    trend = 'up';
   } else if (percentChange < 0) {
-    trend = "down";
+    trend = 'down';
   } else {
-    trend = "flat";
+    trend = 'flat';
   }
 
   return { percentChange, trend };
-}
-
-// 生成模拟的K线数据
-function generateMockKline(basePrice) {
-  const kline = [];
-  let price = basePrice * (0.98 + Math.random() * 0.04); // 随机起始价格
-
-  // 生成11个时间点的数据
-  for (let i = 0; i < 11; i++) {
-    // 小幅度波动
-    const change = (Math.random() - 0.45) * 0.01 * price;
-    price += change;
-    kline.push(price.toFixed(2) * 1);
-  }
-
-  return kline;
 }
 
 // 初始化股票表格
@@ -174,12 +157,12 @@ function initStockTable(filter = "all") {
     row.dataset.changeValue = stock.change;
 
     // 设置行样式
-    row.className = "hover:bg-gray-50 cursor-pointer transition-colors";
+    row.className = 'hover:bg-gray-50 cursor-pointer transition-colors';
 
     // 涨幅颜色样式
-    let changeClass = "";
-    if (stock.trend === "up") changeClass = "text-success";
-    else if (stock.trend === "down") changeClass = "text-danger";
+    let changeClass = '';
+    if (stock.trend === 'up') changeClass = 'text-success';
+    else if (stock.trend === 'down') changeClass = 'text-danger';
 
     row.innerHTML = `
                     <td class="px-3 py-3 whitespace-nowrap">${stock.ticker}</td>
@@ -190,13 +173,13 @@ function initStockTable(filter = "all") {
     tableBody.appendChild(row);
 
     // 添加点击事件
-    row.addEventListener("click", function () {
+    row.addEventListener('click', function () {
       // 移除其他行的active类
-      document.querySelectorAll("#stockTableBody tr").forEach((r) => {
-        r.classList.remove("bg-primary/5", "font-medium");
+      document.querySelectorAll('#stockTableBody tr').forEach((r) => {
+        r.classList.remove('bg-primary/5', 'font-medium');
       });
       // 给当前行添加active类
-      this.classList.add("bg-primary/5", "font-medium");
+      this.classList.add('bg-primary/5', 'font-medium');
       // 更新股票详情
       updateStockDetail(stock.ticker);
       // 启用操作按钮
@@ -262,14 +245,17 @@ async function initChart(stockId) {
     return new Date(a.date) - new Date(b.date);
   });
 
-  // 生成时间标签（最近11个小时）
-  const labels = Array.from({ length: 11 }, (_, i) => {
-    const hour = 9 + i;
-    return `${hour}:${
-      hour < 10 ? "00" : hour < 13 ? (hour === 11 ? "30" : "00") : "00"
-    }`;
+  // 提取标签和数据
+  const labels = sortedData.map(item => {
+    // 可以只显示日期部分
+    const date = new Date(item.date);
+    return `${date.getMonth() + 1}/${date.getDate()}`;
   });
+  // 提取收盘价作为数据点
+  const dataValues = chartData.map(item => parseFloat(item.close_price));
 
+
+  const ctx = document.getElementById('stockChart').getContext('2d');
   // 如果已有图表实例，先销毁
   if (window.stockChartInstance) {
     window.stockChartInstance.destroy();
@@ -290,7 +276,7 @@ async function initChart(stockId) {
   }
 
   window.stockChartInstance = new Chart(ctx, {
-    type: "line",
+    type: 'line',
     data: {
       labels: labels || [],
       datasets: [{
@@ -303,42 +289,51 @@ async function initChart(stockId) {
         tension: 0.4
       }]
     },
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          display: false,
+          display: false
         },
         tooltip: {
-          mode: "index",
+          mode: 'index',
           intersect: false,
           callbacks: {
             label: function (context) {
-              return `${stock.currency} ${context.parsed.y.toFixed(2)}`;
+              return `价格: $${context.parsed.y.toFixed(2)}`;
             },
-          },
-        },
+            title: function (context) {
+              return `日期: ${context[0].label}`;
+            }
+          }
+        }
       },
       scales: {
         x: {
+          display: true,
           grid: {
-            display: false,
+            display: false
           },
+          ticks: {
+            autoSkip: true,
+            maxTicksLimit: 8
+          }
         },
         y: {
+          display: true,
           grid: {
-            borderDash: [2, 4],
-            color: "rgba(0, 0, 0, 0.05)",
+            display: false
           },
           ticks: {
             callback: function (value) {
-              return stock.currency + " " + value.toFixed(2);
-            },
-          },
-        },
-      },
-    },
+              return '$' + value.toFixed(2);
+            }
+          }
+        }
+      }
+    }
   });
 }
 
@@ -349,30 +344,25 @@ function updateStockDetail(stockId) {
   // 格式化时间
   const updateTime = new Date(stock.updatedAt).toLocaleString();
 
-  // 更新详情区域 - 添加元素存在性检查
-  const detailTitleEl = document.getElementById("stockDetailTitle");
-  if (detailTitleEl) {
-    detailTitleEl.textContent = `${stock.name}（${stockId}）`;
-  }
+  // 更新详情区域
+  document.getElementById(
+    'stockDetailTitle'
+  ).textContent = `${stock.name}（${stockId}）`;
+  document.getElementById('stockPrice').textContent = `${
+    stock.currency
+  } ${stock.price.toFixed(2)}`;
 
-  const stockPriceEl = document.getElementById("stockPrice");
-  if (stockPriceEl) {
-    stockPriceEl.textContent = `${stock.currency} ${stock.price.toFixed(2)}`;
-  }
+  const changeEl = document.getElementById('stockChange');
+  changeEl.textContent = stock.change;
+  changeEl.className = `change text-lg font-medium px-2 py-1 rounded`;
 
-  const changeEl = document.getElementById("stockChange");
-  if (changeEl) {
-    changeEl.textContent = stock.change;
-    changeEl.className = `change text-lg font-medium px-2 py-1 rounded`;
-
-    // 设置涨幅颜色
-    if (stock.trend === "up") {
-      changeEl.classList.add("bg-success/10", "text-success");
-    } else if (stock.trend === "down") {
-      changeEl.classList.add("bg-danger/10", "text-danger");
-    } else {
-      changeEl.classList.add("bg-gray-100", "text-gray-600");
-    }
+  // 设置涨幅颜色
+  if (stock.trend === 'up') {
+    changeEl.classList.add('bg-success/10', 'text-success');
+  } else if (stock.trend === 'down') {
+    changeEl.classList.add('bg-danger/10', 'text-danger');
+  } else {
+    changeEl.classList.add('bg-gray-100', 'text-gray-600');
   }
 
   // 更新图表
@@ -381,35 +371,33 @@ function updateStockDetail(stockId) {
 
 // 启用操作按钮
 function enableActionButtons() {
-  document.getElementById("buyStock").removeAttribute("disabled");
-  document.getElementById("sellStock").removeAttribute("disabled");
-  document.getElementById("addFavorite").removeAttribute("disabled");
+  document.getElementById('buyStock').removeAttribute('disabled');
 }
 
 // 绑定事件
 function bindEvents() {
   // 搜索框事件
-  document.getElementById("tableSearch").addEventListener("input", function () {
+  document.getElementById('tableSearch').addEventListener('input', function () {
     const searchValue = this.value.toLowerCase().trim();
-    const rows = document.querySelectorAll("#stockTableBody tr");
+    const rows = document.querySelectorAll('#stockTableBody tr');
 
     rows.forEach((row) => {
-      const id = row.getAttribute("data-id").toLowerCase();
-      const name = row.getAttribute("data-name").toLowerCase();
+      const id = row.getAttribute('data-id').toLowerCase();
+      const name = row.getAttribute('data-name').toLowerCase();
 
       if (id.includes(searchValue) || name.includes(searchValue)) {
-        row.style.display = "";
+        row.style.display = '';
       } else {
-        row.style.display = "none";
+        row.style.display = 'none';
       }
     });
   });
 
   // 顶部搜索框事件
   document
-    .getElementById("stockSearch")
-    .addEventListener("keypress", function (e) {
-      if (e.key === "Enter") {
+    .getElementById('stockSearch')
+    .addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
         const searchValue = this.value.toLowerCase().trim();
         if (!searchValue) return;
 
@@ -426,23 +414,23 @@ function bindEvents() {
           // 触发对应行的点击事件
           document.querySelector(`tr[data-id="${matchedStockId}"]`).click();
         } else {
-          alert("未找到匹配的股票");
+          alert('未找到匹配的股票');
         }
 
         // 清空搜索框
-        this.value = "";
+        this.value = '';
       }
     });
 
   // 交易按钮事件
-  document.getElementById("buyStock").addEventListener("click", function () {
+  document.getElementById('buyStock').addEventListener('click', function () {
     // 获取当前选中的股票ID
     const activeRow = document.querySelector(
-      "#stockTableBody tr.bg-primary\\/5"
+      '#stockTableBody tr.bg-primary\\/5'
     );
     if (!activeRow) return;
 
-    const stockId = activeRow.getAttribute("data-id");
+    const stockId = activeRow.getAttribute('data-id');
     const stock = stockData[stockId];
 
     // 设置当前交易信息
