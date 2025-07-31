@@ -73,10 +73,10 @@
 
           <!-- 主导航 -->
           <nav class="hidden md:flex space-x-1">
-            <a href="./firstindex.html" class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium">首页</a>
-            <a href="./index.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">详情</a>
-            <a href="./positions.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">持仓</a>
-            <a href="./news.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors">新闻</a>
+            <a href="./firstindex.html" class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium" data-i18n="common-home">首页</a>
+            <a href="./index.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-details">详情</a>
+            <a href="./positions.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-portfolio">持仓</a>
+            <a href="./news.html" class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors" data-i18n="common-news">新闻</a>
           </nav>
         </div>
 
@@ -84,7 +84,7 @@
         <div class="flex items-center space-x-4">
           <!-- 搜索框 -->
           <div class="relative hidden md:block">
-            <input type="text" placeholder="搜索股票、指数、加密货币..." class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent">
+            <input type="text" placeholder="搜索股票、指数、加密货币..." class="bg-secondary border border-border-color rounded-md py-1.5 pl-9 pr-3 text-sm w-64 focus:outline-none focus:ring-1 focus:ring-accent focus:border-accent" data-i18n-placeholder="common-search-placeholder-news">
             <i class="fa fa-search absolute left-3 top-2 text-neutral"></i>
           </div>
 
@@ -114,10 +114,10 @@
             
             <!-- 下拉菜单 -->
             <div id="userDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50">
-              <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">个人设置</a>
-              <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary">账户信息</a>
+              <a href="./personal-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary" data-i18n="common-personal-settings">个人设置</a>
+              <a href="./account-settings.html" class="block px-4 py-2 text-sm text-neutral hover:bg-primary" data-i18n="common-account-info">账户信息</a>
               <hr class="my-1">
-              <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary">
+              <a href="#" id="logoutButton" class="block px-4 py-2 text-sm text-danger hover:bg-primary" data-i18n="common-logout">
                 <i class="fa fa-sign-out mr-2"></i>退出登录
               </a>
             </div>
@@ -137,9 +137,9 @@
     <!-- 市场概览 -->
     <section class="mb-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-neutral-dark" id="market-overview">市场概览</h2>
+        <h2 class="text-xl font-semibold text-neutral-dark" data-i18n="market-overview">市场概览</h2>
         <div class="flex space-x-2">
-          <button class="text-accent hover:text-accent/80 text-sm font-medium" id="view-all">
+          <button class="text-accent hover:text-accent/80 text-sm font-medium" data-i18n="view-all">
             查看全部 <i class="fa fa-angle-right ml-1"></i>
           </button>
         </div>
@@ -217,8 +217,8 @@
     <!-- 社区观点 -->
     <section class="mb-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-neutral-dark" id="community-insights">社区观点</h2>
-        <button class="text-accent hover:text-accent/80 text-sm font-medium" id="view-all-insights">
+        <h2 class="text-xl font-semibold text-neutral-dark" data-i18n="community-insights">社区观点</h2>
+        <button class="text-accent hover:text-accent/80 text-sm font-medium" data-i18n="view-all-insights">
           查看全部 <i class="fa fa-angle-right ml-1"></i>
         </button>
       </div>
@@ -307,8 +307,8 @@
     <!-- 热门板块 -->
     <section class="mb-6">
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-neutral-dark" id="sector-performance">热门板块</h2>
-        <button class="text-accent hover:text-accent/80 text-sm font-medium" id="view-all-sectors">
+        <h2 class="text-xl font-semibold text-neutral-dark" data-i18n="sector-performance">热门板块</h2>
+        <button class="text-accent hover:text-accent/80 text-sm font-medium" data-i18n="view-all-sectors">
           查看全部 <i class="fa fa-angle-right ml-1"></i>
         </button>
       </div>
@@ -322,7 +322,7 @@
                 <i class="fa fa-microchip text-blue-500"></i>
               </div>
               <div>
-                <h3 class="font-medium text-neutral-dark" id="tech-sector">科技</h3>
+                <h3 class="font-medium text-neutral-dark" data-i18n="tech-sector">科技</h3>
                 <p class="text-xs text-neutral">124 只股票</p>
               </div>
             </div>
@@ -355,7 +355,7 @@
                 <i class="fa fa-medkit text-green-500"></i>
               </div>
               <div>
-                <h3 class="font-medium text-neutral-dark" id="healthcare-sector">医疗保健</h3>
+                <h3 class="font-medium text-neutral-dark" data-i18n="healthcare-sector">医疗保健</h3>
                 <p class="text-xs text-neutral">98 只股票</p>
               </div>
             </div>
@@ -388,7 +388,7 @@
                 <i class="fa fa-oil-well text-red-500"></i>
               </div>
               <div>
-                <h3 class="font-medium text-neutral-dark" id="energy-sector">能源</h3>
+                <h3 class="font-medium text-neutral-dark" data-i18n="energy-sector">能源</h3>
                 <p class="text-xs text-neutral">67 只股票</p>
               </div>
             </div>
@@ -417,63 +417,9 @@
     </section>
   </main>
 
+  <script src="./js/languages.js"></script>
   <script>
-    // 语言切换功能
     document.addEventListener('DOMContentLoaded', function() {
-      // 语言翻译字典
-      const translations = {
-        'zh': {
-          'market-overview': '市场概览',
-          'view-all': '查看全部',
-          'community-insights': '社区观点',
-          'view-all-insights': '查看全部',
-          'sector-performance': '热门板块',
-          'view-all-sectors': '查看全部',
-          'tech-sector': '科技',
-          'healthcare-sector': '医疗保健',
-          'energy-sector': '能源'
-        },
-        'en': {
-          'market-overview': 'Market Overview',
-          'view-all': 'View All',
-          'community-insights': 'Community Insights',
-          'view-all-insights': 'View All',
-          'sector-performance': 'Sector Performance',
-          'view-all-sectors': 'View All',
-          'tech-sector': 'Technology',
-          'healthcare-sector': 'Healthcare',
-          'energy-sector': 'Energy'
-        }
-      };
-
-      // 获取当前语言设置，默认为中文
-      let currentLang = localStorage.getItem('language') || 'zh';
-      
-      // 初始化语言
-      updateLanguage();
-      
-      // 语言切换按钮事件
-      document.getElementById('languageToggle').addEventListener('click', function() {
-        // 切换语言
-        currentLang = currentLang === 'zh' ? 'en' : 'zh';
-        localStorage.setItem('language', currentLang);
-        updateLanguage();
-      });
-      
-      // 更新页面语言
-      function updateLanguage() {
-        // 更新语言切换按钮文本
-        document.getElementById('languageText').textContent = currentLang === 'zh' ? 'EN' : '中文';
-        
-        // 更新所有需要翻译的元素
-        Object.keys(translations[currentLang]).forEach(key => {
-          const element = document.getElementById(key);
-          if (element) {
-            element.textContent = translations[currentLang][key];
-          }
-        });
-      }
-
       // 用户菜单功能
       const userMenuButton = document.getElementById('userMenuButton');
       const userDropdown = document.getElementById('userDropdown');
