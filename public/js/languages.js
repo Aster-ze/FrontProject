@@ -1,36 +1,149 @@
 // js/languages.js
 const translations = {
   // 首页 firstindex.html
-  'firstindex': {
-    'market-overview': {
-      'zh': '市场概览',
-      'en': 'Market Overview'
-    },
-    'view-all': {
-      'zh': '查看全部',
-      'en': 'View All'
-    },
-    'community-insights': {
-      'zh': '社区观点',
-      'en': 'Community Insights'
-    },
-    'sector-performance': {
-      'zh': '热门板块',
-      'en': 'Sector Performance'
-    },
-    'tech': {
-      'zh': '科技',
-      'en': 'Technology'
-    },
-    'healthcare': {
-      'zh': '医疗保健',
-      'en': 'Healthcare'
-    },
-    'energy': {
-      'zh': '能源',
-      'en': 'Energy'
-    }
+'firstindex': {
+  'market-overview': {
+    'zh': '市场概览',
+    'en': 'Market Overview'
   },
+  'view-all': {
+    'zh': '查看全部',
+    'en': 'View All'
+  },
+  'community-insights': {
+    'zh': '社区观点',
+    'en': 'Community Insights'
+  },
+  'sector-performance': {
+    'zh': '热门板块',
+    'en': 'Sector Performance'
+  },
+  'tech': {
+    'zh': '科技',
+    'en': 'Technology'
+  },
+  'healthcare': {
+    'zh': '医疗保健',
+    'en': 'Healthcare'
+  },
+  'energy': {
+    'zh': '能源',
+    'en': 'Energy'
+  },
+  // 新增的翻译条目
+  'spx-name': {
+    'zh': '标普 500',
+    'en': 'S&P 500'
+  },
+  'ndx-name': {
+    'zh': '纳斯达克 100',
+    'en': 'Nasdaq 100'
+  },
+  'dji-name': {
+    'zh': '道琼斯工业平均',
+    'en': 'Dow Jones'
+  },
+  'rut-name': {
+    'zh': '罗素 2000',
+    'en': 'Russell 2000'
+  },
+  'article-title-1': {
+    'zh': '你一直在亏损？不是因为方法，而是因为你的心态。',
+    'en': 'Always losing? It\'s not the method, it\'s your mindset.'
+  },
+  'article-content-1': {
+    'zh': '你一直在亏损？不是因为方法，而是因为你的心态。先问问自己：你是不是一直在重复那些你明知道是错的交易习惯？你知道不该在没有信号的情况下进场——但你还是进了。你知道止...',
+    'en': 'Are you always losing? It\'s not the method, it\'s your mindset. Ask yourself: are you constantly repeating trading habits you know are wrong? You know you shouldn\'t enter without a signal - but you still do. You know to...'
+  },
+  'article-author-1': {
+    'zh': '由NMFlowTrading提供',
+    'en': 'By NMFlowTrading'
+  },
+  'article-title-2': {
+    'zh': '利多用尽？美元背后的下行风险不容忽视',
+    'en': 'Exhausted bullishness? Downside risks behind the dollar cannot be ignored'
+  },
+  'article-content-2': {
+    'zh': '在强劲非农就业报告后曾短暂反弹的美元，如今再度显得疲弱。近期DXY的上涨更像是长期跌势中的回调而非趋势反转。动能在关键阻力区消退，自7月初以来，美元指数（DXY）持...',
+    'en': 'The dollar, which briefly rebounded after the strong non-farm payroll report, now appears weak again. The recent rise in the DXY is more like a retracement in a long-term downtrend rather than a trend reversal. Momentum fades at key resistance levels...'
+  },
+  'article-author-2': {
+    'zh': '由Capitalcom提供',
+    'en': 'By Capitalcom'
+  },
+  'article-title-3': {
+    'zh': '21日黄金希望回踩3330，4H BB区域重新上涨',
+    'en': 'Gold hopes to retrace to 3330 on the 21st, rebound from 4H BB area'
+  },
+  'article-content-3': {
+    'zh': '黄金上周四美盘前清除了10日低点后开启了一轮上涨，期望周一低开回到3330区域，也就是回踩4H的破坏块区域，有反转信号，跟随做多，目标上方77，随后再逐步向上。',
+    'en': 'After clearing the 10-day low before the US market opened last Thursday, gold started a new round of rallies. It is expected to open lower on Monday and return to the 3330 area, which is the retracement to the 4H breakout block area...'
+  },
+  'article-author-3': {
+    'zh': '由willsenwong提供',
+    'en': 'By willsenwong'
+  },
+  'stock-count-1': {
+    'zh': '124 只股票',
+    'en': '124 stocks'
+  },
+  'stock-count-2': {
+    'zh': '98 只股票',
+    'en': '98 stocks'
+  },
+  'stock-count-3': {
+    'zh': '67 只股票',
+    'en': '67 stocks'
+  },
+  'today': {
+    'zh': '今日',
+    'en': 'Today'
+  },
+  'nvidia': {
+    'zh': '英伟达',
+    'en': 'NVIDIA'
+  },
+  'meta': {
+    'zh': 'Meta',
+    'en': 'Meta'
+  },
+  'tsmc': {
+    'zh': '台积电',
+    'en': 'TSMC'
+  },
+  'merck': {
+    'zh': '默克',
+    'en': 'Merck'
+  },
+  'pfizer': {
+    'zh': '辉瑞',
+    'en': 'Pfizer'
+  },
+  'moderna': {
+    'zh': 'Moderna',
+    'en': 'Moderna'
+  },
+  'exxon': {
+    'zh': '埃克森美孚',
+    'en': 'Exxon Mobil'
+  },
+  'chevron': {
+    'zh': '雪佛龙',
+    'en': 'Chevron'
+  },
+  'conocophillips': {
+    'zh': '康菲石油',
+    'en': 'ConocoPhillips'
+  },
+  'view-all-insights': {
+    'zh': '查看全部',
+    'en': 'View All'
+  },
+  'view-all-sectors': {
+    'zh': '查看全部',
+    'en': 'View All'
+  }
+},
   
   // 详情页 index.html
   'index': {
@@ -470,26 +583,27 @@ class LanguageManager {
     return null;
   }
   
-  translateElements(pageId) {
-    // 翻译导航栏通用元素
-    this.translateElement('common-home', 'common', 'home');
-    this.translateElement('common-details', 'common', 'details');
-    this.translateElement('common-portfolio', 'common', 'portfolio');
-    this.translateElement('common-news', 'common', 'news');
-    this.translateElement('common-personal-settings', 'common', 'personal-settings');
-    this.translateElement('common-account-info', 'common', 'account-info');
-    this.translateElement('common-logout', 'common', 'logout');
-    this.translateElement('common-search-placeholder', 'common', 'search-placeholder');
-    this.translateElement('common-search-placeholder-news', 'common', 'search-placeholder-news');
-    
-    // 根据页面翻译特定元素
-    const pageTranslations = translations[pageId];
-    if (pageTranslations) {
-      for (const [key, value] of Object.entries(pageTranslations)) {
-        this.translateElement(key, pageId, key);
-      }
+translateElements(pageId) {
+  // 翻译导航栏通用元素
+  this.translateElement('common-home', 'common', 'home');
+  this.translateElement('common-details', 'common', 'details');
+  this.translateElement('common-portfolio', 'common', 'portfolio');
+  this.translateElement('common-news', 'common', 'news');
+  this.translateElement('common-personal-settings', 'common', 'personal-settings');
+  this.translateElement('common-account-info', 'common', 'account-info');
+  this.translateElement('common-logout', 'common', 'logout');
+  this.translateElement('common-search-placeholder', 'common', 'search-placeholder');
+  this.translateElement('common-search-placeholder-news', 'common', 'search-placeholder-news');
+  
+  // 根据页面翻译特定元素
+  const pageTranslations = translations[pageId];
+  if (pageTranslations) {
+    for (const [key, value] of Object.entries(pageTranslations)) {
+      // 直接使用 key 作为 data-i18n 属性值进行查找
+      this.translateElement(key, pageId, key);
     }
   }
+}
   
   translateElement(elementId, page, key) {
     const element = document.getElementById(elementId) || 
