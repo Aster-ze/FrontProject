@@ -1,9 +1,9 @@
 // 定义各个指数的配置
 const indices = [
-    { id: 'spx', name: '标普 500', symbol: '.SPX', chartId: 'spxChart', ticker: 'AAPL' },
-    { id: 'ndx', name: '纳斯达克 100', symbol: '.NDX', chartId: 'ndxChart', ticker: 'AMZN' },
-    { id: 'dji', name: '道琼斯工业平均', symbol: '.DJI', chartId: 'djiChart', ticker: 'NVDA'},
-    { id: 'rut', name: '罗素 2000', symbol: '.RUT', chartId: 'rutChart' , ticker: 'NKE' }
+    { id: 'spx', name: 'Apple Inc.', symbol: 'AAPL', chartId: 'spxChart', ticker: 'AAPL' },
+    { id: 'ndx', name: 'Amazon.com, Inc.', symbol: 'AMZN', chartId: 'ndxChart', ticker: 'AMZN' },
+    { id: 'dji', name: 'NVIDIA Corporation', symbol: 'NVDA', chartId: 'djiChart', ticker: 'NVDA'},
+    { id: 'rut', name: 'NIKE, Inc.', symbol: 'NKE', chartId: 'rutChart' , ticker: 'NKE' }
 ];
   
 // 更新指数基本信息的接口
