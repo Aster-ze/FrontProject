@@ -67,7 +67,6 @@ const translations = {
     'cancel': { 'zh': '取消', 'en': 'Cancel' },
     'confirm': { 'zh': '确认', 'en': 'Confirm' },
     // 新增翻译键
-    'search-stocks': { 'zh': '搜索股票...', 'en': 'Search for stocks' },
     'capital-inflow': { 'zh': '资金流入', 'en': 'Capital Inflow' },
     'capital-outflow': { 'zh': '资金流出', 'en': 'Capital Outflow' },
     'trading-volume': { 'zh': '成交量', 'en': 'Trading Volume' },
