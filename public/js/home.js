@@ -350,7 +350,7 @@ function updateStockDetail(stockId) {
   ).textContent = `${stock.name}（${stockId}）`;
   
   // 根据当前语言设置货币符号
-  const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+  const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '$' : '¥';
   document.getElementById('stockPrice').textContent = `${
     currencySymbol
   } ${stock.price.toFixed(2)}`;
@@ -384,7 +384,7 @@ function updateAmountDisplays(stock) {
   const inflowElement = document.getElementById('stockInflow');
   if (inflowElement) {
     if (currentLang === 'en') {
-      inflowElement.textContent = '¥567.00M';
+      inflowElement.textContent = '$567.00M';
     } else {
       inflowElement.textContent = '¥ 5.67亿';
     }
@@ -394,7 +394,7 @@ function updateAmountDisplays(stock) {
   const outflowElement = document.getElementById('stockOutflow');
   if (outflowElement) {
     if (currentLang === 'en') {
-      outflowElement.textContent = '¥321.00M';
+      outflowElement.textContent = '$321.00M';
     } else {
       outflowElement.textContent = '¥ 3.21亿';
     }
@@ -413,9 +413,9 @@ function updateAmountDisplays(stock) {
   // 更新52周最高显示
   const high52Element = document.getElementById('stockHigh52');
   if (high52Element) {
-    const currencySymbol = currentLang === 'en' ? '¥' : '¥';
+    const currencySymbol = currentLang === 'en' ? '$' : '¥';
     if (currentLang === 'en') {
-      high52Element.textContent = '¥2100.00';
+      high52Element.textContent = '$2100.00';
     } else {
       high52Element.textContent = '¥ 2100.00';
     }
@@ -424,9 +424,9 @@ function updateAmountDisplays(stock) {
   // 更新52周最低显示
   const low52Element = document.getElementById('stockLow52');
   if (low52Element) {
-    const currencySymbol = currentLang === 'en' ? '¥' : '¥';
+    const currencySymbol = currentLang === 'en' ? '$' : '¥';
     if (currentLang === 'en') {
-      low52Element.textContent = '¥1500.00';
+      low52Element.textContent = '$1500.00';
     } else {
       low52Element.textContent = '¥ 1500.00';
     }
@@ -439,6 +439,31 @@ function updateAmountDisplays(stock) {
       volumeHandElement.textContent = '23.00K lots';
     } else {
       volumeHandElement.textContent = '2.3万手';
+    }
+  }
+}
+
+// 更新搜索框占位符
+function updateSearchPlaceholders() {
+  const currentLang = window.languageManager ? window.languageManager.getCurrentLanguage() : 'zh';
+  
+  // 更新顶部搜索框
+  const stockSearch = document.getElementById('stockSearch');
+  if (stockSearch) {
+    if (currentLang === 'en') {
+      stockSearch.placeholder = 'Search stocks...';
+    } else {
+      stockSearch.placeholder = '搜索股票...';
+    }
+  }
+  
+  // 更新表格搜索框
+  const tableSearch = document.getElementById('tableSearch');
+  if (tableSearch) {
+    if (currentLang === 'en') {
+      tableSearch.placeholder = 'Search stocks';
+    } else {
+      tableSearch.placeholder = '搜索股票';
     }
   }
 }
@@ -534,7 +559,7 @@ function bindEvents() {
 
     const transactionPrice = document.getElementById("transactionPrice");
     if (transactionPrice) {
-      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '$' : '¥';
       transactionPrice.textContent = currencySymbol + stock.price.toFixed(2);
     }
 
@@ -545,7 +570,7 @@ function bindEvents() {
 
     const transactionAmount = document.getElementById("transactionAmount");
     if (transactionAmount) {
-      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+      const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '$' : '¥';
       transactionAmount.textContent = currencySymbol + (stock.price * 100).toFixed(2);
     }
 
@@ -631,6 +656,9 @@ function bindEvents() {
         updateStockDetail(stockId);
       }
     }
+    
+    // 更新搜索框占位符
+    updateSearchPlaceholders();
   });
 }
 
@@ -674,7 +702,7 @@ function bindTransactionEvents() {
         if (currentTransaction) {
           const amount = currentTransaction.price * parseInt(this.value || 0);
           if (transactionAmount) {
-            const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '¥' : '¥';
+            const currencySymbol = window.languageManager && window.languageManager.getCurrentLanguage() === 'en' ? '$' : '¥';
             transactionAmount.textContent = currencySymbol + amount.toFixed(2);
           }
         }
@@ -702,7 +730,7 @@ function bindTransactionEvents() {
                 "accountId": accountId,
                 "quantity": quantity,
                 "price": currentTransaction.price,
-                "transactionDate": transactionDate,
+                "transactionDate": today,
                 "updateMarketPrice": false,
                 "description": "Initial purchase"
               };
@@ -737,4 +765,7 @@ function bindTransactionEvents() {
 window.addEventListener('load', async () => {
   await fetchStockData();
   bindEvents();
+  
+  // 初始化搜索框占位符
+  updateSearchPlaceholders();
 });

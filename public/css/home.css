@@ -185,9 +185,7 @@ body {
 .stock-table {
   width: 100%;
   border-collapse: collapse;
-  max-height: 500px;
-  overflow-y: auto;
-  display: block;
+  table-layout: fixed; /* 固定表格布局，确保列宽度按比例分配 */
 }
 .stock-table thead {
   background-color: #f1f8e9;
@@ -199,8 +197,10 @@ body {
 .stock-table td {
   padding: 0.8rem 0.6rem;
   text-align: left;
-  white-space: nowrap;
   font-size: 0.85rem; /* 减小字体大小 */
+  overflow: hidden; /* 隐藏溢出内容 */
+  text-overflow: ellipsis; /* 用省略号表示溢出的文本 */
+  word-wrap: break-word; /* 允许长单词换行 */
 }
 
 .stock-table th {
@@ -211,15 +211,15 @@ body {
 /* 调整列宽比例 */
 .stock-table th:nth-child(1),
 .stock-table td:nth-child(1) {
-  width: 30%;
+  width: 25%; /* ID列稍微缩小 */
 }
 .stock-table th:nth-child(2),
 .stock-table td:nth-child(2) {
-  width: 40%;
+  width: 45%; /* 名字列稍微扩大 */
 }
 .stock-table th:nth-child(3),
 .stock-table td:nth-child(3) {
-  width: 30%;
+  width: 30%; /* 涨幅列保持不变 */
 }
 .stock-table tbody tr {
   border-bottom: 1px solid #f2f2f2;
@@ -369,8 +369,22 @@ body {
 
   .stock-table th,
   .stock-table td {
-    padding: 0.7rem 0.5rem;
-    font-size: 0.9rem;
+    padding: 0.7rem 0.4rem;
+    font-size: 0.8rem;
+  }
+  
+  /* 进一步调整小屏幕下的列宽 */
+  .stock-table th:nth-child(1),
+  .stock-table td:nth-child(1) {
+    width: 20%;
+  }
+  .stock-table th:nth-child(2),
+  .stock-table td:nth-child(2) {
+    width: 50%;
+  }
+  .stock-table th:nth-child(3),
+  .stock-table td:nth-child(3) {
+    width: 30%;
   }
 }
 
