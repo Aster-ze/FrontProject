@@ -241,85 +241,8 @@
           查看全部 <i class="fa fa-angle-right ml-1"></i>
         </button>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- 卡片1 -->
-        <div class="bg-secondary rounded-lg p-4 border border-border-color card-hover shadow-sm">
-          <div class="mb-2">
-            <img src="https://picsum.photos/300/150?random=1" alt="文章配图" class="w-full h-auto rounded-md">
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-neutral-dark" data-i18n="article-title-1">
-            你一直在亏损？不是因为方法，而是因为你的心态。
-          </h3>
-          <p class="text-sm text-neutral mb-4" data-i18n="article-content-1">
-            你一直在亏损？不是因为方法，而是因为你的心态。先问问自己：你是不是一直在重复那些你明知道是错的交易习惯？你知道不该在没有信号的情况下进场——但你还是进了。你知道止...
-          </p>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-neutral" data-i18n="article-author-1">由NMFlowTrading提供</span>
-              <span class="text-xs text-neutral">7月26</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-comment"></i> 1
-              </button>
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-rocket"></i> 5
-              </button>
-            </div>
-          </div>
-        </div>
-        <!-- 卡片2 -->
-        <div class="bg-secondary rounded-lg p-4 border border-border-color card-hover shadow-sm">
-          <div class="mb-2">
-            <img src="https://picsum.photos/300/150?random=2" alt="文章配图" class="w-full h-auto rounded-md">
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-neutral-dark" data-i18n="article-title-2">
-            利多用尽？美元背后的下行风险不容忽视
-          </h3>
-          <p class="text-sm text-neutral mb-4" data-i18n="article-content-2">
-            在强劲非农就业报告后曾短暂反弹的美元，如今再度显得疲弱。近期DXY的上涨更像是长期跌势中的回调而非趋势反转。动能在关键阻力区消退，自7月初以来，美元指数（DXY）持...
-          </p>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-neutral" data-i18n="article-author-2">由Capitalcom提供</span>
-              <span class="text-xs text-neutral">7月23</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-comment"></i> 1
-              </button>
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-rocket"></i> 4
-              </button>
-            </div>
-          </div>
-        </div>
-        <!-- 卡片3 -->
-        <div class="bg-secondary rounded-lg p-4 border border-border-color card-hover shadow-sm">
-          <div class="mb-2">
-            <img src="https://picsum.photos/300/150?random=3" alt="文章配图" class="w-full h-auto rounded-md">
-          </div>
-          <h3 class="text-lg font-semibold mb-2 text-neutral-dark" data-i18n="article-title-3">
-            21日黄金希望回踩3330，4H BB区域重新上涨
-          </h3>
-          <p class="text-sm text-neutral mb-4" data-i18n="article-content-3">
-            黄金上周四美盘前清除了10日低点后开启了一轮上涨，期望周一低开回到3330区域，也就是回踩4H的破坏块区域，有反转信号，跟随做多，目标上方77，随后再逐步向上。
-          </p>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-xs text-neutral" data-i18n="article-author-3">由willsenwong提供</span>
-              <span class="text-xs text-neutral">7月19</span>
-            </div>
-            <div class="flex items-center space-x-2">
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-comment"></i>
-              </button>
-              <button class="text-neutral hover:text-neutral-dark transition-colors">
-                <i class="fa fa-rocket"></i> 13
-              </button>
-            </div>
-          </div>
-        </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="newsContainer">
+        <!-- 新闻卡片将通过JavaScript动态生成 -->
       </div>
     </section>
     <!-- 热门板块 -->
@@ -479,6 +402,145 @@
           document.getElementById('usernameDisplay').textContent = username;
         }
       }
+      
+      // 新闻数据库
+      const newsData = [
+        {
+          id: 1,
+          title: "你一直在亏损？不是因为方法，而是因为你的心态。",
+          content: "你一直在亏损？不是因为方法，而是因为你的心态。先问问自己：你是不是一直在重复那些你明知道是错的交易习惯？你知道不该在没有信号的情况下进场——但你还是进了。你知道止...",
+          author: "由NMFlowTrading提供",
+          date: "7月26",
+          comments: 1,
+          likes: 5,
+          image: "https://picsum.photos/300/150?random=1"
+        },
+        {
+          id: 2,
+          title: "利多用尽？美元背后的下行风险不容忽视",
+          content: "在强劲非农就业报告后曾短暂反弹的美元，如今再度显得疲弱。近期DXY的上涨更像是长期跌势中的回调而非趋势反转。动能在关键阻力区消退，自7月初以来，美元指数（DXY）持...",
+          author: "由Capitalcom提供",
+          date: "7月23",
+          comments: 1,
+          likes: 4,
+          image: "https://picsum.photos/300/150?random=2"
+        },
+        {
+          id: 3,
+          title: "21日黄金希望回踩3330，4H BB区域重新上涨",
+          content: "黄金上周四美盘前清除了10日低点后开启了一轮上涨，期望周一低开回到3330区域，也就是回踩4H的破坏块区域，有反转信号，跟随做多，目标上方77，随后再逐步向上。",
+          author: "由willsenwong提供",
+          date: "7月19",
+          comments: 0,
+          likes: 13,
+          image: "https://picsum.photos/300/150?random=3"
+        },
+        {
+          id: 4,
+          title: "半导体行业迎来复苏信号，多家龙头企业上调季度业绩预期",
+          content: "半导体行业在经历了较长时间的低迷后，近期出现了明显的复苏迹象。多家行业龙头企业纷纷上调了第三季度的业绩预期，显示出对未来发展的信心...",
+          author: "由TechAnalyst提供",
+          date: "8月1",
+          comments: 3,
+          likes: 8,
+          image: "https://picsum.photos/300/150?random=4"
+        },
+        {
+          id: 5,
+          title: "新能源板块持续走强，政策支持与需求增长双驱动",
+          content: "新能源板块在政策支持和市场需求双重驱动下，持续展现出强劲的上涨动能。多只新能源概念股创下历史新高，投资者对该板块的关注度不断提升...",
+          author: "由EnergyWatch提供",
+          date: "8月1",
+          comments: 5,
+          likes: 12,
+          image: "https://picsum.photos/300/150?random=5"
+        },
+        {
+          id: 6,
+          title: "北向资金连续五日净流入，A股市场信心逐步恢复",
+          content: "北向资金连续五个交易日净流入A股市场，累计流入金额超过200亿元。这一现象表明海外资金对A股市场的信心正在逐步恢复，为市场带来了积极信号...",
+          author: "由MarketFlow提供",
+          date: "8月1",
+          comments: 2,
+          likes: 6,
+          image: "https://picsum.photos/300/150?random=6"
+        },
+        {
+          id: 7,
+          title: "美股科技巨头财报季来袭，市场聚焦AI业务增长潜力",
+          content: "随着财报季的到来，美股科技巨头们的业绩表现备受市场关注。投资者特别关注各大公司在人工智能领域的业务进展和增长潜力...",
+          author: "由USMarkets提供",
+          date: "7月30",
+          comments: 4,
+          likes: 9,
+          image: "https://picsum.photos/300/150?random=7"
+        },
+        {
+          id: 8,
+          title: "央行降准政策落地，市场流动性预期改善",
+          content: "央行宣布降准政策正式落地，将释放长期资金约1万亿元。这一政策举措有望改善市场流动性状况，为实体经济发展提供更好的资金支持...",
+          author: "由PolicyWatch提供",
+          date: "7月29",
+          comments: 6,
+          likes: 15,
+          image: "https://picsum.photos/300/150?random=8"
+        }
+      ];
+      
+      // 洗牌函数
+      function shuffleArray(array) {
+        const newArray = [...array];
+        for (let i = newArray.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+        }
+        return newArray;
+      }
+      
+      // 生成新闻卡片HTML
+      function generateNewsCard(news) {
+        return `
+          <div class="bg-secondary rounded-lg p-4 border border-border-color card-hover shadow-sm">
+            <div class="mb-2">
+              <img src="${news.image}" alt="文章配图" class="w-full h-auto rounded-md">
+            </div>
+            <h3 class="text-lg font-semibold mb-2 text-neutral-dark">
+              ${news.title}
+            </h3>
+            <p class="text-sm text-neutral mb-4">
+              ${news.content}
+            </p>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <span class="text-xs text-neutral">${news.author}</span>
+                <span class="text-xs text-neutral">${news.date}</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button class="text-neutral hover:text-neutral-dark transition-colors">
+                  <i class="fa fa-comment"></i> ${news.comments || ''}
+                </button>
+                <button class="text-neutral hover:text-neutral-dark transition-colors">
+                  <i class="fa fa-rocket"></i> ${news.likes}
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      
+      // 渲染新闻
+      function renderNews() {
+        const newsContainer = document.getElementById('newsContainer');
+        if (newsContainer) {
+          const shuffledNews = shuffleArray(newsData);
+          const newsToShow = shuffledNews.slice(0, 3); // 只显示3条新闻
+          
+          newsContainer.innerHTML = newsToShow.map(news => generateNewsCard(news)).join('');
+        }
+      }
+      
+      // 页面加载完成后渲染新闻
+      renderNews();
     });
   </script>
   <script src="./js/scripts.js"></script>
