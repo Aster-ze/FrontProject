@@ -116,13 +116,46 @@
             </div>
           </div>
           <!-- 移动端菜单按钮 -->
-          <button class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10">
+                    <!-- 移动端菜单按钮 -->
+          <button
+            id="mobileMenuButton"
+            class="md:hidden text-neutral hover:text-neutral-dark p-2 rounded-md hover:bg-neutral/10"
+          >
             <i class="fa fa-bars"></i>
           </button>
         </div>
       </div>
     </div>
   </header>
+  
+  <!-- 移动端导航菜单 -->
+  <div id="mobileMenu" class="md:hidden bg-secondary border-b border-border-color shadow-lg hidden">
+    <nav class="container mx-auto px-4 py-4">
+      <div class="flex flex-col space-y-2">
+        <a
+          href="./firstindex.html"
+          class="px-3 py-2 rounded-md text-secondary bg-accent text-sm font-medium"
+          data-i18n="common-home"
+        >首页</a>
+        <a
+          href="./index.html"
+          class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+          data-i18n="common-details"
+        >详情</a>
+        <a
+          href="./positions.html"
+          class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+          data-i18n="common-portfolio"
+        >持仓</a>
+        <a
+          href="./news.html"
+          class="px-3 py-2 rounded-md text-neutral hover:text-neutral-dark hover:bg-neutral/10 text-sm font-medium transition-colors"
+          data-i18n="common-news"
+        >新闻</a>
+      </div>
+    </nav>
+  </div>
+  
   <!-- 主内容区 -->
   <main class="flex-grow container mx-auto px-4 py-4">
     <!-- 市场概览 -->
@@ -403,6 +436,21 @@
       const userMenuButton = document.getElementById('userMenuButton');
       const userDropdown = document.getElementById('userDropdown');
       const logoutButton = document.getElementById('logoutButton');
+      const mobileMenuButton = document.getElementById('mobileMenuButton');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      // 移动端菜单切换功能
+      mobileMenuButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // 点击页面其他地方隐藏移动端菜单
+      document.addEventListener('click', function(e) {
+        if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
       
       userMenuButton.addEventListener('click', function(e) {
         e.stopPropagation();
